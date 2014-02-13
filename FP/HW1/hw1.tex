@@ -1,0 +1,130 @@
+\documentclass[russian]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=1cm,rmargin=1cm}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{babel}
+\usepackage{mathtools}
+\usepackage[T2A]{fontenc}
+
+\makeatletter
+\@ifundefined{date}{}{\date{}}
+
+\begin{document}
+
+\title{Функциональное программирование. HW\#1}
+\author{Тураев Тимур, 504 (SE)}
+
+\maketitle
+
+\paragraph{1} \textit{Найти более короткую версию $\mathtt{iszro}$}
+\\
+
+Answer: $\mathtt{iszro \equiv \lambda ntf.\ n(\lambda a.f)t}$\\
+
+$\mathtt{iszro\ 0 \equiv (\lambda ntf.\ n(\lambda a.f)t)\ 0
+		\equiv (\lambda ntf.\ n(\lambda a.f)t)\ (\lambda sz.\ z)
+		\equiv \lambda tf.\ (\lambda sz.\ z)(\lambda a.\ f)t
+		\equiv \lambda tf.\ t \equiv tru}$
+		
+$\mathtt{iszro\ 1 \equiv (\lambda ntf.\ n(\lambda a.f)t)\ 1
+		\equiv (\lambda ntf.\ n(\lambda a.f)t)\ (\lambda sz.\ sz)
+		\equiv \lambda tf.\ (\lambda sz.\ sz)(\lambda a.\ f)t
+		\equiv \lambda tf.\ (\lambda a.\ f)t
+		\equiv \lambda tf.\ f \equiv fls}$
+
+\paragraph{2} \textit{Выразить $\mathtt{plus}$ через $\mathtt{succ}$}
+\\
+
+Answer: $\mathtt{plus \equiv \lambda mn.\ m\ succ\ n}$
+
+\begin{align*}
+	plus\ 2\ 3 &\equiv (\lambda mn.\ m\ succ\ n)\ 2\ 3 \equiv 2\ succ\ 3 \\
+	&\equiv (\lambda sz.\ s(s(z)))\ succ\ (\lambda ab.\ a(a(a(b)))) \\
+	&\equiv (\lambda sz.\ s(s(z)))\ (\lambda nxy.\ x(nxy))\ (\lambda ab.\ a(a(a(b))))\\
+	&\equiv (\lambda z.\ (\lambda nxy.\ x(nxy))((\lambda nxy.\ x(nxy))\ z) )(\lambda ab.\ a(a(a(b)))) \\
+	&\equiv (\lambda nxy.\ x(nxy))((\lambda nxy.\ x(nxy))\ (\lambda ab.\ a(a(a(b)))))\\
+	&\equiv (\lambda nxy.\ x(nxy))((\lambda xy.\ x(x(x(x(y))))))\\
+	&\equiv \lambda xy.\ x(x(x(x(x(y))))) \equiv 5
+\end{align*}
+
+\paragraph{3} \textit{Записать $\mathtt{mult2}$ короче}
+\\
+
+$\mathtt{mult2 \equiv \lambda mnsz.\ m(ns)z	\equiv \lambda mns.\ m(ns)}$ (применили $\eta$-преобразование)
+
+\paragraph{4} \textit{Выполнить подстановку}
+
+\begin{itemize}
+\item $\mathtt{\lambda yz.\ xyw(zx)\ [x := \lambda y.\ yw]
+	\equiv \lambda yz.\ (\lambda y.\ yw)yw(z(\lambda y.\ yw))
+	\equiv \lambda yz.\ yww(z(\lambda y.\ yw)) }$
+
+\item Ничего не меняется.
+
+\item $\mathtt{xy(\lambda xz.\ xyz)y\ [y := xz]
+	\equiv x(xz)(\lambda x'z'.\ x'(xz)z')(xz) }$
+
+\end{itemize}
+
+\paragraph{5} \textit{Раскрыть скобки}
+
+\begin{itemize}
+\item $\mathtt{
+	(x(\lambda x.\ ((xy)x))y) \equiv
+	x(\lambda x.\ ((xy)x))y \equiv
+	x(\lambda x.\ xyx)y
+	}$
+
+\item $\mathtt{
+	((\lambda p.\ (\lambda q.\ ((q (p r)) s))) ((q (p r)) s)) \equiv
+	(\lambda pq.\ q (pr) s) (q (p r) s) \equiv
+	(\lambda p'q'.\ q' (p'r) s) (q (p r) s) \equiv
+	\lambda q'.\ q' (q (pr) sr) s
+	}$
+\end{itemize}
+
+\paragraph{6} \textit{Показать}
+
+$\mathtt{
+	S(\lambda x.\ M)(\lambda x.\ N) \equiv
+	(\lambda fgx.\ fx(gx))(\lambda x.\ M)(\lambda x.\ N) \equiv
+	\lambda z.\ (\lambda x.\ M)z((\lambda x.\ N)z) \equiv
+	\lambda z.\ MN}$
+	
+\paragraph{7} \textit{Показать}
+
+\begin{itemize}
+\item $\mathtt{
+	SKK = (\lambda fgx.\ fx(gx))(\lambda xy.\ x)(\lambda xy.\ x)
+	= \lambda x.\ (\lambda xy.\ x)x((\lambda xy.\ x))
+	= \lambda x.\ x = I
+	}$
+
+\item $\mathtt{
+	S(KS)K = (\lambda fgx.\ fx(gx))(KS)K
+	= \lambda x.\ (KS)x(Kx)
+	= \lambda x.\ S(Kx)
+	= \lambda x.\ (\lambda fgz.\ fz(gz))(Kx)
+	= \lambda x.\ (\lambda gz.\ (Kxz)(gz))
+	= \lambda xgz.\ x(gz)) = B
+	}$
+
+\end{itemize}
+
+\paragraph{8} \textit{Степенная функция}\\
+
+$\mathtt{pwr1 \equiv \lambda mn.\ n\ (mult\ m) 1}$ -- по аналогии с $\mathtt{mult1}$ \\
+
+$\mathtt{pwr2 \equiv \lambda mnsz.\ nmsz}$ -- по аналогии с $\mathtt{mult2}$.\\
+
+Оформлять пример долго, но вторую я честно проверил на черновике, она работает.
+
+Кстати, если дважды применить $\eta$-преобразование, будет ли верно, что $\mathtt{pwr2 \equiv \lambda mn.\ nm}$ ?
+
+\end{document}
