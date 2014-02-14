@@ -1,4 +1,5 @@
 #include "command.hpp"
+#include "utils.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -16,44 +17,6 @@ std::string GetCurrentDirectory()
     char path[MAXPATHLEN];
     getcwd(path, MAXPATHLEN);
     return std::string(path);
-}
-
-bool IsNumeric(const char *str)
-{
-    for (; *str; str++)
-        if (*str < '0' || *str > '9')
-            return 0;
-    return 1;
-}
-
-void trim(std::string &s)
-{
-    while (isspace(*s.begin()))
-        s.erase(s.begin());
-    while (s.size() > 0 && isspace(*s.rbegin()))
-        s.erase(s.end() - 1);
-}
-
-Command readCommand()
-{
-    std::string userInput;
-
-    do {
-        std::cout << "> ";
-        getline(std::cin, userInput);
-        trim(userInput);
-    } while (userInput.size() == 0);
-
-    std::stringstream ss(userInput);
-    Command c;
-
-    ss >> c.command;
-    std::string arg;
-    while (!ss.eof()) {
-        ss >> arg;
-        c.args.push_back(arg);
-    }
-    return c;
 }
 
 int execlsCommand(Command const &cmd)
@@ -100,8 +63,6 @@ int execpsCommand(Command const &cmd)
 
     DIR *procdir;
 
-    // std::string pathprocdir =
-    // "/Users/doxer/Documents/GitRepositories/SPbAU-Spring-2014/OS/shell/proc/";
     std::string pathprocdir = "/proc/";
 
     if ((procdir = opendir(pathprocdir.c_str())) == 0)
@@ -111,12 +72,12 @@ int execpsCommand(Command const &cmd)
         std::string commandLine;
         while ((pid = readdir(procdir)) != 0) {
             if (pid->d_type == DT_DIR && IsNumeric(pid->d_name)) {
-                std::string cmdFilePath = pathprocdir + std::string(pid->d_name) + "/cmdline";
+                std::string cmdFilePath = pathprocdir + std::string(pid->d_name) + "/comm";
                 std::ifstream cmdFile(cmdFilePath.c_str());
 
                 if (cmdFile.is_open()) {
                     getline(cmdFile, commandLine);
-                    std::cout << commandLine << std::endl;
+                    std::cout << pid->d_name << ": " << commandLine << std::endl;
                 }
                 cmdFile.close();
             }
@@ -132,13 +93,11 @@ int execkillCommand(Command const &cmd)
     if (cmd.args.size() != 2 || !IsNumeric(cmd.args[0].c_str()) ||
         !IsNumeric(cmd.args[1].c_str())) {
         std::cout << "Invalid command parameters" << std::endl;
+    } else {
+        int signal = atoi(cmd.args[0].c_str());
+        int pid = atoi(cmd.args[1].c_str());        
+        kill(pid, signal);
     }
-
-    int pid = atoi(cmd.args[0].c_str());
-    int signal = atoi(cmd.args[1].c_str());
-
-    kill(pid, signal);
-
     return 0;
 }
 
@@ -152,19 +111,4 @@ int runProcess(Command const &cmd)
 
     system(ss.str().c_str());
     return 0;
-}
-
-int execCommand(Command const &cmd)
-{
-    if (cmd.command == "ls")
-        return execlsCommand(cmd);
-    if (cmd.command == "pwd")
-        return execpwdCommand(cmd);
-    if (cmd.command == "ps")
-        return execpsCommand(cmd);
-    if (cmd.command == "kill")
-        return execkillCommand(cmd);
-    if (cmd.command == "exit")
-        return 1;
-    return runProcess(cmd);
 }

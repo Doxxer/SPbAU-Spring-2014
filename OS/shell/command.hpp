@@ -1,3 +1,6 @@
+#ifndef COMMAND_HPP
+#define COMMAND_HPP
+
 #include <string>
 #include <vector>
 
@@ -10,6 +13,10 @@ struct Command {
     std::vector<std::string> args;
 };
 
-Command readCommand();
+int execlsCommand(Command const &);
+int execpwdCommand(Command const &);
+int execpsCommand(Command const &);
+int execkillCommand(Command const &);
+int runProcess(Command const &);
 
-int execCommand(Command const &cmd);
+#endif /* end of include guard: COMMAND_HPP */
