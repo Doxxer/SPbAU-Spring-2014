@@ -94,8 +94,9 @@ $\mathtt{mult2 \equiv \lambda mnsz.\ m(ns)z	\equiv \lambda mns.\ m(ns)}$ (при
 $\mathtt{
 	S(\lambda x.\ M)(\lambda x.\ N) \equiv
 	(\lambda fgx.\ fx(gx))(\lambda x.\ M)(\lambda x.\ N) \equiv
-	\lambda z.\ (\lambda x.\ M)z((\lambda x.\ N)z) \equiv
-	\lambda z.\ MN}$
+	\lambda x.\ (\lambda x.\ M)x((\lambda x.\ N)x) \equiv
+	\lambda x.\ M((\lambda x.\ N)x) \equiv
+	\lambda x.\ MN}$
 	
 \paragraph{7} \textit{Показать}
 
