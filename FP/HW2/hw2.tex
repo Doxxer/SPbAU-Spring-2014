@@ -1,0 +1,230 @@
+\documentclass[russian]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=1cm,rmargin=1cm}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{babel}
+\usepackage{mathtools}
+\usepackage[T2A]{fontenc}
+
+\makeatletter
+\@ifundefined{date}{}{\date{}}
+
+\begin{document}
+
+\title{Функциональное программирование. HW\#2}
+\author{Тураев Тимур, 504 (SE)}
+
+\maketitle
+
+\paragraph*{1.}
+
+\textit{Приведите пример замкнутого чистого $\lambda$-терма, находящегося}
+
+
+\textbf{-- в WHNF, но не в HNF}
+
+Не-редекс на верхнем уровне, но внутри чистый редекс 
+
+\[
+\mathtt{\lambda x.(\lambda y.y)x}
+\]
+
+
+\textbf{-- в HNF, но не в NF}
+
+Не-редекс на верхнем уровне, но внутри не чистый редекс, но можно провести $\beta$-редукцию
+
+\[
+\mathtt{\lambda x.x((\lambda y.y)x)}
+\]
+
+
+\paragraph*{2.} \textit{Написать $\mathtt{minus}$, $\mathtt{equals}$, $\mathtt{lt}$, $\mathtt{gt}$, $\mathtt{le}$, $\mathtt{ge}$}
+
+\[
+\mathtt{minus \equiv \lambda mn.n\;pred\;m}
+\]
+\[
+\mathtt{equals \equiv \lambda mn.AND(iszro(minus\; m\; n))(iszro(minus\; n\; m))}
+\]
+\[
+\mathtt{le \equiv \lambda mn.iszro(minus\; m\; n)}
+\]
+\[
+\mathtt{gt \equiv \lambda mn.NOT(le\; m\; n)}
+\]
+\[
+\mathtt{ge \equiv \lambda mn.AND(gt\; m\; n)(equals\; m\; n)}
+\]
+\[
+\mathtt{lt \equiv \lambda mn.NOT(ge\; m\; n)}
+\]
+
+
+\paragraph*{3.} \textit{Построить функцию $\mathtt{sum}$, суммирующую элементы списка и функцию $\mathtt{length}$, вычисляющую длину списка.}
+
+\[
+\mathtt{sum \equiv \lambda l.l(\lambda ht.plus\; h\; t)0}
+\]
+\[
+\mathtt{length \equiv \lambda l.l(\lambda ht.plus\; 1\; t)0}
+\]
+
+Пример $\mathtt{sum}$:
+
+\begin{eqnarray*}
+sum\; [2, 3] & =\\
+(\lambda l.l(\lambda ht.plus\; h\; t)0)\; [2, 3] &=\\
+(\lambda l.l(\lambda ht.plus\; h\; t)0)\; (\lambda cn.c\;2\;(c\;3\;n)) &=\\
+(\lambda cn.c\;2\;(c\;3\;n))(\lambda ht.plus\; h\; t)0 & =\\
+(\lambda ht.plus\; h\; t)\; 2((\lambda ht.plus\; h\; t)\; 3\; 0) &=\\
+(\lambda ht.plus\; h\; t)\; 2(plus\; 3\; 0) &=\\
+(\lambda ht.plus\; h\; t)\; 2\; 3 &=\\
+plus\; 2\; 3 &= &5
+\end{eqnarray*}
+
+
+Пример $\mathtt{length}$. Видно, что это ни что иное, как сумма, которая игнорирует список и складывает единицы:
+
+\begin{eqnarray*}
+length; [2, 3] & =\\
+(\lambda l.l(\lambda ht.plus\; 1\; t)0)\; [2, 3] &=\\
+(\lambda l.l(\lambda ht.plus\; 1\; t)0)\; (\lambda cn.c\;2\;(c\;3\;n)) &=\\
+(\lambda cn.c\;2\;(c\;3\;n))(\lambda ht.plus\; 1\; t)0 & =\\
+(\lambda ht.plus\; 1\; t)\; 2((\lambda ht.plus\; 1\; t)\; 3\; 0) &=\\
+(\lambda ht.plus\; 1\; t)\; 2(plus\; 1\; 0) &=\\
+(\lambda ht.plus\; 1\; t)\; 2\; 1 &=\\
+plus\; 1\; 1 &= &2
+\end{eqnarray*}
+
+
+\paragraph*{4.} \textit{Построить функцию $\mathtt{tail}$, возвращающую хвост списка.}
+
+Используем ту же идею, что и с функцией $\mathtt{pred}$.
+
+Определим начальное значение (в $\mathtt{pred}$-е это была пара (0, 0)) -- в нашем случае это будет пара из двух пустых списоков:
+\[
+\mathtt{xz \equiv pair\; nil\; nil}
+\]
+
+Далее, определим функцию, обрабатывающую наш список на каждой итерации. Смысл этой функции вот в чем: мы будем пересобирать список с конца, сохраняя его во втором элементе паре, в первом же элементе будем держать тот же список, но на предыдущей итерации. Таким образом, в конце получим, что в первом элементе паре будет лежать недособранный на один элемент список -- то есть хвост.\\
+Этой фунции на вход мы будем подавать очередной элемент списка и пару-состояние: 
+\[
+\mathtt{fs \equiv \lambda ep.pair\; (snd\; p)\; (cons\; e\; snd\; p)}
+\]
+
+Ну и, наконец, функция $\mathtt{tail}$. Ее поведение уже описано выше.
+\[
+\mathtt{tail \equiv \lambda l.fst (l\; fs\; xz)}
+\]
+
+Пример.
+
+\begin{eqnarray*}
+tail\; [5, 3, 2] & =\\
+(\lambda l.fst (l\; fs\; xz))\; [5, 3, 2] &=\\
+(\lambda l.fst (l\; fs\; xz))\; (\lambda cn.c\;5\;(c\;3\;(c\;2\;n))) &=\\
+fst ((\lambda cn.c\;5\;(c\;3\;(c\;2\;n)))\; fs\; xz) &=\\
+fst (fs\;5\;(fs\;3\;(fs\;2\;xz))) &=\\
+fst (fs\;5\;(fs\;3\;(fs\;2\;[\;nil\;nil]))) &=\\
+fst (fs\;5\;(fs\;3\;((\lambda ep.pair\; (snd\; p)\; (cons\; e\; snd\; p))\;2\;[nil, nil]))) &=\\
+fst (fs\;5\;(fs\;3\;[nil, [2]])) &=\\
+fst (fs\;5\;[[2], [3, 2]]) &=\\
+fst [[3, 2], [5, 3, 2]] & = & [3, 2]
+\end{eqnarray*}
+
+
+\paragraph*{5.1} \textit{Построить терм-пожиратель, то есть такой терм $\mathsf{F}$, что для любого терма $\mathsf{M}$ верно следующее: $\mathtt{FM = F}$}
+
+Пусть $\mathtt{F}$ выглядит как-то так: $\mathtt{F = YX}$, где $\mathtt{X}$ пока неизвестный терм. Из определения fixpoint combinator известно, что $\mathtt{YX = X(YX)}$.
+
+Посмотрим что такое $\mathtt{FM}$: 
+
+\[
+\mathtt{FM = (YX)M = (X(YX))M = X(YX)M = XFM = F}
+\]
+
+Тогда что такое неизвестный терм $\mathtt{X}$? Это такая функция, принимающая 2 параметра и возвращающая первый. Да это же $\mathtt{K}$!
+
+Answer: $\mathtt{F = YK}$
+
+\paragraph*{5.2} \textit{Построить такой терм $\mathsf{F}$, что для любого терма $\mathsf{M}$ верно следующее: $\mathtt{FM = MF}$}
+
+(позволю себе скопировать :) )
+
+Пусть $\mathtt{F}$ выглядит как-то так: $\mathtt{F = YX}$, где $\mathtt{X}$ пока неизвестный терм. Из определения fixpoint combinator известно, что $\mathtt{YX = X(YX)}$.
+
+Посмотрим что такое $\mathtt{FM}$: 
+
+\[
+\mathtt{FM = (YX)M = (X(YX))M = X(YX)M = XFM = MF}
+\]
+
+Тогда что такое неизвестный терм $\mathtt{X}$? Это такая функция, принимающая 2 параметра и возвращающая применение второго к первую. Ну запишем это: $\mathtt{X = \lambda xy.yx}$
+
+Answer: $\mathtt{F = Y(\lambda xy.yx)}$
+
+\paragraph*{5.3} \textit{Построить такой терм $\mathsf{F}$, что для любых термов $\mathsf{M}$ и $\mathsf{N}$ верно следующее: $\mathtt{FMN = NF(NMF)}$}
+
+(позволю себе опять скопировать :) )
+
+Пусть $\mathtt{F}$ выглядит как-то так: $\mathtt{F = YX}$, где $\mathtt{X}$ пока неизвестный терм. Из определения fixpoint combinator известно, что $\mathtt{YX = X(YX)}$.
+
+Посмотрим что такое $\mathtt{FMN}$: 
+
+\[
+\mathtt{FMN = (YX)MN = (X(YX))MN = X(YX)MN = XFMN = NF(NMF)}
+\]
+
+Решаем простейшее уравнение на термы и находим вид неизвестного терма $\mathtt{X}$. Решили: $\mathtt{X = \lambda fmn.nf(nmf)}$
+
+Answer: $\mathtt{F = Y(\lambda fmn.nf(nmf))}$
+
+\paragraph*{6.} \textit{Пусть имеется взаимно-рекурсивное определение функций $\mathsf{f}$ и $\mathsf{g}$: $\mathsf{f = Ffg}$ , $\mathsf{g = Gfg}$. Используя $\mathsf{Y}$-комбинатор, найдите нерекурсивные определения этих функций}
+
+Абстрагируемся:
+
+\[
+\mathtt{f = Ffg = (\lambda n.F\;n\;g)f = f'\;f}
+\]
+\[
+\mathtt{g = Gfg = (\lambda n.G\;f\;n)g = g'\;g}
+\]
+
+Видно, что и $\mathsf{f}$ и $\mathsf{g}$ есть неподвижные точки для лямбд. Поэтому:
+
+\[
+\mathtt{f = Yf'}
+\]
+\[
+\mathtt{g = Yg'}
+\]
+
+Функции стали не столько рекурсивные, сколько взаимно-определенными. Продолжаем абстрагироваться:
+
+\[
+\mathtt{f = Yf' = Y(\lambda n.F\;n\;g) = Y(\lambda n.F\;n\;(Yg')) = Y(\lambda n.F\;n\;(Y(\lambda n.G\;f\;n))) = Y((\lambda mn.F\;n\;(Y(\lambda n.G\;m\;n)))f)}
+\]
+Обозначим, для краткости $\mathsf{\lambda mn.F\;n\;(Y(\lambda n.G\;m\;n)) = P}$. Продолжаем абстрагироваться:
+
+\[
+\mathtt{f = Y(Pf) = (\lambda s.Y(Ps))f = Y(\lambda s.Y(Ps)) = Y(\lambda s.Y((\lambda mn.F\;n\;(Y(\lambda n.G\;m\;n)))s))}
+\]
+
+Все, записываем ответ
+
+\[
+\mathtt{f = Y(\lambda s.Y((\lambda mn.F\;n\;(Y(\lambda t.G\;m\;t)))s))}
+\]
+Для функции $\mathsf{g}$ все аналогично: 
+
+\[
+\mathtt{g = Y(\lambda s.Y((\lambda mn.G\;(Y(\lambda t.F\;t\;n))\;m)s))}
+\]
+\end{document}
