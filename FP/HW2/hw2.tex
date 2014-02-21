@@ -60,7 +60,7 @@
 \mathtt{gt \equiv \lambda mn.NOT(le\; m\; n)}
 \]
 \[
-\mathtt{ge \equiv \lambda mn.AND(gt\; m\; n)(equals\; m\; n)}
+\mathtt{ge \equiv \lambda mn.OR(gt\; m\; n)(equals\; m\; n)}
 \]
 \[
 \mathtt{lt \equiv \lambda mn.NOT(ge\; m\; n)}
@@ -75,6 +75,7 @@
 \[
 \mathtt{length \equiv \lambda l.l(\lambda ht.plus\; 1\; t)0}
 \]
+
 
 Пример $\mathtt{sum}$:
 
@@ -93,7 +94,7 @@ plus\; 2\; 3 &= &5
 Пример $\mathtt{length}$. Видно, что это ни что иное, как сумма, которая игнорирует список и складывает единицы:
 
 \begin{eqnarray*}
-length; [2, 3] & =\\
+length [2, 3] & =\\
 (\lambda l.l(\lambda ht.plus\; 1\; t)0)\; [2, 3] &=\\
 (\lambda l.l(\lambda ht.plus\; 1\; t)0)\; (\lambda cn.c\;2\;(c\;3\;n)) &=\\
 (\lambda cn.c\;2\;(c\;3\;n))(\lambda ht.plus\; 1\; t)0 & =\\
@@ -102,6 +103,41 @@ length; [2, 3] & =\\
 (\lambda ht.plus\; 1\; t)\; 2\; 1 &=\\
 plus\; 1\; 1 &= &2
 \end{eqnarray*}
+
+
+Дополнение. Более короткие версии:
+
+\[
+\mathtt{sum2 \equiv \lambda l.l\;plus\;0}
+\]
+
+\[
+\mathtt{length2 \equiv \lambda l.l(\lambda ht.succ\; t)0}
+\]
+
+Пример на $\mathtt{sum2}$:
+
+\begin{eqnarray*}
+sum2\; [2, 3] & =\\
+(\lambda l.l\; plus\;0)\; [2, 3] &=\\
+(\lambda l.l\; plus\;0)\; (\lambda cn.c\;2\;(c\;3\;n)) &=\\
+(\lambda cn.c\;2\;(c\;3\;n))\;plus\;0 & =\\
+plus\; 2\;(plus\;3\;0) & = \\
+plus\; 2\; 3 &= &5
+\end{eqnarray*}
+
+
+Пример на $\mathtt{length2}$:
+
+\begin{eqnarray*}
+length2\; [2, 3] & =\\
+(\lambda l.l(\lambda ht.succ\; t)0)\; [2, 3] &=\\
+(\lambda l.l(\lambda ht.succ\; t)0)\; (\lambda cn.c\;2\;(c\;3\;n)) &=\\
+(\lambda cn.c\;2\;(c\;3\;n))(\lambda ht.succ\; t)\;0 & =\\
+(\lambda ht.succ\; t)\; 2((\lambda ht.succ\; t)\; 3\; 0) &=\\
+(\lambda ht.succ\; t)\; 2\;1 &= & 2
+\end{eqnarray*}
+
 
 
 \paragraph*{4.} \textit{Построить функцию $\mathtt{tail}$, возвращающую хвост списка.}
@@ -116,7 +152,7 @@ plus\; 1\; 1 &= &2
 Далее, определим функцию, обрабатывающую наш список на каждой итерации. Смысл этой функции вот в чем: мы будем пересобирать список с конца, сохраняя его во втором элементе паре, в первом же элементе будем держать тот же список, но на предыдущей итерации. Таким образом, в конце получим, что в первом элементе паре будет лежать недособранный на один элемент список -- то есть хвост.\\
 Этой фунции на вход мы будем подавать очередной элемент списка и пару-состояние: 
 \[
-\mathtt{fs \equiv \lambda ep.pair\; (snd\; p)\; (cons\; e\; snd\; p)}
+\mathtt{fs \equiv \lambda ep.pair\; (snd\; p)\; (cons\; e\; (snd\; p))}
 \]
 
 Ну и, наконец, функция $\mathtt{tail}$. Ее поведение уже описано выше.
