@@ -25,14 +25,12 @@ public class Main {
         Column column = new Column();
 
         field.registerStaticObject(column, 7, 7);
-
-        game.setField(field);
         game.registerActiveObject(bar);
 
         for (int i = 0; i < 1000000; i++) {
             TimeUnit.MILLISECONDS.sleep(delay);
             clearScreen();
-            game.step();
+            game.makeStep();
             printer.display(field);
             System.out.println(MessageFormat.format("Step #{0}", i));
         }

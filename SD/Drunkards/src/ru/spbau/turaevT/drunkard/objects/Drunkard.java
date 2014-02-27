@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Drunkard extends Mob {
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
     private DrunkardState state = DrunkardState.WALKING;
     private Bottle bottle;
 

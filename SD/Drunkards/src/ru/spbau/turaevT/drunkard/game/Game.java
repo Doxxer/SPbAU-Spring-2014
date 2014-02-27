@@ -1,29 +1,22 @@
 package ru.spbau.turaevT.drunkard.game;
 
-import ru.spbau.turaevT.drunkard.field.IField;
 import ru.spbau.turaevT.drunkard.objects.IActiveObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Simple implementation if <tt>IGame</tt> interface<p>
+ */
 public class Game implements IGame {
-    private IField field;
-    private List<IActiveObject> activeObjects = new ArrayList<IActiveObject>();
-    private List<IActiveObject> addedObjects = new ArrayList<IActiveObject>();
+    private final List<IActiveObject> activeObjects = new ArrayList<IActiveObject>();
+    private final List<IActiveObject> addedObjects = new ArrayList<IActiveObject>();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public IField getField() {
-        return this.field;
-    }
-
-    @Override
-    public void setField(IField field) {
-        this.field = field;
-    }
-
-    @Override
-    public void step() {
+    public void makeStep() {
         activeObjects.addAll(addedObjects);
         addedObjects.clear();
 
@@ -32,6 +25,9 @@ public class Game implements IGame {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void registerActiveObject(IActiveObject object) {
         addedObjects.add(object);

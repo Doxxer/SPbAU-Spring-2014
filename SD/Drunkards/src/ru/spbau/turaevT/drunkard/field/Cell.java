@@ -4,8 +4,8 @@ import ru.spbau.turaevT.drunkard.objects.IGameObject;
 
 public class Cell implements ICell {
     private IGameObject fieldObject;
-    private int xCoordinate;
-    private int yCoordinate;
+    private final int xCoordinate;
+    private final int yCoordinate;
 
     public Cell(int xCoordinate, int yCoordinate) {
         this.xCoordinate = xCoordinate;
@@ -42,17 +42,8 @@ public class Cell implements ICell {
     }
 
     @Override
-    public void setyCoordinate(int yCoordinate) {
-        this.yCoordinate = yCoordinate;
-    }
-
-    @Override
     public int getxCoordinate() {
         return xCoordinate;
     }
 
-    @Override
-    public void setxCoordinate(int xCoordinate) {
-        this.xCoordinate = xCoordinate;
-    }
 }

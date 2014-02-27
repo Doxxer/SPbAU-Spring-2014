@@ -6,9 +6,9 @@ import ru.spbau.turaevT.drunkard.game.IGame;
 
 public class Bar implements IActiveObject {
     private int timer;
-    private ICell cell;
-    private IField field;
-    private IGame game;
+    private final ICell cell;
+    private final IField field;
+    private final IGame game;
 
     public Bar(IField field, ICell cell, IGame game) {
         this.cell = cell;

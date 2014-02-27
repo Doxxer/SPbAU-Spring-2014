@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Field implements IField {
-    private int width;
-    private int height;
-    private ICell[][] cells;
+    private final int width;
+    private final int height;
+    private final ICell[][] cells;
 
     public Field(int width, int height) {
         this.width = width;
