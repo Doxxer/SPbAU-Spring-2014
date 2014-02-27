@@ -15,11 +15,17 @@ private:
     istream *stream_;
     long currentPos_;
 
-public:
-    FileIterator(istream *stream, bool ate = false) : str_(""), stream_(stream), currentPos_(-1)
+    void increment()
     {
-        if (!ate)
-            operator++();
+        currentPos_ = stream_->tellg();
+        getline(*stream_, str_);
+    }
+
+public:
+    FileIterator(istream *stream, bool end_iterator = true) : str_(""), stream_(stream), currentPos_(-1)
+    {
+        if (!end_iterator)
+            increment();
     }
 
     FileIterator(FileIterator const &fit)
@@ -27,58 +33,44 @@ public:
     {
     }
 
-    FileIterator &operator=(FileIterator const &fit)
-    {
-        if (this != &fit)
-            FileIterator(fit).swap(*this);
-        return *this;
-    }
-
     FileIterator &operator++()
     {
-        currentPos_ = stream_->tellg();
-        getline(*stream_, str_);
-
+        increment();
         return *this;
     }
 
     FileIterator operator++(int)
     {
         FileIterator tmp(*this);
-        operator++();
+        increment();
         return tmp;
     }
 
-    bool operator==(FileIterator const &f) const
-    {
-        return currentPos_ == f.currentPos_;
-    }
+    friend bool operator==(FileIterator const &a, FileIterator const &b);
 
-    bool operator!=(FileIterator const &f) const
-    {
-        return currentPos_ != f.currentPos_;
-    }
-
-    string const & operator*() const
+    string const &operator*() const
     {
         return str_;
     }
 
-    string const * operator->() const
+    string const *operator->() const
     {
-        return &(*(*this));
-    }
-
-    void swap(FileIterator &f)
-    {
-        std::swap(str_, f.str_);
-        std::swap(stream_, f.stream_);
-        std::swap(currentPos_, f.currentPos_);
+        return &str_;
     }
 };
 
+bool operator==(FileIterator const &a, FileIterator const &b)
+{
+    return a.currentPos_ == b.currentPos_;
+}
+
+bool operator!=(FileIterator const &a, FileIterator const &b)
+{
+    return !(a == b);
+}
+
 struct FileReader {
-    FileReader(istream *stream) : begin_(FileIterator(stream)), end_(FileIterator(stream, true))
+    FileReader(istream *stream) : begin_(FileIterator(stream, false)), end_(FileIterator(stream))
     {
     }
 
