@@ -4,6 +4,9 @@ import ru.spbau.turaevT.drunkard.objects.IGameObject;
 
 import java.util.List;
 
+/**
+ * The <tt>IField</tt> interface provides access to the game field
+ */
 public interface IField {
     int getWidth();
     int getHeight();

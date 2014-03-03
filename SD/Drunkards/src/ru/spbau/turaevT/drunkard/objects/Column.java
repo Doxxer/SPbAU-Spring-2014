@@ -8,7 +8,7 @@ public class Column extends GameObject {
     }
 
     @Override
-    public void detectCollision(IMob object) {
+    public void detectCollision(ICharacter object) {
         object.processColliding(this);
     }
 }

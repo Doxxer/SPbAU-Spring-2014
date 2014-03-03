@@ -5,15 +5,11 @@ import ru.spbau.turaevT.drunkard.field.ICell;
 import java.util.List;
 import java.util.Random;
 
-public class Drunkard extends Mob {
+public class Drunkard extends Character {
 
     private static final Random random = new Random();
     private DrunkardState state = DrunkardState.WALKING;
-    private Bottle bottle;
-
-    public Drunkard() {
-        bottle = new Bottle();
-    }
+    private Bottle bottle = new Bottle();
 
     @Override
     public void doAction() {
@@ -28,14 +24,12 @@ public class Drunkard extends Mob {
             ICell old = getCell();
             this.setCell(null);
 
-            if (bottle != null && random.nextInt(30) == 0)
-            {
+            if (bottle != null && random.nextInt(30) == 0) {
                 bottle.setCell(old);
                 bottle = null;
             }
             this.setCell(nextCell);
-        }
-        else {
+        } else {
             nextCell.getFieldObject().detectCollision(this);
         }
     }
@@ -54,7 +48,7 @@ public class Drunkard extends Mob {
     }
 
     @Override
-    public void detectCollision(IMob object) {
+    public void detectCollision(ICharacter object) {
         object.processColliding(this);
     }
 
