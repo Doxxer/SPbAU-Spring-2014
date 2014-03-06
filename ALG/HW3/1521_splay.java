@@ -128,13 +128,14 @@ class SplayTree {
         }
 
         node = find(node, key);
+        int curIndex = Node.getSize(node.left) + 1;
 
-        if (node.data == key) {
+        if (curIndex == key) {
             Node.setParent(node.left, null);
             Node.setParent(node.right, null);
             return new Pair<Node, Node>(node.left, node.right);
         }
-        if (node.data < key) {
+        if (curIndex < key) {
             Node right = node.right;
             node.right = null;
             Node.setParent(right, null);
