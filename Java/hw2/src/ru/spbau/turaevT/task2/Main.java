@@ -16,7 +16,6 @@ import java.text.MessageFormat;
  * @version 1.0
  */
 public class Main {
-
     /**
      * Compresses messages in input file and output it to the file or console
      *
@@ -45,14 +44,13 @@ public class Main {
             while ((message = reader.readMessage()) != null) {
                 writer.writeMessage(message);
             }
+            writer.flush();
         } catch (FileNotFoundException e) {
             System.err.println(MessageFormat.format("Input file ''{0}'' not found.", inputFileName));
         } catch (IllegalMessageFormatException e) {
             System.err.println(MessageFormat.format("Input file format has illegal format: {0}.", e.getMessage()));
         } catch (IOException e) {
             System.err.println(MessageFormat.format("An I/O error occurred: {0}", e.getMessage()));
-        } catch (Exception e) {
-            System.err.println(MessageFormat.format("Strange error occurred (probably, close failed): {0}", e.getMessage()));
         }
     }
 }

@@ -1,5 +1,6 @@
 package ru.spbau.turaevT.task2;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -34,10 +35,25 @@ public class ConsoleMessageWriter implements MessageWriter {
         currentMsgNumber++;
     }
 
+
     /**
      * Closes the console writer.
+     *
+     * @throws IOException If an I/O error occurs
      */
     @Override
-    public void close() {
+    public void close() throws IOException {
+        flush();
+    }
+
+    /**
+     * Flushes this stream by writing any buffered output to the underlying
+     * stream.
+     *
+     * @throws IOException If an I/O error occurs
+     */
+    @Override
+    public void flush() throws IOException {
+        System.out.flush();
     }
 }

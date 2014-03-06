@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class FileMessageWriter implements MessageWriter {
 
-    BufferedWriter fileWriter;
+    private BufferedWriter fileWriter;
 
     /**
      * Constructs writer, given the name of the file to write to.
@@ -51,7 +51,6 @@ public class FileMessageWriter implements MessageWriter {
             fileWriter.write(line);
             fileWriter.newLine();
         }
-        fileWriter.flush();
     }
 
     /**
@@ -62,5 +61,16 @@ public class FileMessageWriter implements MessageWriter {
     @Override
     public void close() throws IOException {
         fileWriter.close();
+    }
+
+    /**
+     * Flushes this stream by writing any buffered output to the underlying
+     * stream.
+     *
+     * @throws IOException If an I/O error occurs
+     */
+    @Override
+    public void flush() throws IOException {
+        fileWriter.flush();
     }
 }

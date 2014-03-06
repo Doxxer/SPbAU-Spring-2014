@@ -30,12 +30,12 @@ public class CompressingMessageWriter implements MessageWriter {
      * Writes the <tt>message</tt> to specified message writer
      *
      * @param message message to be written
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     public void writeMessage(Message message) throws IOException {
         if (bufferMessage == null) {
-            bufferMessage = message;
+            bufferMessage = new Message(message);
         } else {
             bufferMessage.append(message);
             writer.writeMessage(bufferMessage);
@@ -46,18 +46,25 @@ public class CompressingMessageWriter implements MessageWriter {
     /**
      * Closes associated message writer
      *
-     * @throws Exception if this resource cannot be closed
+     * @throws IOException if this resource cannot be closed
      */
     @Override
-    public void close() throws Exception {
-        flush();
+    public void close() throws IOException {
         writer.close();
     }
 
-    private void flush() throws IOException {
+    /**
+     * Flushes this stream by writing any buffered output to the underlying
+     * stream.
+     *
+     * @throws IOException If an I/O error occurs
+     */
+    @Override
+    public void flush() throws IOException {
         if (bufferMessage != null) {
             writer.writeMessage(bufferMessage);
         }
         bufferMessage = null;
+        writer.flush();
     }
 }

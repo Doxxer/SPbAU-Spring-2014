@@ -17,6 +17,13 @@ public class Message {
     private List<String> messageContent = new ArrayList<>();
 
     /**
+     * Constructs the message with content equals to content of given message
+     */
+    public Message(Message message) {
+        this(message.getLines());
+    }
+
+    /**
      * Constructs the message containing elements of specified list of strings
      *
      * @param content the initial value of this message content
@@ -31,7 +38,7 @@ public class Message {
      * @param message the message, which content is to be appended to the current message
      */
     public void append(Message message) {
-        this.messageContent.addAll(message.messageContent);
+        messageContent.addAll(message.messageContent);
     }
 
     /**

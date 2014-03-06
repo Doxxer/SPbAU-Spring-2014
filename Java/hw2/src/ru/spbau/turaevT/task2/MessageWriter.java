@@ -1,5 +1,7 @@
 package ru.spbau.turaevT.task2;
 
+import java.io.Closeable;
+import java.io.Flushable;
 import java.io.IOException;
 
 /**
@@ -9,7 +11,7 @@ import java.io.IOException;
  * @version 1.0
  * @see ru.spbau.turaevT.task2.Message
  */
-public interface MessageWriter extends AutoCloseable {
+public interface MessageWriter extends Closeable, Flushable {
 
     /**
      * Writes the <tt>message</tt>
