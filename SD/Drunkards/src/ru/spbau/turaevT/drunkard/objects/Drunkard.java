@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Random;
 
 public class Drunkard extends Character {
+    private enum DrunkardState {
+        WALKING,
+        SLEEPING,
+        LYING
+    }
 
     private static final Random random = new Random();
     private DrunkardState state = DrunkardState.WALKING;

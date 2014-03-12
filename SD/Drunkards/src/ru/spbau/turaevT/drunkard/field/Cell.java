@@ -1,9 +1,9 @@
 package ru.spbau.turaevT.drunkard.field;
 
-import ru.spbau.turaevT.drunkard.objects.IGameObject;
+import ru.spbau.turaevT.drunkard.objects.IStaticObject;
 
 public class Cell implements ICell {
-    private IGameObject fieldObject;
+    private IStaticObject fieldObject;
     private final int xCoordinate;
     private final int yCoordinate;
 
@@ -27,12 +27,12 @@ public class Cell implements ICell {
     }
 
     @Override
-    public void setFieldObject(IGameObject fieldObject) {
+    public void setFieldObject(IStaticObject fieldObject) {
         this.fieldObject = fieldObject;
     }
 
     @Override
-    public IGameObject getFieldObject() {
+    public IStaticObject getFieldObject() {
         return fieldObject;
     }
 

@@ -1,6 +1,6 @@
 package ru.spbau.turaevT.drunkard.field;
 
-import ru.spbau.turaevT.drunkard.objects.IGameObject;
+import ru.spbau.turaevT.drunkard.objects.IStaticObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class Field implements IField {
     }
 
     @Override
-    public void registerStaticObject(IGameObject object, int x, int y) {
+    public void registerStaticObject(IStaticObject object, int x, int y) {
         // todo check cell is empty and throw exception else
 
         object.setField(this);

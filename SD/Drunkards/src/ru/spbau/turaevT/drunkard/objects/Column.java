@@ -1,6 +1,6 @@
 package ru.spbau.turaevT.drunkard.objects;
 
-public class Column extends GameObject {
+public class Column extends StaticObject {
 
     @Override
     public char present() {

@@ -3,7 +3,7 @@ package ru.spbau.turaevT.drunkard.objects;
 import ru.spbau.turaevT.drunkard.field.ICell;
 import ru.spbau.turaevT.drunkard.field.IField;
 
-public abstract class GameObject implements IGameObject {
+public abstract class StaticObject implements IStaticObject {
     private ICell cell;
     private IField field;
 

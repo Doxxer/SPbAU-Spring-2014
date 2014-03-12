@@ -1,6 +1,6 @@
 package ru.spbau.turaevT.drunkard.objects;
 
-public class Bottle extends GameObject{
+public class Bottle extends StaticObject {
     @Override
     public char present() {
         return 'B';
