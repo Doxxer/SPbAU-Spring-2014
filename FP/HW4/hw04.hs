@@ -26,24 +26,28 @@ countDigits a = countDigits' $ abs a where
 -- a[k+3] =a [k+2] + a[k+1] − 2*a[k];
 f2 n = helper 1 2 3 n
     where helper prev2 prev1 acc n | n > 2 = helper prev1 acc (acc + prev1 - 2*prev2) (n-1)
+                                   | n == 2 = acc
                                    | n == 1 = prev1
                                    | n == 0 = prev2
-                                   | otherwise = acc
+                                   | otherwise = error "undefined"
 
 -- 5. Реализуйте функцию, находящую значение определённого интеграла от заданной функции на заданном интервале по методу трапеций.
 -- (параметр n -- точность)
-f3 f a b n = helper f a b 0 0 n
-    where helper f a b prev acc n | n > 0 = helper f (a + h) b acc (prev + ps * h) (n-1)
-                                  | otherwise = acc
-                                  where h = (b - a) / n
-                                        ps = (f a + f b) / 2.0
+f3 f a b n | n <= 0 = error "n must be positive"
+           | b < a = (-1) * (helper f b a 0 n)
+           | otherwise = helper f a b 0 n
+           where helper f a b acc n | n > 0 = helper f (a + h) b (acc + ps * h) (n-1)
+                                    | otherwise = acc
+                                    where h = (b - a) / n
+                                          ps = (f a + f (a + h)) / 2.0
+                                                                   
 -- пример: 
 -- > f3 (\x -> x*x) (-3) 3 10000
 -- > ~18.0
 
 -- 6. Реализуйте функцию, находящую значение квадратного корня методом Ньютона.
 sqrt' n | n == 0 = 0
-        | n < 0 = error "sqrt undefined" -- я не знаю как вывести тут NaN
+        | n < 0 = 0/0
         | otherwise = until (check) (improve) 1
                 where
                     improve ans = (ans + n/ans)/2.0
