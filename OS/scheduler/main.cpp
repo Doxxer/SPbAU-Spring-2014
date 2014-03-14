@@ -4,21 +4,17 @@
 #include "scheduler.hpp"
 #include "process.hpp"
 
-using std::cin;
-using std::endl;
-using std::cout;
-
 int Process::quant = 0;
 
 int main()
 {
-    freopen("input.txt", "r", stdin);
+    //freopen("input.txt", "r", stdin);
 
     Scheduler scheduler;
-    cin >> Process::quant;
+    std::cin >> Process::quant;
 
-    string line;
-    while (getline(cin, line)) {
+    std::string line;
+    while (getline(std::cin, line)) {
         if (line.length() == 0)
             continue;
         scheduler.add_process(Process(line));
