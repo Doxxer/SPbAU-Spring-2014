@@ -19,7 +19,7 @@ public:
 
     explicit Process(std::string const &s);
     bool operator<(Process const &p) const;
-    bool compareWithPriority(Process const &p) const;
+    bool compareWithPriority() const;
     bool updateIOWaitingTime();
     WorkingEvent updateWorkingTime();
     // void debug_print() const;

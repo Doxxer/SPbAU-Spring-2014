@@ -14,7 +14,7 @@ typedef std::shared_ptr<Process> ProcessPtr;
 class Scheduler {
 private:
     std::deque<Process> nonstarted;
-    std::vector<Process> waiting;
+    std::deque<Process> waiting;
     std::vector<Process> finished;
     std::vector<Process> ioWaiting;
     ProcessPtr current_process;

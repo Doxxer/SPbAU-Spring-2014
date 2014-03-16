@@ -16,11 +16,11 @@ bool Process::operator<(Process const &p) const
     return start < p.start;
 }
 
-bool Process::compareWithPriority(Process const &p) const
+bool Process::compareWithPriority() const
 {
-    if (p.totalWorkingTime + quant >= p.length)
+    if (totalWorkingTime + quant >= length)
         return true;
-    if (!p.ioBlocks.empty() && p.totalWorkingTime + quant >= p.ioBlocks.front().second)
+    if (!ioBlocks.empty() && totalWorkingTime + quant >= ioBlocks.front().first)
         return true;
     return false;
 }

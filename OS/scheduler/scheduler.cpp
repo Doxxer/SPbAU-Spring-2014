@@ -6,14 +6,16 @@
 
 void Scheduler::processNonStarted()
 {
-    auto it = std::find_if(nonstarted.begin(), nonstarted.end(), [&](Process const & p) { return p.start > timer; });
+    auto it = std::find_if(
+        nonstarted.begin(), nonstarted.end(), [&](Process const & p) { return p.start > timer; });
     std::copy(nonstarted.begin(), it, back_inserter(waiting));
     nonstarted.erase(nonstarted.begin(), it);
 }
 
 void Scheduler::processIO()
 {
-    auto it = remove_if(ioWaiting.begin(), ioWaiting.end(), std::mem_fun_ref(&Process::updateIOWaitingTime));
+    auto it = remove_if(
+        ioWaiting.begin(), ioWaiting.end(), std::mem_fun_ref(&Process::updateIOWaitingTime));
     std::copy(it, ioWaiting.end(), back_inserter(waiting));
     ioWaiting.erase(it, ioWaiting.end());
 }
@@ -27,7 +29,7 @@ void Scheduler::processCurrent()
         case Process::WorkingEvent::OK:
             break;
         case Process::WorkingEvent::QUANT_OVER:
-            waiting.push_back(*current_process);
+            waiting.push_front(*current_process);
             current_process = NULL;
             break;
         case Process::WorkingEvent::IO_OCCURRED:
@@ -45,9 +47,11 @@ void Scheduler::processWaiting()
 {
     if (current_process != NULL || waiting.empty())
         return;
-    sort(waiting.begin(), waiting.end(), std::mem_fun_ref(&Process::compareWithPriority));
-    current_process = ProcessPtr(new Process(waiting.back()));
-    waiting.pop_back();
+    
+    std::stable_partition(
+        waiting.begin(), waiting.end(), std::mem_fun_ref(&Process::compareWithPriority));
+    current_process = ProcessPtr(new Process(waiting.front()));
+    waiting.pop_front();
 }
 
 void Scheduler::printChanges()
@@ -80,7 +84,7 @@ void Scheduler::printChanges()
 //         current_process->print();
 //         std::cout << std::endl;
 //     }
-// 
+//
 //     std::cout << "IO: " << ioWaiting.size() << std::endl;
 //     for (auto p : ioWaiting) {
 //         p.print();
