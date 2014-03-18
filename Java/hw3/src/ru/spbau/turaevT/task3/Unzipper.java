@@ -21,9 +21,10 @@ public class Unzipper implements Closeable {
      * Constructs new <tt>Unzipper</tt>
      *
      * @param fileName file with specified format to be decompressed.
+     * @throws SecurityException     if a security manager exists and its checkWrite method denies read access to the file.
      * @throws FileNotFoundException if given file does not exists
      */
-    public Unzipper(String fileName) throws FileNotFoundException {
+    public Unzipper(String fileName) throws SecurityException, FileNotFoundException {
         zipStream = new ZipInputStream(new FileInputStream(fileName));
         inputStream = new DataInputStream(zipStream);
     }
@@ -39,11 +40,15 @@ public class Unzipper implements Closeable {
         while (zipEntry != null) {
             String fileName = inputStream.readUTF();
             long fileSize = inputStream.readLong();
-            new File(fileName).getParentFile().mkdirs();
 
-            try (FileOutputStream out = new FileOutputStream(fileName)) {
-                Utilities.copy(inputStream, out, fileSize);
-                System.out.println(MessageFormat.format("Unzipped: {0}", fileName));
+            try {
+                new File(fileName).getParentFile().mkdirs();
+                try (FileOutputStream out = new FileOutputStream(fileName)) {
+                    Utilities.copy(inputStream, out, fileSize);
+                    System.out.println(MessageFormat.format("Unzipped: {0}", fileName));
+                }
+            } catch (SecurityException ex) {
+                System.err.println(MessageFormat.format("Access denied by SecurityManager: {0}", ex.getMessage()));
             }
             zipEntry = zipStream.getNextEntry();
         }

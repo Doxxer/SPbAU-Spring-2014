@@ -52,6 +52,8 @@ public class Main {
             for (File file : directoryWalker.getFiles()) {
                 try {
                     zipper.zip(file);
+                } catch (SecurityException ex) {
+                    System.err.println(MessageFormat.format("Access to {0} denied by SecurityManager: {1}", file, ex.getMessage()));
                 } catch (FileNotFoundException e) {
                     System.err.println(MessageFormat.format("File not found: {0}", file.getAbsoluteFile()));
                 } catch (AccessDeniedException e) {
@@ -61,6 +63,8 @@ public class Main {
                 }
             }
             zipper.flush();
+        } catch (SecurityException ex) {
+            System.err.println(MessageFormat.format("Access to {0} denied by SecurityManager: {1}", outputFileName, ex.getMessage()));
         } catch (FileNotFoundException e) {
             System.err.println(MessageFormat.format("Output file cannot be opened or created: {0}", outputFileName));
         } catch (ZipException e) {
@@ -73,6 +77,8 @@ public class Main {
     private static void decompress(String inputFileName) {
         try (Unzipper z = new Unzipper(inputFileName)) {
             z.extract();
+        } catch (SecurityException ex) {
+            System.err.println(MessageFormat.format("Access to {0} denied by SecurityManager: {1}", inputFileName, ex.getMessage()));
         } catch (FileNotFoundException e) {
             System.err.println(MessageFormat.format("File not found: {0}", inputFileName));
         } catch (IOException e) {

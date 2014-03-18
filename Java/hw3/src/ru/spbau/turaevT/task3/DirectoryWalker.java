@@ -30,19 +30,24 @@ public class DirectoryWalker {
      * @param file file or directory to be traversed
      */
     public void traverse(File file) {
-        if (!file.isDirectory()) {
-            files.add(file);
-        } else {
-            if (!file.canRead()) {
-                System.err.println(MessageFormat.format("Warning: directory {0} cannot be read", file));
-                return;
-            }
-            File[] directoryContent = file.listFiles();
-            if (directoryContent != null) {
-                for (File f : directoryContent) {
-                    traverse(f);
+        try {
+            if (!file.isDirectory()) {
+                files.add(file);
+            } else {
+                if (!file.canRead()) {
+                    System.err.println(MessageFormat.format("Warning: directory {0} cannot be read", file));
+                    return;
+                }
+                File[] directoryContent = file.listFiles();
+                if (directoryContent != null) {
+                    for (File f : directoryContent) {
+                        traverse(f);
+                    }
                 }
             }
+        }
+        catch (SecurityException ex) {
+            System.err.println(MessageFormat.format("Access to {0} denied by SecurityManager: {1}", file, ex.getMessage()));
         }
     }
 

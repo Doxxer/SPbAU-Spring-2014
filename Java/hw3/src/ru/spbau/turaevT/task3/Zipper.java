@@ -30,10 +30,11 @@ public class Zipper implements Closeable, Flushable {
      * Constructs new <tt>Zipper</tt>
      *
      * @param outputFileName output zip-archive file name
+     * @throws SecurityException     if a security manager exists and its checkWrite method denies write access to the file.
      * @throws FileNotFoundException if the output file exists but is a directory rather than a regular file,
      *                               does not exist but cannot be created, or cannot be opened for any other reason
      */
-    public Zipper(String outputFileName) throws FileNotFoundException {
+    public Zipper(String outputFileName) throws SecurityException, FileNotFoundException {
         zip = new ZipOutputStream(new FileOutputStream(outputFileName));
         outputStream = new DataOutputStream(zip);
     }
@@ -42,13 +43,14 @@ public class Zipper implements Closeable, Flushable {
      * Compress given file in specified format
      *
      * @param file the file to be compressed
+     * @throws SecurityException      if a security manager exists and it denies access to a file.
      * @throws FileNotFoundException  if the file doesn't exist
      * @throws AccessDeniedException  if read operation is denied by operating system
      * @throws DuplicateFileException if the file has already been archived into the same zip-archive
      * @throws ZipException           if a ZIP format error has occurred
      * @throws IOException            if an I/O error occurs
      */
-    public void zip(File file) throws FileNotFoundException, AccessDeniedException, DuplicateFileException, ZipException, IOException {
+    public void zip(File file) throws SecurityException, IOException {
         if (file.exists() && !file.canRead()) {
             throw new AccessDeniedException(MessageFormat.format("Access denied to {0}", file.getAbsolutePath()));
         }
