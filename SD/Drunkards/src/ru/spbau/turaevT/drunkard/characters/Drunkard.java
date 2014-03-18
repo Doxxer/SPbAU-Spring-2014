@@ -1,11 +1,13 @@
-package ru.spbau.turaevT.drunkard.objects;
+package ru.spbau.turaevT.drunkard.characters;
 
 import ru.spbau.turaevT.drunkard.field.ICell;
+import ru.spbau.turaevT.drunkard.objects.Bottle;
+import ru.spbau.turaevT.drunkard.objects.Column;
 
 import java.util.List;
 import java.util.Random;
 
-public class Drunkard extends Character {
+public class Drunkard extends NPC {
     private enum DrunkardState {
         WALKING,
         SLEEPING,
@@ -47,13 +49,13 @@ public class Drunkard extends Character {
             case SLEEPING:
                 return 'Z';
             case LYING:
-                return 'L';
+                return '&';
         }
         return '?';
     }
 
     @Override
-    public void detectCollision(ICharacter object) {
+    public void detectCollision(INPC object) {
         object.processColliding(this);
     }
 

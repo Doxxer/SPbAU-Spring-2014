@@ -2,11 +2,15 @@ package ru.spbau.turaevT.drunkard.objects;
 
 import ru.spbau.turaevT.drunkard.characters.INPC;
 
-public class Column extends StaticObject {
-
+public class Lantern extends StaticObject {
+    /**
+     * Returns symbol, associating this object
+     *
+     * @return Symbol, representing the cell
+     */
     @Override
     public char present() {
-        return 'C';
+        return 'L';
     }
 
     @Override

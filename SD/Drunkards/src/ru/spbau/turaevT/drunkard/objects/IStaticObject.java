@@ -1,11 +1,12 @@
 package ru.spbau.turaevT.drunkard.objects;
 
+import ru.spbau.turaevT.drunkard.characters.INPC;
 import ru.spbau.turaevT.drunkard.field.ICell;
 import ru.spbau.turaevT.drunkard.field.IField;
 
 /**
  * Provides access to game object
- *
+ * <p/>
  * StaticObject is the object, that can't produce any action
  */
 public interface IStaticObject {
@@ -21,5 +22,5 @@ public interface IStaticObject {
 
     void setCell(ICell cell);
 
-    void detectCollision(ICharacter object);
+    void detectCollision(INPC object);
 }

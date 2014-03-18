@@ -1,8 +1,10 @@
-package ru.spbau.turaevT.drunkard.objects;
+package ru.spbau.turaevT.drunkard.buildings;
 
+import ru.spbau.turaevT.drunkard.characters.Drunkard;
 import ru.spbau.turaevT.drunkard.field.ICell;
 import ru.spbau.turaevT.drunkard.field.IField;
 import ru.spbau.turaevT.drunkard.game.IGame;
+import ru.spbau.turaevT.drunkard.objects.IActiveObject;
 
 public class Bar implements IActiveObject {
     private int timer;
@@ -21,8 +23,7 @@ public class Bar implements IActiveObject {
     public void doAction() {
         timer++;
 
-        if (timer == 20)
-        {
+        if (timer == 20) {
             timer = 0;
             if (cell.isEmpty())
                 spawnDrunk();

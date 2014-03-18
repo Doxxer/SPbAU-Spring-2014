@@ -1,13 +1,14 @@
 package ru.spbau.turaevT.drunkard;
 
+import ru.spbau.turaevT.drunkard.buildings.Bar;
 import ru.spbau.turaevT.drunkard.field.Field;
 import ru.spbau.turaevT.drunkard.field.FieldConsolePrinter;
 import ru.spbau.turaevT.drunkard.field.IField;
 import ru.spbau.turaevT.drunkard.field.IFieldPrinter;
 import ru.spbau.turaevT.drunkard.game.Game;
 import ru.spbau.turaevT.drunkard.game.IGame;
-import ru.spbau.turaevT.drunkard.objects.Bar;
 import ru.spbau.turaevT.drunkard.objects.Column;
+import ru.spbau.turaevT.drunkard.objects.Lantern;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -28,12 +29,14 @@ public class Main {
         IGame game = new Game();
         IField field = new Field(15, 15);
         Bar bar = new Bar(field, field.getCell(9, 0), game);
+        Lantern lantern = new Lantern();
         Column column = new Column();
 
         field.registerStaticObject(column, 7, 7);
+        field.registerStaticObject(lantern, 10, 3);
         game.registerActiveObject(bar);
 
-        for (int i = 1; i < 1000000; i++) {
+        for (int i = 1; i <= 500; i++) {
             TimeUnit.MILLISECONDS.sleep(delay);
             clearScreen();
             game.makeStep();
