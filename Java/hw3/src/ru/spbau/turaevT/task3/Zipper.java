@@ -48,7 +48,7 @@ public class Zipper implements Closeable, Flushable {
      * @throws ZipException           if a ZIP format error has occurred
      * @throws IOException            if an I/O error occurs
      */
-    public void zip(File file) throws IOException {
+    public void zip(File file) throws FileNotFoundException, AccessDeniedException, DuplicateFileException, ZipException, IOException {
         if (file.exists() && !file.canRead()) {
             throw new AccessDeniedException(MessageFormat.format("Access denied to {0}", file.getAbsolutePath()));
         }
