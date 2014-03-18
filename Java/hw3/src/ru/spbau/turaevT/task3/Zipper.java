@@ -1,6 +1,7 @@
 package ru.spbau.turaevT.task3;
 
 import java.io.*;
+import java.nio.file.AccessDeniedException;
 import java.text.MessageFormat;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -29,7 +30,7 @@ public class Zipper implements Closeable, Flushable {
      * Constructs new <tt>Zipper</tt>
      *
      * @param outputFileName output zip-archive file name
-     * @throws FileNotFoundException if the file exists but is a directory rather than a regular file,
+     * @throws FileNotFoundException if the output file exists but is a directory rather than a regular file,
      *                               does not exist but cannot be created, or cannot be opened for any other reason
      */
     public Zipper(String outputFileName) throws FileNotFoundException {
@@ -40,27 +41,33 @@ public class Zipper implements Closeable, Flushable {
     /**
      * Compress given file in specified format
      *
-     * @param file file to be compressed
+     * @param file the file to be compressed
+     * @throws FileNotFoundException  if the file doesn't exist
+     * @throws AccessDeniedException  if read operation is denied by operating system
+     * @throws DuplicateFileException if the file has already been archived into the same zip-archive
+     * @throws ZipException           if a ZIP format error has occurred
+     * @throws IOException            if an I/O error occurs
      */
-    public void zip(File file) {
+    public void zip(File file) throws IOException {
+        if (file.exists() && !file.canRead()) {
+            throw new AccessDeniedException(MessageFormat.format("Access denied to {0}", file.getAbsolutePath()));
+        }
+
         try (FileInputStream inputStream = new FileInputStream(file)) {
-            zip.putNextEntry(new ZipEntry(file.getPath()));
+            try {
+                zip.putNextEntry(new ZipEntry(file.getAbsolutePath()));
+            } catch (ZipException ex) {
+                if (ex.getMessage().startsWith("duplicate entry")) {
+                    throw new DuplicateFileException(MessageFormat.format("File has already been archived: {0}", file.getAbsoluteFile()));
+                }
+                throw ex;
+            }
             outputStream.writeUTF(file.getPath());
             outputStream.writeLong(file.length());
             Utilities.copy(inputStream, outputStream);
-            System.out.println(MessageFormat.format("File successfully added to archive: {0}", file.getAbsoluteFile()));
-        } catch (FileNotFoundException e) {
-            System.err.println(MessageFormat.format("File not found: {0}", file.getAbsolutePath()));
-        } catch (ZipException e) {
-            System.err.println(MessageFormat.format("A a ZIP format error occurred: {0}", e.getMessage()));
-        } catch (IOException e) {
-            System.err.println(MessageFormat.format("An I/O exception occurred: {0}", e.getMessage()));
+            System.out.println(MessageFormat.format("File has been added to archive: {0}", file.getAbsoluteFile()));
         } finally {
-            try {
-                zip.closeEntry();
-            } catch (IOException e) {
-                System.err.println(MessageFormat.format("An I/O exception occurred: {0}", e.getMessage()));
-            }
+            zip.closeEntry();
         }
     }
 
@@ -71,7 +78,6 @@ public class Zipper implements Closeable, Flushable {
      */
     @Override
     public void close() throws IOException {
-        zip.close();
         outputStream.close();
     }
 
@@ -82,7 +88,7 @@ public class Zipper implements Closeable, Flushable {
      */
     @Override
     public void flush() throws IOException {
-        zip.flush();
         outputStream.flush();
     }
 }
+

@@ -3,8 +3,10 @@ package ru.spbau.turaevT.task3;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.zip.ZipException;
 
 /**
  * Entry point.
@@ -19,9 +21,9 @@ import java.util.Arrays;
 public class Main {
 
     /**
-     * Compress given files (or directories) into one zip-file
+     * Compresses given files (or directories) into one zip-file
      * <p/>
-     * Decompress given zip-archive and creates original folder structure
+     * Decompresses given zip-archive and creates original folder structure
      *
      * @param args command-line arguments
      */
@@ -41,14 +43,28 @@ public class Main {
     }
 
     private static void compress(String outputFileName, String[] files) {
+        DirectoryWalker directoryWalker = new DirectoryWalker();
+        for (String file : files) {
+            directoryWalker.traverse(new File(file));
+        }
+
         try (Zipper zipper = new Zipper(outputFileName)) {
-            DirectoryWalker directoryWalker = new DirectoryWalker(zipper);
-            for (String file : files) {
-                directoryWalker.zip(new File(file));
+            for (File file : directoryWalker.getFiles()) {
+                try {
+                    zipper.zip(file);
+                } catch (FileNotFoundException e) {
+                    System.err.println(MessageFormat.format("File not found: {0}", file.getAbsoluteFile()));
+                } catch (AccessDeniedException e) {
+                    System.err.println(MessageFormat.format("Access denied to {0}", file.getAbsolutePath()));
+                } catch (DuplicateFileException e) {
+                    System.err.println(e.getMessage());
+                }
             }
             zipper.flush();
         } catch (FileNotFoundException e) {
-            System.err.println(MessageFormat.format("File cannot be opened or created: {0}", outputFileName));
+            System.err.println(MessageFormat.format("Output file cannot be opened or created: {0}", outputFileName));
+        } catch (ZipException e) {
+            System.err.println(MessageFormat.format("A a ZIP format error occurred: {0}", e.getMessage()));
         } catch (IOException e) {
             System.err.println(MessageFormat.format("An I/O exception occurred while zipping: {0}", e.getMessage()));
         }

@@ -2,53 +2,56 @@ package ru.spbau.turaevT.task3;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <tt>DirectoryWalker</tt> is an object allows to zip files and directories (recursively) via <tt>zip</tt> method.
+ * <tt>DirectoryWalker</tt> is an object allows to traverse files and directories (recursively).
  * <p/>
- * <tt>DirectoryWalker</tt> uses external <tt>Zipper</tt> to compress files.
+ * <tt>DirectoryWalker</tt> stores all traversed files.
+ * It may be retrieval by the {@link #getFiles()} method.
  *
  * @author Turaev Timur
  * @version 1.0
- * @see ru.spbau.turaevT.task3.Zipper
  */
 public class DirectoryWalker {
-    private final Zipper zipper;
+    private final List<File> files;
 
     /**
      * Constructs new <tt>DirectoryWalker</tt>
-     *
-     * @param zipper <tt>Zipper</tt>-object to be used for compress files
      */
-    public DirectoryWalker(Zipper zipper) {
-        this.zipper = zipper;
+    public DirectoryWalker() {
+        files = new ArrayList<>();
     }
 
     /**
-     * Compresses given file or directory via <tt>Zipper</tt>
+     * Traverse given file or directory
      *
-     * @param file file or directory to be compressed
+     * @param file file or directory to be traversed
      */
-    public void zip(File file) {
-        if (!file.exists()) {
-            System.err.println(MessageFormat.format("File does not exist: {0}", file.getAbsolutePath()));
-            return;
-        }
-
-        if (!file.canRead()) {
-            System.err.println(MessageFormat.format("Access denied to {0}", file.getAbsolutePath()));
-            return;
-        }
-
+    public void traverse(File file) {
         if (!file.isDirectory()) {
-            zipper.zip(file);
+            files.add(file);
         } else {
-            File[] subDirs = file.listFiles();
-            if (subDirs != null) {
-                for (File subDir : subDirs) {
-                    zip(subDir);
+            if (!file.canRead()) {
+                System.err.println(MessageFormat.format("Warning: directory {0} cannot be read", file));
+                return;
+            }
+            File[] directoryContent = file.listFiles();
+            if (directoryContent != null) {
+                for (File f : directoryContent) {
+                    traverse(f);
                 }
             }
         }
+    }
+
+    /**
+     * Retrieve all saved files, that has been traversed
+     *
+     * @return saved files, that has been traversed
+     */
+    public List<File> getFiles() {
+        return files;
     }
 }
