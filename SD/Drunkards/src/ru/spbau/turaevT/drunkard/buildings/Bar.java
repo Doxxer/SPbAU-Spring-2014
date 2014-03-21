@@ -7,10 +7,10 @@ import ru.spbau.turaevT.drunkard.game.IGame;
 import ru.spbau.turaevT.drunkard.objects.IActiveObject;
 
 public class Bar implements IActiveObject {
-    private int timer;
     private final ICell cell;
     private final IField field;
     private final IGame game;
+    private int timer;
 
     public Bar(IField field, ICell cell, IGame game) {
         this.cell = cell;

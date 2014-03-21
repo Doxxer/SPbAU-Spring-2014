@@ -28,7 +28,12 @@ public abstract class NPC extends StaticObject implements INPC {
     }
 
     @Override
-    public void processColliding(Policeman policeman) {
+    public void processColliding(Policeman object) {
+        // do nothing
+    }
+
+    @Override
+    public void processColliding(Beggar object) {
         // do nothing
     }
 }

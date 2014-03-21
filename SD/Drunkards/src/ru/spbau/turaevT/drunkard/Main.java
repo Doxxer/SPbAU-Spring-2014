@@ -2,6 +2,7 @@ package ru.spbau.turaevT.drunkard;
 
 import ru.spbau.turaevT.drunkard.algorithm.BFSPathFindingAlgorithm;
 import ru.spbau.turaevT.drunkard.buildings.Bar;
+import ru.spbau.turaevT.drunkard.buildings.BeggarHouse;
 import ru.spbau.turaevT.drunkard.buildings.PoliceStation;
 import ru.spbau.turaevT.drunkard.field.Field;
 import ru.spbau.turaevT.drunkard.field.FieldConsolePrinter;
@@ -35,21 +36,15 @@ public class Main {
         Lantern lantern = new Lantern();
         Column column = new Column();
         PoliceStation policeStation = new PoliceStation(field, field.getCell(14, 3), game, lantern, new BFSPathFindingAlgorithm(field));
+        BeggarHouse beggarHouse = new BeggarHouse(field, field.getCell(0, 4), game, new BFSPathFindingAlgorithm(field));
 
         field.registerStaticObject(column, 7, 7);
         field.registerStaticObject(lantern, 10, 3);
         game.registerActiveObject(bar);
         game.registerActiveObject(policeStation);
+        game.registerActiveObject(beggarHouse);
 
-//        Drunkard d = new Drunkard();
-//        d.setState(Drunkard.DrunkardState.SLEEPING);
-//        field.registerStaticObject(d, 9, 3);
-//
-//        Drunkard d1 = new Drunkard();
-//        d1.setState(Drunkard.DrunkardState.SLEEPING);
-//        field.registerStaticObject(d1, 4, 8);
-
-        for (int i = 1; i <= 5000; i++) {
+        for (int i = 1; i <= 500; i++) {
             TimeUnit.MILLISECONDS.sleep(delay);
             clearScreen();
             game.makeStep();

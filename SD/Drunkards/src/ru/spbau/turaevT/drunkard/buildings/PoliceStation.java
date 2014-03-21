@@ -13,7 +13,7 @@ public class PoliceStation implements IActiveObject {
     private final ICell cell;
     private final IGame game;
     private final Lantern lantern;
-    private Policeman policeman;
+    private final Policeman policeman;
 
     public PoliceStation(IField field, ICell cell, IGame game, Lantern lantern, IPathFinder pathFinder) {
         this.cell = cell;
@@ -32,7 +32,8 @@ public class PoliceStation implements IActiveObject {
         game.unregisterActiveObject(policeman);
     }
 
-    private void release_THE_KRAKEN(ICell target) {
+    // RELEASE THE KRAKEN
+    private void releasePoliceman(ICell target) {
         policeman.setCell(cell);
         policeman.setTarget(target);
         game.registerActiveObject(policeman);
@@ -53,7 +54,7 @@ public class PoliceStation implements IActiveObject {
                 Drunkard drunkard = (Drunkard) cell.getFieldObject();
                 if (drunkard.getState() == Drunkard.DrunkardState.LYING
                         || drunkard.getState() == Drunkard.DrunkardState.SLEEPING) {
-                    release_THE_KRAKEN(drunkard.getCell());
+                    releasePoliceman(drunkard.getCell());
                     break;
                 }
             }

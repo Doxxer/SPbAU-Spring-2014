@@ -1,6 +1,5 @@
 package ru.spbau.turaevT.drunkard.field;
 
-public interface IFieldPrinter
-{
+public interface IFieldPrinter {
     void display(IField field);
 }

@@ -16,9 +16,9 @@ public interface ICell {
 
     boolean isEmpty();
 
-    void setFieldObject(IStaticObject fieldObject);
-
     IStaticObject getFieldObject();
+
+    void setFieldObject(IStaticObject fieldObject);
 
     int getyCoordinate();
 
