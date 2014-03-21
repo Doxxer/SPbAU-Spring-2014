@@ -9,8 +9,9 @@ import java.util.List;
  * Simple implementation if <tt>IGame</tt> interface<p>
  */
 public class Game implements IGame {
-    private final List<IActiveObject> activeObjects = new ArrayList<IActiveObject>();
-    private final List<IActiveObject> addedObjects = new ArrayList<IActiveObject>();
+    private final List<IActiveObject> activeObjects = new ArrayList<>();
+    private final List<IActiveObject> addedObjects = new ArrayList<>();
+    private final List<IActiveObject> removedObjects = new ArrayList<>();
 
     /**
      * {@inheritDoc}
@@ -18,11 +19,11 @@ public class Game implements IGame {
     @Override
     public void makeStep() {
         activeObjects.addAll(addedObjects);
+        activeObjects.removeAll(removedObjects);
         addedObjects.clear();
+        removedObjects.clear();
 
-        for (IActiveObject activeObject : this.activeObjects) {
-            activeObject.doAction();
-        }
+        activeObjects.forEach(IActiveObject::doAction);
     }
 
     /**
@@ -31,5 +32,13 @@ public class Game implements IGame {
     @Override
     public void registerActiveObject(IActiveObject object) {
         addedObjects.add(object);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void unregisterActiveObject(IActiveObject object) {
+        removedObjects.add(object);
     }
 }

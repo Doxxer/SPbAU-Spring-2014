@@ -10,7 +10,7 @@ public class Column extends StaticObject {
     }
 
     @Override
-    public void detectCollision(INPC object) {
-        object.processColliding(this);
+    public void detectCollision(INPC npc) {
+        npc.processColliding(this);
     }
 }

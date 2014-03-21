@@ -13,4 +13,6 @@ public interface INPC extends IActiveObject, IStaticObject {
     void processColliding(Bottle object);
 
     void processColliding(Lantern object);
+
+    void processColliding(Policeman policeman);
 }

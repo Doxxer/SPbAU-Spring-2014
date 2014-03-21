@@ -23,4 +23,12 @@ public interface IGame {
      * @see ru.spbau.turaevT.drunkard.objects.IActiveObject
      */
     void registerActiveObject(IActiveObject object);
+
+    /**
+     * Unregisters an Active object from the game
+     *
+     * @param object Active object
+     * @see ru.spbau.turaevT.drunkard.objects.IActiveObject
+     */
+    void unregisterActiveObject(IActiveObject object);
 }

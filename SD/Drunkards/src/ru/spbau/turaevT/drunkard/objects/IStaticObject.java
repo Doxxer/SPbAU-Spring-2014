@@ -22,5 +22,5 @@ public interface IStaticObject {
 
     void setCell(ICell cell);
 
-    void detectCollision(INPC object);
+    void detectCollision(INPC npc);
 }

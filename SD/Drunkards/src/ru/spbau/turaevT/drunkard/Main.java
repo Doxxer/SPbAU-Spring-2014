@@ -1,6 +1,8 @@
 package ru.spbau.turaevT.drunkard;
 
+import ru.spbau.turaevT.drunkard.algorithm.BFSPathFindingAlgorithm;
 import ru.spbau.turaevT.drunkard.buildings.Bar;
+import ru.spbau.turaevT.drunkard.buildings.PoliceStation;
 import ru.spbau.turaevT.drunkard.field.Field;
 import ru.spbau.turaevT.drunkard.field.FieldConsolePrinter;
 import ru.spbau.turaevT.drunkard.field.IField;
@@ -16,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Entry point.
- *
+ * <p>
  * First command line argument (if exists) is delay between steps in milliseconds
  * If it doesn't exist delay is 500 ms by default
  */
@@ -29,14 +31,25 @@ public class Main {
         IGame game = new Game();
         IField field = new Field(15, 15);
         Bar bar = new Bar(field, field.getCell(9, 0), game);
+
         Lantern lantern = new Lantern();
         Column column = new Column();
+        PoliceStation policeStation = new PoliceStation(field, field.getCell(14, 3), game, lantern, new BFSPathFindingAlgorithm(field));
 
         field.registerStaticObject(column, 7, 7);
         field.registerStaticObject(lantern, 10, 3);
         game.registerActiveObject(bar);
+        game.registerActiveObject(policeStation);
 
-        for (int i = 1; i <= 500; i++) {
+//        Drunkard d = new Drunkard();
+//        d.setState(Drunkard.DrunkardState.SLEEPING);
+//        field.registerStaticObject(d, 9, 3);
+//
+//        Drunkard d1 = new Drunkard();
+//        d1.setState(Drunkard.DrunkardState.SLEEPING);
+//        field.registerStaticObject(d1, 4, 8);
+
+        for (int i = 1; i <= 5000; i++) {
             TimeUnit.MILLISECONDS.sleep(delay);
             clearScreen();
             game.makeStep();

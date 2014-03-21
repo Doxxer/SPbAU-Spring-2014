@@ -8,12 +8,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Drunkard extends NPC {
-    private enum DrunkardState {
-        WALKING,
-        SLEEPING,
-        LYING
-    }
-
     private static final Random random = new Random();
     private DrunkardState state = DrunkardState.WALKING;
     private Bottle bottle = new Bottle();
@@ -23,11 +17,17 @@ public class Drunkard extends NPC {
         if (this.state != DrunkardState.WALKING)
             return;
 
+        if (getCell() == null)
+            return;
+
         List<ICell> nearCells = getField().getNearCells(getCell());
+
+        if (nearCells.isEmpty())
+            return;
+
         ICell nextCell = nearCells.get(random.nextInt(nearCells.size()));
 
         if (nextCell.isEmpty()) {
-
             ICell old = getCell();
             this.setCell(null);
 
@@ -55,8 +55,8 @@ public class Drunkard extends NPC {
     }
 
     @Override
-    public void detectCollision(INPC object) {
-        object.processColliding(this);
+    public void detectCollision(INPC npc) {
+        npc.processColliding(this);
     }
 
     @Override
@@ -79,7 +79,13 @@ public class Drunkard extends NPC {
         return state;
     }
 
-    private void setState(DrunkardState state) {
+    public void setState(DrunkardState state) {
         this.state = state;
+    }
+
+    public enum DrunkardState {
+        WALKING,
+        SLEEPING,
+        LYING
     }
 }

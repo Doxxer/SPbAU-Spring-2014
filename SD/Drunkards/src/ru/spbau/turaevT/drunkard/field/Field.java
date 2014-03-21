@@ -46,9 +46,23 @@ public class Field implements IField {
         cells[x][y].setFieldObject(object);
     }
 
+    /**
+     * Return distance between tow given cells
+     *
+     * @param cell1 first cell
+     * @param cell2 second cell
+     * @return distance between 2 cells
+     */
+    @Override
+    public int getDistanceBetweenCells(ICell cell1, ICell cell2) {
+        return Math.abs(cell1.getxCoordinate() - cell2.getxCoordinate())
+                + Math.abs(cell1.getyCoordinate() - cell2.getyCoordinate());
+
+    }
+
     @Override
     public List<ICell> getNearCells(ICell cell) {
-        ArrayList<ICell> nearCells = new ArrayList<ICell>();
+        ArrayList<ICell> nearCells = new ArrayList<>();
 
         int x = cell.getxCoordinate();
         int y = cell.getyCoordinate();
@@ -65,10 +79,12 @@ public class Field implements IField {
         if (isValidCoordinates(x, y + 1)) {
             nearCells.add(getCell(x, y + 1));
         }
+
         return nearCells;
     }
 
-    private boolean isValidCoordinates(int x, int y) {
+    @Override
+    public boolean isValidCoordinates(int x, int y) {
         return 0 <= x && x < getWidth() && 0 <= y && y < getHeight();
     }
 }
