@@ -1,0 +1,155 @@
+\documentclass[russian]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=1cm,rmargin=1cm}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{babel}
+\usepackage{mathtools}
+\usepackage[T2A]{fontenc}
+\makeatletter
+\@ifundefined{date}{}{\date{}}
+\begin{document}
+
+\title{Алгоритмы. HW\#6}
+\author{Тураев Тимур, 504 (SE)}
+\maketitle
+
+\paragraph*{1.a}
+
+\textit{Зафиксируем хэш-значение $x$. Доказать, что вероятность, что $k$ ключей будут иметь хэш $x$ составляет
+\[
+Q_k = {n \choose k} \cdot \left(\frac{1}n\right)^{k} \cdot \left(1 - \frac{1}n\right)^{n-k}
+\]
+}
+
+
+Это очевидно следует из формулы вероятности для биномиального распределения: есть серия из $n$ независимых испытаний, нужно найти вероятность того, что будет ровно $k$ успехов (то есть хеш ключа равен точно $x$), вероятность успеха: $1/n$.
+
+\paragraph*{1.b}
+
+\textit{Пусть $P_k$ – вероятность максимальной цепочки иметь длину $k$.  Доказать, что $P_k \leqslant n \cdot Q_k$.}
+
+Пусть $X_i$ -- длина цепочки в ячейке $i$. Тогда $Pr(X_i = k) = Q_k$ для любого $i$ (из пункта a).
+
+\begin{eqnarray*}
+P_k = Pr\left(\left(\max_{1 \leqslant i \leqslant n-1} X_i\right) = k\right) & = \\
+Pr(\exists i, s.t. X_i = k \; and \; \forall i X_i \leqslant k) & \leqslant \\
+Pr(\exists i, s.t. X_i = k) & = \\
+Pr(\bigcup_{1 \leqslant i \leqslant n} (X_i = k)) & = \\
+\sum_{1 \leqslant i \leqslant n}{Pr(X_i = k)} & = n \cdot Q_k
+\end{eqnarray*}
+
+\paragraph*{1.с}
+
+\textit{Вывести из Стирлинга, что
+\[
+Q_k < \left(\frac{e}{k}\right)^{k}
+\]
+}
+
+\begin{enumerate}
+\item[1.] Воспользуемся формулой Стирлинга чтобы оценить снизу факториал:
+\[
+n! = \sqrt{2 \pi n} \left( \frac{n}{e} \right)^n \left( 1 + O \left( \frac{1}{n} \right) \right)
+\]
+\[
+n! \geqslant \sqrt{2 \pi n} \left( \frac{n}{e} \right)^n
+\]
+\[
+n! \geqslant \left( \frac{n}{e} \right)^n
+\]
+
+\item[2.] Теперь оценим биноминальный коэффициент:
+\[
+{n \choose k} = \frac{n(n-1)(n-2)\ldots(n-k+1)}{k!} \leqslant \frac{n^k}{k!}
+\]
+Применим выведенную оценку для факториала из п.1:
+\[
+{n \choose k} \leqslant \frac{n^k}{k!} \leqslant \frac{n^k \cdot e^k}{k^k}
+\]
+
+\item[3.] Применим полученные оценки для выявления верхней границы $Q_k$
+\[
+Q_k = {n \choose k} \cdot \left(\frac{1}n\right)^{k} \cdot \left(1 - \frac{1}n\right)^{n-k} \leqslant
+{n \choose k} \cdot \frac{1}{n^k} \cdot 1\leqslant
+\frac{n^k \cdot e^k}{k^k} \cdot \frac{1}{n^k} = \frac{e^k}{k^k}
+\]
+
+\end{enumerate}
+
+\paragraph*{1.d}
+
+\textit{Показать, что для некоторого $c>1$ верно $Q_k \leqslant 1/n^3$ при $k \geqslant c \cdot \frac{\log n}{\log \log n}$}
+
+С учетом пункта c осталось показать, что
+
+\[
+\left(\frac{e}{k}\right)^{k} \leqslant 1/n^3
+\]
+для некоторого $k \geqslant c \cdot \frac{\log n}{\log \log n} = k_0$
+
+Возьмем логарифм обеих частей:
+
+\begin{align*}
+k_0 \cdot \log\left(\frac{e}{k_0}\right) &\leqslant -3 \cdot \log n \\
+k_0 \cdot (\log e - \log k_0) &\leqslant -3 \cdot \log n \\
+c \cdot \frac{\log n}{\log \log n} \cdot (\log e - \log \frac{c \cdot \log n}{\log \log n}) &\leqslant -3 \cdot \log n \\
+\frac{c}{\log \log n} \cdot (\log e - \log c - \log \log n + \log \log \log n) &\leqslant -3
+\end{align*}
+
+Оценим $\log e - \log c$ сверху нулем, это верно для $c > e$
+
+\begin{align*}
+\frac{c}{\log \log n} \cdot (- \log \log n + \log \log \log n) &\leqslant -3 \\
+\frac{c}{\log \log n} \cdot (\log \log n - \log \log \log n) &\geqslant 3 \\
+c &\geqslant \dfrac{3 \cdot \log \log n}{\log \log n - \log \log \log n} \\
+c &\geqslant \dfrac{3}{1 - \frac{ \log \log \log n}{\log \log n}}
+\end{align*}
+
+Правая штука имеет глобальный максимум в точке $e^{e^e}$ равный $\frac{3e}{e-1} \approx 4.7$. Поэтому можно указать такое $c \geqslant 5$ для которого доказываемая оценка верна.
+
+\paragraph*{1.e} 
+
+\textit{Доказать оценку на матожидание максимальной длины цепочки}
+
+По определению матожидания имеем
+\begin{align*}
+EM = \sum_{k=1}^{n}{k \cdot Pr(M = k)} &= \\
+\sum_{k=1}^{k_0}{k \cdot Pr(M = k)} + \sum_{k=k_0 + 1}^{n}{k \cdot Pr(M = k)} &\leqslant \\
+\sum_{k=1}^{k_0}{k_0 \cdot Pr(M = k)} + \sum_{k=k_0 + 1}^{n}{n \cdot Pr(M = k)} & = \\
+k_0 \cdot Pr(M \leqslant k) + n \cdot Pr(M > k_0) & = \\
+Pr\left[M > c \cdot \frac{\log n}{\log \log n}\right] \cdot n + Pr\left[M \leqslant c \cdot \frac{\log n}{\log \log n}\right] \cdot c \cdot \frac{\log n}{\log \log n}
+\end{align*}
+
+Теперь можно вывести оценку:
+
+\begin{align*}
+EM \leqslant k_0 \cdot Pr(M \leqslant k) + n \cdot Pr(M > k_0) & = \\
+k_0 \cdot 1 + n \cdot \sum_{k=k_0 + 1}^{n}{Pr(M = k)} & \leqslant \\
+k_0 + n \cdot \sum_{k=k_0 + 1}^{n}{P_k}&
+\end{align*}
+
+Но оценку на $P_k$ мы знаем из второго пункта. Поэтому имеем
+
+\begin{align*}
+EM \leqslant k_0 + n \cdot \sum_{k=k_0 + 1}^{n}{P_k} & \leqslant \\
+k_0 + n \cdot \sum_{k=k_0 + 1}^{n}{n \cdot Q_k} & = \\
+k_0 + n^2 \cdot \sum_{k=k_0 + 1}^{n}{Q_k}&
+\end{align*}
+
+А оценку на $Q_k$ берем из четвертого пункта:
+
+\begin{align*}
+EM \leqslant k_0 + n^2 \cdot \sum_{k=k_0 + 1}^{n}{Q_k} & \leqslant \\
+k_0 + n^2 \cdot \sum_{k=k_0 + 1}^{n}{1/n^3} & \leqslant \\
+k_0 + n^2 \cdot n \cdot 1/n^3 & = k_0 + 1= c \cdot \frac{\log n}{\log \log n} + 1 = 
+O\left(\frac{\log n}{\log \log n}\right)
+\end{align*}
+
+
+\end{document}
