@@ -16,5 +16,5 @@ if __name__ == "__main__":
     f2_2 = lambda x: 1 / (x * x) * math.sin(1 / x) * math.exp(-1 / (x * x))
 
     print("task1 at [0..1] = ", integral(f1, 0, 1))
-    print("task2 at [0..1] = ", integral(f2_1, 0, 1) + integral(f2_2, 0, 1))
+    print("task2 at [0..infinity] = ", integral(f2_1, 0, 1) + integral(f2_2, 0, 1))
     print("task3 at [0..1] = ", integral(f3, 0, 1))
