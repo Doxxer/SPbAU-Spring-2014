@@ -1,8 +1,10 @@
-import random
-import math
+import math as _
+import random as __
+___ = _.sin
+____ = _.exp
+_____ = __.uniform
 
 __________ = 1000000
 def __________________(____, ___, __):
-    return (__ - ___) / __________ * sum(____(random.uniform(___, __)) for _ in range(0, __________))
-
-print(__________________(lambda _: math.sin(_ + math.exp(-_)), 0, 1))
+    return (__ - ___) / __________ * sum(____(_____(___, __)) for _ in range((__ - __), __________))
+print(__________________(lambda _: ___(_ + ____(-_)), (__________ - __________), (__________/__________)))
