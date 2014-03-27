@@ -2,7 +2,7 @@ module HW06 where
 -- 1. Повторите каждый элемент списка заданное число раз.
 
 rep :: Int -> [a] -> [a]
-rep k l = concat $ map (replicate k) l
+rep = concatMap . replicate
 
 -- 2. Удалите каждый n-ый элемент списка.
 removeEvery :: Int -> [a] -> [a]
@@ -16,8 +16,10 @@ part n k a = take (k-n) $ drop n a
 -- 4. Задайте циклическую ротацию списка влево.
 rotate :: Int -> [a] -> [a]
 rotate k l
-    | k < 0 = take (length l) $ drop (mod k (length l)) $ cycle l
-    | otherwise = drop k l ++ take k l
+    | k < 0 = take (length l) $ drop newK $ cycle l
+    | otherwise = drop newK l ++ take newK l
+    where newK = mod k (length l)
+    
     
 -- 5. Удалите k-ый элемент из списка, вернув его и список.
 remove :: Int -> [a] -> (a, [a])
@@ -34,11 +36,22 @@ comb k (x:xs) = map (x:) (comb (k-1) xs) ++ comb k xs
 data Tree a = Empty | Branch (Tree a) a (Tree a) deriving (Show, Eq)
 
 --7. Напишите функцию, возвращающую список всех полностью сбалансированных деревьев типа Tree () с n узлами.
-generateBalacedTrees :: Int -> [Tree ()]
-generateBalacedTrees 0 = [Empty]
-generateBalacedTrees n = [Branch l () r | i <- [q .. q + r], l  <- generateBalacedTrees i, r <- generateBalacedTrees (n - i - 1)]
+generateBalancedTrees :: Int -> [Tree ()]
+generateBalancedTrees 0 = [Empty]
+generateBalancedTrees n = [Branch l () r | i <- [q .. q + r], l  <- generateBalancedTrees i, r <- generateBalancedTrees (n - i - 1)]
                             where (q, r) = divMod (n - 1) 2
-                            
+
+
+generateBalancedTrees2 :: Int -> [Tree ()]
+generateBalancedTrees2 0 = [Empty]
+generateBalancedTrees2 n
+    | mod n 2 == 1 = [Branch l () r | l  <- t1, r <- t1]
+    | otherwise = concat $ [[Branch l () r, Branch r () l] | l  <- t1, r <- t2]
+    where
+        t1 = generateBalancedTrees2 $ div (n-1) 2
+        t2 = generateBalancedTrees2 $ div n 2
+
+                                
 -- 8. Напишите функцию, проверяющую, является ли дерево струк- турно симметричным относительно корня (значения в узлах не важны).
 isSymmetric :: (Tree a) -> Bool
 isSymmetric Empty = True
