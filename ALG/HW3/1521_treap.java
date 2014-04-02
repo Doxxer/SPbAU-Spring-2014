@@ -2,51 +2,38 @@ import java.io.*;
 import java.util.Random;
 
 class Node {
-    private static Random random = new Random();
-
-    int prior;
-    int data = 0;
-    Node left, right;
-    private int size = 1;
+    private static final Random random = new Random();
+    private final int priority;
+    private final int data;
+    public Node left, right;
+    private int size;
 
     Node(int data) {
         this.data = data;
-        this.prior = random.nextInt();
-    }
-
-    private static void print(StringBuffer sb, Node node) {
-        if (node == null) {
-            return;
-        }
-        print(sb, node.left);
-        sb.append(String.format("[%d; size = %d]", node.data, getSize(node)));
-        sb.append(",");
-        print(sb, node.right);
+        size = 1;
+        priority = random.nextInt();
     }
 
     public static int getSize(Node n) {
         return n == null ? 0 : n.size;
     }
 
-    public void update() {
+    public void updateSize() {
         this.size = getSize(left) + getSize(right) + 1;
     }
 
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append('{');
-        print(sb, this);
-        if (sb.length() > 1) {
-            sb.deleteCharAt(sb.length() - 1);
-        }
-        sb.append('}');
-        return sb.toString();
+    public int getData() {
+        return data;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 }
 
 class Pair<A, B> {
-    public A first;
-    public B second;
+    public final A first;
+    public final B second;
 
     Pair(A first, B second) {
         this.first = first;
@@ -55,73 +42,69 @@ class Pair<A, B> {
 }
 
 class Treap {
-    Node root = null;
+    private Node root = null;
 
-    Treap() {
-    }
-
-    public static Node merge(Node left, Node right) {
+    private static Node merge(Node left, Node right) {
         if (right == null) return left;
         if (left == null) return right;
 
-        if (left.prior < right.prior) {
+        if (left.getPriority() < right.getPriority()) {
             right.left = merge(left, right.left);
-            right.update();
+            right.updateSize();
             return right;
         } else {
             left.right = merge(left.right, right);
-            left.update();
+            left.updateSize();
             return left;
         }
     }
 
-    Pair<Node, Node> split(Node node, Integer key) {
+    private static Pair<Node, Node> split(Node node, int splitPosition) {
         if (node == null) {
-            return new Pair<Node, Node>(null, null);
+            return new Pair<>(null, null);
         }
 
-        int curIndex = Node.getSize(node.left) + 1;
-        Pair<Node, Node> res;
-        if (curIndex <= key) {
-            Pair<Node, Node> pair = split(node.right, key - curIndex);
+        int currentPosition = Node.getSize(node.left) + 1;
+        Pair<Node, Node> result;
+        if (currentPosition <= splitPosition) {
+            Pair<Node, Node> splittedNodes = split(node.right, splitPosition - currentPosition);
             node.right = null;
-            res = new Pair<Node, Node>(merge(node, pair.first), pair.second);
+            result = new Pair<>(merge(node, splittedNodes.first), splittedNodes.second);
         } else {
-            Pair<Node, Node> pair = split(node.left, key);
+            Pair<Node, Node> pair = split(node.left, splitPosition);
             node.left = null;
-            res = new Pair<Node, Node>(pair.first, merge(pair.second, node));
-
+            result = new Pair<>(pair.first, merge(pair.second, node));
         }
-        if (res.first != null) {
-            res.first.update();
+        if (result.first != null) {
+            result.first.updateSize();
         }
-        if (res.second != null) {
-            res.second.update();
+        if (result.second != null) {
+            result.second.updateSize();
         }
-        return res;
+        return result;
     }
 
-    public void add(int pos, int data) {
-        Pair<Node, Node> pair = split(pos);
-        root = merge(merge(pair.first, new Node(data)), pair.second);
+    public void add(int position, int data) {
+        Pair<Node, Node> splittedNodes = split(position);
+        root = merge(merge(splittedNodes.first, new Node(data)), splittedNodes.second);
     }
 
-    public String toString() {
-        return root.toString();
+    public Pair<Integer, Integer> remove(int position) {
+        Pair<Node, Node> leftSplit = split(position - 1);
+        int sizeofLeftBranch = Node.getSize(leftSplit.first);
+
+        Pair<Node, Node> rightSplit = split(leftSplit.second, 1);
+        int result = rightSplit.first.getData();
+
+        root = merge(leftSplit.first, rightSplit.second);
+        return new Pair<>(result, sizeofLeftBranch);
     }
 
-    public Pair<Node, Node> split(int key) {
-        return split(root, key);
+    private Pair<Node, Node> split(int position) {
+        return split(root, position);
     }
 
-    public Pair<Integer, Integer> remove(int x) {
-        Pair<Node, Node> split = split(x - 1);
-        int a = Node.getSize(split.first);
-        Pair<Node, Node> split1 = split(split.second, 1);
-        int res = split1.first.data;
-        root = merge(split.first, split1.second);
-        return new Pair<Integer, Integer>(res, a);
-    }
+
 }
 
 public class Main {
@@ -131,33 +114,31 @@ public class Main {
     public static void main(String[] args) throws IOException {
         init();
 
-        int n = nextInt(), k = nextInt();
-        Treap t = new Treap();
-        for (int i = 0; i < n; i++) {
-            t.add(i, i + 1);
+        int soldiersNumber = nextInt(), dropoutNumber = nextInt();
+        Treap treap = new Treap();
+        for (int i = 0; i < soldiersNumber; i++) {
+            treap.add(i, i + 1);
         }
 
-        int num = k;
-        for (int i = 0; i < n; i++) {
-            Pair<Integer, Integer> pair = t.remove(num);
+        int nextDropOut = dropoutNumber;
+        for (int i = 0; i < soldiersNumber; i++) {
+            Pair<Integer, Integer> pair = treap.remove(nextDropOut);
             out.print(pair.first);
             out.print(' ');
-            int a = pair.second;
 
-            if (i == n - 1) break;
-            num = (k + a) % (n - i - 1);
-            if (num == 0) {
-                num = n - i - 1;
+            if (i == soldiersNumber - 1) break;
+            nextDropOut = (dropoutNumber + pair.second) % (soldiersNumber - i - 1);
+            if (nextDropOut == 0) {
+                nextDropOut = soldiersNumber - i - 1;
             }
         }
-
         out.flush();
     }
 
     private static void init() throws IOException {
-        boolean oj = System.getProperty("ONLINE_JUDGE") != null;
-        Reader reader = oj ? new InputStreamReader(System.in) : new FileReader("input.txt");
-        Writer writer = oj ? new OutputStreamWriter(System.out) : new FileWriter("output.txt");
+        boolean online_judge = System.getProperty("ONLINE_JUDGE") != null;
+        Reader reader = online_judge ? new InputStreamReader(System.in) : new FileReader("input.txt");
+        Writer writer = online_judge ? new OutputStreamWriter(System.out) : new FileWriter("output.txt");
         in = new StreamTokenizer(new BufferedReader(reader));
         out = new PrintWriter(writer);
     }
