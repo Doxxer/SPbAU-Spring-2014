@@ -56,7 +56,6 @@ public class BeggarHouse implements IActiveObject {
         game.unregisterActiveObject(beggar);
     }
 
-    // RELEASE THE KRAKEN!!!
     private void releaseBeggar() {
         beggar.setCell(cell);
         beggar.setTarget(null);

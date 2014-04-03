@@ -32,7 +32,6 @@ public class PoliceStation implements IActiveObject {
         game.unregisterActiveObject(policeman);
     }
 
-    // RELEASE THE KRAKEN
     private void releasePoliceman(ICell target) {
         policeman.setCell(cell);
         policeman.setTarget(target);

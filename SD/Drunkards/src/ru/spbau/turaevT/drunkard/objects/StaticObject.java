@@ -7,7 +7,7 @@ public abstract class StaticObject implements IStaticObject {
     private ICell cell;
     private IField field;
 
-    public IField getField() {
+    protected IField getField() {
         return this.field;
     }
 
