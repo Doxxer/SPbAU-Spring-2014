@@ -1,5 +1,6 @@
-#include <iostream>
 #include <stdexcept>
+#include <string>
+#include <iostream>
 #include "Game.hpp"
 
 using std::string;

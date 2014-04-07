@@ -19,6 +19,7 @@ public:
     Game()
     {
         disks.assign(COLUMNS, 0);
+        calculateMasks();
     }
 
     bool canMoveTo(int pos)
@@ -35,7 +36,7 @@ public:
                 moveTo(move, me);
 
                 int test = runNegamax(me, depth);
-                
+
                 if (test >= bestResult) {
                     bestResult = test;
                     bestMove = move;
@@ -50,19 +51,34 @@ public:
 
     void print(ostream &out);
 
+    void calculateMasks();
+
+    vector<uint64_t> masks;
+
 private:
     vector<int> disks;
-    int64_t boards[2] = { 0, 0 };
+
+    uint64_t boards[2] = { 0, 0 };
 
     int runNegamax(Player player, int depth, int alpha = INT_MIN, int beta = INT_MAX);
-
-    void unMoveFrom(int column, Player player);
 
     int getHeuristicEvaluation(Player player);
 
     bool isWinner(Player player);
 
-    static int getDisksNumberInSegment(int64_t board, int64_t mask);
+    static int getDisksNumberInSegment(uint64_t board, uint64_t mask);
+
+    void unMoveFrom(int column, Player player);
+
+    void generateColumnMasks();
+
+    void generateRowMasks();
+
+    void generateLURDdiag();
+
+    void processDiagonals(vector<vector<int> > const &board);
+
+    void generateLDRUdiag();
 };
 
 #endif //__board_H_

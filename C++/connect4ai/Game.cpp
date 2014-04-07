@@ -2,7 +2,7 @@
 
 void Game::moveTo(int column, Player player)
 {
-    int64_t pos = ((int64_t)1 << (disks[column] + column * ROWS));
+    uint64_t pos = ((uint64_t)1 << (disks[column] + column * ROWS));
     boards[player] ^= pos;
     disks[column]++;
 }
@@ -10,7 +10,7 @@ void Game::moveTo(int column, Player player)
 void Game::unMoveFrom(int column, Player player)
 {
     disks[column]--;
-    int64_t pos = ((int64_t)1 << (disks[column] + column * ROWS));
+    uint64_t pos = ((uint64_t)1 << (disks[column] + column * ROWS));
     boards[player] ^= pos;
 }
 
@@ -51,41 +51,43 @@ int Game::runNegamax(Player player, int depth, int alpha, int beta)
 
 int Game::getHeuristicEvaluation(Player player)
 {
+    Player rival = getRival(player);
+
     if (isWinner(player))
         return INT_MAX;
-    if (isWinner(getRival(player)))
+    if (isWinner(rival))
         return INT_MIN;
 
     int weights[] = { 0, 0, 4, 64, 0 }; // 0 1 2 3 4
     int myScore[] = { 0, 0, 0, 0, 0 };
-    int foeScore[] = { 0, 0, 0, 0, 0 };
+    int rivalScore[] = { 0, 0, 0, 0, 0 };
 
-    for (auto mask : masks4cells) {
+    for (auto mask : masks) {
         int myDisks = getDisksNumberInSegment(boards[player], mask);
-        int foeDisks = getDisksNumberInSegment(boards[player ^ 1], mask);
+        int rivalDisks = getDisksNumberInSegment(boards[rival], mask);
 
-        if (myDisks + foeDisks == 4)
+        if (myDisks + rivalDisks == 4)
             continue;
 
-        if (foeDisks == 0) {
+        if (rivalDisks == 0) {
             myScore[myDisks] += 1;
         } else if (myDisks == 0) {
-            foeScore[foeDisks] += 1;
+            rivalScore[rivalDisks] += 1;
         }
     }
 
     int mySum = 0;
-    int foeSum = 0;
+    int rivalSum = 0;
     for (int i = 0; i < 5; ++i) {
         mySum += myScore[i] * weights[i];
-        foeSum += foeScore[i] * weights[i];
+        rivalSum += rivalScore[i] * weights[i];
     }
-    return mySum - foeSum;
+    return mySum - rivalSum;
 }
 
 bool Game::isWinner(Player player)
 {
-    for (auto mask : masks4cells) {
+    for (auto mask : masks) {
         if (getDisksNumberInSegment(boards[player], mask) == 4)
             return true;
     }
@@ -114,14 +116,123 @@ void Game::print(ostream &out)
     out << std::endl;
 }
 
-int Game::getDisksNumberInSegment(int64_t board, int64_t mask)
+int Game::getDisksNumberInSegment(uint64_t board, uint64_t mask)
 {
     int res = 0;
     while (mask) {
-        // some bitwise magic
-        int64_t ffs = mask & ((~mask) + 1); // find first set
+        uint64_t ffs = mask & ((~mask) + 1); // find first set
         res += ((board & ffs) != 0);
         mask ^= ffs;
     }
     return res;
+}
+
+static uint64_t generateMask(vector<int>::const_iterator it, size_t len = 4)
+{
+    uint64_t res = 0;
+    while (len--) {
+        res += 1ULL << *it++;
+    }
+    return res;
+}
+
+void Game::calculateMasks()
+{
+    masks.reserve(69);
+
+    generateColumnMasks();
+    generateRowMasks();
+    generateLURDdiag();
+    generateLDRUdiag();
+}
+
+void Game::generateColumnMasks()
+{
+    vector<vector<int> > board(COLUMNS, vector<int>(ROWS, 0));
+
+    for (int i = 0; i < COLUMNS; ++i) {
+        for (int j = 0; j < ROWS; ++j) {
+            board[i][j] = j + i * ROWS;
+        }
+    }
+
+    for (int col = 0; col < COLUMNS; ++col) {
+        for (int j = 0; j < ROWS - 3; ++j) {
+            masks.push_back(generateMask(board[col].begin() + j));
+        }
+    }
+}
+
+void Game::generateRowMasks()
+{
+    vector<vector<int> > board(ROWS, vector<int>(COLUMNS, 0));
+
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLUMNS; ++j) {
+            board[i][j] = i + j * ROWS;
+        }
+    }
+
+    for (int row = 0; row < ROWS; ++row) {
+        for (int j = 0; j < COLUMNS - 3; ++j) {
+            masks.push_back(generateMask(board[row].begin() + j));
+        }
+    }
+}
+
+void Game::generateLURDdiag()
+{
+    vector<vector<int> > board(COLUMNS, vector<int>(ROWS, 0));
+
+    for (int i = 0; i < COLUMNS; ++i) {
+        for (int j = 0; j < ROWS; ++j) {
+            board[i][j] = j + i * ROWS;
+        }
+    }
+
+    processDiagonals(board);
+}
+
+void Game::processDiagonals(vector<vector<int> > const &board)
+{
+    vector<int> diag;
+    for (int row = 0; row < ROWS - 3; ++row) {
+        int x = 0, y = row;
+        diag.clear();
+        while (x < COLUMNS && y < ROWS) {
+            diag.push_back(board[x][y]);
+            //            std::cout << board[x][y] << " ";
+            x++;
+            y++;
+        }
+        //        std::cout << std::endl;
+        for (size_t i = 0; i < diag.size() - 3; ++i)
+            masks.push_back(generateMask(diag.begin() + i));
+    }
+    for (int col = 1; col < COLUMNS - 3; ++col) {
+        int x = col, y = 0;
+        diag.clear();
+        while (x < COLUMNS && y < ROWS) {
+            diag.push_back(board[x][y]);
+            //            std::cout << board[x][y] << " ";
+            x++;
+            y++;
+        }
+        //        std::cout << std::endl;
+        for (size_t i = 0; i < diag.size() - 3; ++i)
+            masks.push_back(generateMask(diag.begin() + i));
+    }
+}
+
+void Game::generateLDRUdiag()
+{
+    vector<vector<int> > board(COLUMNS, vector<int>(ROWS, 0));
+
+    for (int i = 0; i < COLUMNS; ++i) {
+        for (int j = 0; j < ROWS; ++j) {
+            board[i][ROWS - 1 - j] = j + i * ROWS;
+        }
+    }
+
+    processDiagonals(board);
 }
