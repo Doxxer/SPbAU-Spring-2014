@@ -14,41 +14,49 @@ void Game::unMoveFrom(int column, Player player)
     boards[player] ^= pos;
 }
 
-int64_t Game::runNegamax(Player player, int depth, int64_t alpha, int64_t beta)
+int Game::runNegamax(Player player, int depth, int alpha, int beta)
 {
+    Player rival = getRival(player);
     if (depth == 0)
         return getHeuristicEvaluation(player);
 
-    int64_t bestResult = INT_MIN;
+    int bestResult = INT_MIN;
     for (int column = 0; column < COLUMNS; ++column) {
         if (canMoveTo(column)) {
-            // simulate step
-            moveTo(column, player ^ 1);
 
-            // test our step
-            int64_t test = runNegamax(player ^ 1, depth - 1, -beta, -alpha);
+            moveTo(column, rival);
+
+            int newBeta = (beta == INT_MIN) ? INT_MAX : -beta;
+            int newAlpha = (alpha == INT_MIN) ? INT_MAX : -alpha;
+
+            int test = runNegamax(rival, depth - 1, newBeta, newAlpha);
             bestResult = std::max(bestResult, test);
 
-            // restore prev state
-            unMoveFrom(column, player ^ 1);
+            unMoveFrom(column, rival);
 
-            // alpha-beta pruning
             alpha = std::max(alpha, test);
             if (alpha >= beta)
                 break;
         }
     }
-    return getHeuristicEvaluation(player) - bestResult;
+
+    int heuristic = getHeuristicEvaluation(player);
+    if (bestResult > 0 && heuristic < bestResult + INT_MIN)
+        return INT_MIN;
+    else if (bestResult < 0 && heuristic > bestResult + INT_MAX)
+        return INT_MAX;
+    else
+        return heuristic - bestResult;
 }
 
-int64_t Game::getHeuristicEvaluation(Player player)
+int Game::getHeuristicEvaluation(Player player)
 {
     if (isWinner(player))
-        return 1000000;
-    if (isWinner(player ^ 1))
-        return -1000000;
+        return INT_MAX;
+    if (isWinner(getRival(player)))
+        return INT_MIN;
 
-    int weigths[] = { 0, 1, 2, 16, 0 }; // 0 1 2 3 4
+    int weights[] = { 0, 0, 4, 64, 0 }; // 0 1 2 3 4
     int myScore[] = { 0, 0, 0, 0, 0 };
     int foeScore[] = { 0, 0, 0, 0, 0 };
 
@@ -66,12 +74,11 @@ int64_t Game::getHeuristicEvaluation(Player player)
         }
     }
 
-    // zip
     int mySum = 0;
     int foeSum = 0;
     for (int i = 0; i < 5; ++i) {
-        mySum += myScore[i] * weigths[i];
-        foeSum += foeScore[i] * weigths[i];
+        mySum += myScore[i] * weights[i];
+        foeSum += foeScore[i] * weights[i];
     }
     return mySum - foeSum;
 }

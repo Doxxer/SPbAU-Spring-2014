@@ -8,30 +8,28 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-const int DEPTH = 3;
-
 int main()
 {
     Game game;
-    Player me = 0;
-    string command;
+    Player me = Player::white;
 
+    string command;
     cin >> command;
+
     if (command == "Go") {
         game.moveTo(3, me);
         cout << 3 << endl;
         cin >> command;
     } else {
-        me ^= 1;
+        me = getRival(me);
     }
 
     while (true) {
         int foeMove = std::stoi(command);
         if (foeMove < 0 || foeMove > 6 || !game.canMoveTo(foeMove)) {
             throw std::runtime_error("INVALID MOVE");
-            return -1;
         }
-        game.moveTo(foeMove, me ^ 1);
+        game.moveTo(foeMove, getRival(me));
 
         int bestMove = game.getBestMove(me, DEPTH);
         game.moveTo(bestMove, me);

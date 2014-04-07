@@ -3,7 +3,14 @@
 
 #include <cstdint>
 
-typedef int Player;
+enum Player {
+    white = 0,
+    black = 1
+};
+
+inline Player getRival(Player player) {
+    return (Player) (player ^ 1);
+}
 
 int64_t const masks4cells[] = {
 //cols

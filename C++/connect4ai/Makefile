@@ -1,11 +1,11 @@
 CXX = g++
-CXXFLAGS = -O2 -Wall -Wextra -std=c++11 -pedantic
+CXXFLAGS = -O2 -Wall -Wextra -std=c++11 -pedantic -Ofast -ftree-vectorize -DDEPTH=5
 APPNAME = bot
 OBJECTS = $(builddir)/main.o $(builddir)/game.o
 srcdir = .
 builddir = obj
 
-all: $(builddir) $(APPNAME)
+all: clean $(builddir) $(APPNAME)
 
 $(builddir):
 	mkdir -p $(builddir)
