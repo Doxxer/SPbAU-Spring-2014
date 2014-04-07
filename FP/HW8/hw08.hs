@@ -37,7 +37,7 @@ instance Functor Tree where
   
 -- 1. instance Applicative Tree
 instance Applicative Tree where
-    pure x = Branch Nil x Nil
+    pure x = Branch (pure x) x (pure x)
     Nil <*> _ = Nil
     _ <*> Nil = Nil
     (Branch fl fx fr) <*> (Branch l x r) = Branch (fl <*> l) (fx x) (fr <*> r)
@@ -80,6 +80,7 @@ main :: IO()
 main = do
     putStrLn "------- 1 --------"
     print $ (+) <$> Branch (Branch Nil 1 Nil) 2 Nil <*> Branch (Branch Nil 3 Nil) 4 (Branch Nil 5 Nil)
+    print $ pure id <*> Branch (Branch Nil 1 Nil) 2 Nil
     
     putStrLn "------- 2 --------"
     let x1s = [1,2,3]

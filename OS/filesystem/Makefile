@@ -40,12 +40,5 @@ clean:
 	rm -rf $(APPNAME)
 	
 run:
-	@./tests/setup.sh
-	@./tests/run.sh import
-	@./tests/run.sh export
-	#@./tests/run.sh mkdir
-	#@./tests/run.sh move
-	@./tests/run.sh copy
-	#@./tests/run.sh rm
 
 .PHONY: clean
