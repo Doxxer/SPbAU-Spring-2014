@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -O2 -Wall -Wextra -std=c++11 -pedantic #-DDEBUG_MODE
+CXXFLAGS = -O2 -Wall -Wextra -std=c++11 -pedantic
 APPNAME = bot
 OBJECTS = $(builddir)/main.o $(builddir)/game.o
 srcdir = .
@@ -29,8 +29,5 @@ clean:
 	
 run:
 	test/runner.py -p ./bot -p test/rnd.py -g 100
-
-# test:
-# 	test/runner.py -p ./bot -p test/rnd.py
 
 .PHONY: clean

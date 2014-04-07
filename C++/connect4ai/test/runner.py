@@ -33,7 +33,7 @@ class Field(object):
         self.history.append(column)
 
     def make_turn_impl(self, column, mark):
-        if self.counters[column] >= 6:
+        if column < 0 or column > 6 or self.counters[column] >= 6:
             raise Exception("cannot go to " + str(column))
         self.field[self.counters[column]][column] = mark
         self.counters[column] += 1

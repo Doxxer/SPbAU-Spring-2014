@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 #include "Game.hpp"
 
 using std::string;
@@ -7,9 +8,10 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-#define DEPTH 3
+const int DEPTH = 3;
 
-int main() {
+int main()
+{
     Game game;
     Player me = 0;
     string command;
@@ -25,23 +27,17 @@ int main() {
 
     while (true) {
         int foeMove = std::stoi(command);
+        if (foeMove < 0 || foeMove > 6 || !game.canMoveTo(foeMove)) {
+            throw std::runtime_error("INVALID MOVE");
+            return -1;
+        }
         game.moveTo(foeMove, me ^ 1);
-
-#ifdef DEBUG_MODE
-        game.print(cerr);
-#endif
 
         int bestMove = game.getBestMove(me, DEPTH);
         game.moveTo(bestMove, me);
 
-#ifdef DEBUG_MODE
-        game.print(cerr);
-#endif
         cout << bestMove << endl;
         cin >> command;
-
-        //break; // todo remove!
     }
-
     return 0;
 }
