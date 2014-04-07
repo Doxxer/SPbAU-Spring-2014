@@ -12,10 +12,10 @@ $(builddir):
 
 ####################
 
-$(builddir)/main.o: $(srcdir)/main.cpp $(srcdir)/Game.hpp $(srcdir)/Player.hpp $(srcdir)/SegmentsGenerator.hpp
+$(builddir)/main.o: $(srcdir)/main.cpp $(srcdir)/Game.hpp $(srcdir)/Player.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 	
-$(builddir)/game.o: $(srcdir)/Game.cpp $(srcdir)/Game.hpp $(srcdir)/Player.hpp $(srcdir)/SegmentsGenerator.hpp
+$(builddir)/game.o: $(srcdir)/Game.cpp $(srcdir)/Game.hpp $(srcdir)/Player.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 ####################

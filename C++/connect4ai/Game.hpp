@@ -1,8 +1,7 @@
-#ifndef __board_Hpp_
-#define __board_Hpp_
+#ifndef __game_Hpp_
+#define __game_Hpp_
 
 #include "Player.hpp"
-#include "SegmentsGenerator.hpp"
 #include <climits>
 #include <vector>
 #include <cstdint>
@@ -21,9 +20,7 @@ public:
     Game()
     {
         disks.assign(COLUMNS, 0);
-        SegmentsGenerator<std::back_insert_iterator<vector<uint64_t> > > generator(
-            COLUMNS, ROWS, std::back_inserter(masks));
-        generator.run();
+        generateMasks();
     }
 
     bool canMoveTo(int pos)
@@ -55,12 +52,13 @@ public:
 
     void print(ostream &out);
 
-    vector<uint64_t> masks;
-
 private:
     vector<int> disks;
+    vector<uint64_t> masks;
 
     uint64_t boards[2] = { 0, 0 };
+
+    void generateMasks();
 
     int runNegamax(Player player, int depth, int alpha = INT_MIN, int beta = INT_MAX);
 
@@ -71,6 +69,13 @@ private:
     static int getDisksNumberInSegment(uint64_t board, uint64_t mask);
 
     void unMoveFrom(int column, Player player);
+
+    void generateMaskInDirection(int col, int row, int dCol, int dRow, int len = 4);
+
+    int getCellNumber(int col, int row)
+    {
+        return col * ROWS + row;
+    }
 };
 
 #endif

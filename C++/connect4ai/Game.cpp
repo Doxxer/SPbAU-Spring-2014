@@ -126,3 +126,35 @@ int Game::getDisksNumberInSegment(uint64_t board, uint64_t mask)
     }
     return res;
 }
+
+void Game::generateMasks()
+{
+    for (int col = 0; col < COLUMNS; ++col) {
+        generateMaskInDirection(col, 0, 0, +1);
+        generateMaskInDirection(col, 0, +1, +1);
+        generateMaskInDirection(col, 0, -1, +1);
+    }
+    for (int row = 0; row < ROWS; ++row) {
+        generateMaskInDirection(0, row, +1, 0);
+        if (row != 0) {
+            generateMaskInDirection(0, row, +1, +1);
+            generateMaskInDirection(COLUMNS - 1, row, -1, +1);
+        }
+    }
+}
+
+void Game::generateMaskInDirection(int col, int row, int dCol, int dRow, int len)
+{
+    int x = col, y = row;
+    uint64_t mask = 0;
+    while (x >= 0 && x < COLUMNS && y >= 0 && y < ROWS && len) {
+        mask += ((1ULL) << getCellNumber(x, y));
+        len--;
+        x += dCol;
+        y += dRow;
+    }
+    if (len == 0) {
+        masks.push_back(mask);
+        generateMaskInDirection(col + dCol, row + dRow, dCol, dRow);
+    }
+}
