@@ -12,10 +12,10 @@ $(builddir):
 
 ####################
 
-$(builddir)/main.o: $(srcdir)/main.cpp $(srcdir)/Game.hpp $(srcdir)/utils.hpp
+$(builddir)/main.o: $(srcdir)/main.cpp $(srcdir)/Game.hpp $(srcdir)/Player.hpp $(srcdir)/SegmentsGenerator.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 	
-$(builddir)/game.o: $(srcdir)/Game.cpp $(srcdir)/utils.hpp
+$(builddir)/game.o: $(srcdir)/Game.cpp $(srcdir)/Game.hpp $(srcdir)/Player.hpp $(srcdir)/SegmentsGenerator.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 ####################
@@ -28,6 +28,6 @@ clean:
 	rm -rf $(APPNAME)
 	
 run:
-	test/runner.py -p ./bot -p test/rnd.py -g 100
+	test/runner.py -p ./bot -p test/rnd.py -g 10
 
 .PHONY: clean

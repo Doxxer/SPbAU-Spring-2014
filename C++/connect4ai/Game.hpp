@@ -1,11 +1,13 @@
 #ifndef __board_Hpp_
 #define __board_Hpp_
 
-#include "utils.hpp"
+#include "Player.hpp"
+#include "SegmentsGenerator.hpp"
 #include <climits>
 #include <vector>
 #include <cstdint>
 #include <iostream>
+#include <iterator>
 
 using std::ostream;
 using std::vector;
@@ -19,7 +21,9 @@ public:
     Game()
     {
         disks.assign(COLUMNS, 0);
-        calculateMasks();
+        SegmentsGenerator<std::back_insert_iterator<vector<uint64_t> > > generator(
+            COLUMNS, ROWS, std::back_inserter(masks));
+        generator.run();
     }
 
     bool canMoveTo(int pos)
@@ -51,8 +55,6 @@ public:
 
     void print(ostream &out);
 
-    void calculateMasks();
-
     vector<uint64_t> masks;
 
 private:
@@ -69,16 +71,6 @@ private:
     static int getDisksNumberInSegment(uint64_t board, uint64_t mask);
 
     void unMoveFrom(int column, Player player);
-
-    void generateColumnMasks();
-
-    void generateRowMasks();
-
-    void generateLURDdiag();
-
-    void processDiagonals(vector<vector<int> > const &board);
-
-    void generateLDRUdiag();
 };
 
-#endif //__board_H_
+#endif
