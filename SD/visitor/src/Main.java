@@ -21,26 +21,12 @@ public class Main {
                 new Num(5)
         );
 
-        exp.traverse(new ExpVisitorAdapter() {
-            @Override
-            public void visit(Div div) {
-                div.right.accept(new ExpVisitorAdapter() {
-                    @Override
-                    public void visit(Num num) {
-                        if (num.number.intValue() == 0) {
-                            throw new RuntimeException("StaticCheck failed: Divide by zero");
-                        }
-                    }
-                });
-            }
-        });
-
         PrettyPrinter printer = new PrettyPrinter();
-        PolishPrinter polishPrinter = new PolishPrinter();
 
         exp.accept(printer);
         System.out.println();
-        exp1.accept(polishPrinter);
+
+        exp1.accept(new PolishPrinter());
         System.out.println();
 
         Iterator<Exp> i = exp.iterator();
@@ -49,5 +35,8 @@ public class Main {
             e.accept(printer);
             System.out.println();
         }
+
+        System.out.println(exp.evaluate());
+        System.out.println(exp1.evaluate());
     }
 }
