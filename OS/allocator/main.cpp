@@ -32,7 +32,7 @@ int main()
             bool res = allocator.free(param);
             (res ? cout << "+" : cout << "-") << endl;
         } else if (command == "INFO") {
-            cout << allocator.getUsedBlocksCount() << " " << allocator.getUsedMemory() << " "
+            cout << allocator.getUserBlocksReserved() << " " << allocator.getUsedMemory() << " "
                  << allocator.allocateMax() << endl;
         } else if (command == "MAP") {
             cout << allocator.getMap() << endl;

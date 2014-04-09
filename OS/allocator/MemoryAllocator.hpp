@@ -6,7 +6,6 @@
 struct MCB {
     MCB *prev;
     MCB *next;
-    bool used;
     int owner;
     int size;
 };
@@ -18,13 +17,13 @@ public:
         : data(new char[N]),
           memorySize(N),
           userMemorySize(0),
+          userBlocksReserved(0),
           firstMCB(reinterpret_cast<MCB *>(data + memorySize - sizeof(MCB)))
     {
         firstMCB->next = nullptr;
         firstMCB->prev = nullptr;
         firstMCB->owner = 0;
         firstMCB->size = 0;
-        firstMCB->used = true;
     }
 
     virtual ~MemoryAllocator()
@@ -32,21 +31,14 @@ public:
         delete[] data;
     }
 
-    int getUsedBlocksCount() const
-    {
-        int res = 0;
-        MCB *current = firstMCB;
-        while (current) {
-            if (current->used)
-                ++res;
-            current = current->next;
-        }
-        return res - 1;
-    }
-
     int getUsedMemory() const
     {
         return userMemorySize;
+    }
+
+    int getUserBlocksReserved() const
+    {
+        return userBlocksReserved;
     }
 
     int allocate(int size);
@@ -61,17 +53,22 @@ private:
     char *data;
     int memorySize;
     int userMemorySize;
+    int userBlocksReserved;
     MCB *const firstMCB;
 
-    int getNumberOfLastUsedBlock() const
+    // most left MCB
+    MCB *getMinMCB() const
     {
-        return getNumber(getLastUsedMCB());
+        MCB *res = firstMCB;
+        MCB *current = firstMCB;
+        while (current) {
+            res = std::min(res, current);
+            current = current->next;
+        }
+        return res;
     }
 
-    MCB *findFirstNonusedMCB() const;
-
-    std::pair<MCB *, MCB *> calcFreeSpaceBetweenBlocks(int size) const;
-
+    //    // MCB represent most right block
     MCB *getLastMCB() const
     {
         MCB *current = firstMCB;
@@ -81,46 +78,29 @@ private:
         return current;
     }
 
-    MCB *getLastUsedMCB() const
+    int calcRightFreeSpace() const
     {
-        MCB *current = firstMCB;
-        MCB *next = current->next;
-        while (next) {
-            if (!next->used) {
-                next = next->next;
-                continue;
-            }
-            current = next;
-            next = current->next;
-        }
-        return current;
+        auto lastUsed = getLastMCB();
+        return memorySize - lastUsed->owner - lastUsed->size -
+               (userBlocksReserved + 2) * sizeof(MCB);
     }
 
-    int getNumber(MCB *mcb) const
-    {
-        int k = 0;
-        while (mcb) {
-            ++k;
-            mcb = mcb->prev;
-        }
-        return k;
-    }
-
-    int calcRightFreeSpace(MCB *mcb) const
-    {
-        auto lastUsed = getLastUsedMCB();
-
-        int res = memorySize - lastUsed->owner - lastUsed->size - getNumber(lastUsed) * sizeof(MCB);
-        if (!mcb || (mcb && getNumber(mcb) > getNumber(lastUsed)))
-            return res - sizeof(MCB);
-        return res;
-    }
+    std::pair<MCB *, MCB *> findFirstFreeSpaceBetweenBlocksGEQThan(int size) const;
 
     MCB *createNewMCB();
 
     void insertMCB(MCB *prev, MCB *cur, MCB *next);
 
-    MCB *findMCBWithSpecificUserAddress(int address) const;
+    MCB *findMCBWithSpecificUserAddress(int address) const
+    {
+        auto cur = firstMCB->next;
+        while (cur) {
+            if (cur->owner == address)
+                return cur;
+            cur = cur->next;
+        }
+        return nullptr;
+    }
 
     void removeMCB(MCB *mcb);
 
