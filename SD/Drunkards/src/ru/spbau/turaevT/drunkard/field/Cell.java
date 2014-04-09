@@ -1,11 +1,11 @@
 package ru.spbau.turaevT.drunkard.field;
 
-import ru.spbau.turaevT.drunkard.objects.IStaticObject;
+import ru.spbau.turaevT.drunkard.objects.IPhysicalObject;
 
 public class Cell implements ICell {
     private final int xCoordinate;
     private final int yCoordinate;
-    private IStaticObject fieldObject;
+    private IPhysicalObject fieldObject;
 
     public Cell(int xCoordinate, int yCoordinate) {
         this.xCoordinate = xCoordinate;
@@ -27,12 +27,12 @@ public class Cell implements ICell {
     }
 
     @Override
-    public IStaticObject getFieldObject() {
+    public IPhysicalObject getFieldObject() {
         return fieldObject;
     }
 
     @Override
-    public void setFieldObject(IStaticObject fieldObject) {
+    public void setFieldObject(IPhysicalObject fieldObject) {
         this.fieldObject = fieldObject;
     }
 

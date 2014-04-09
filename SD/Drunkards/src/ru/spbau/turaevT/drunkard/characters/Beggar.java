@@ -28,16 +28,7 @@ public class Beggar extends NPC {
             target = findBottle();
 
         if (target != null) {
-            ICell nextCell = pathFinder.getNextCell(getCell(), target);
-            if (nextCell == null) return;
-
-            if (!nextCell.isEmpty()) {
-                nextCell.getFieldObject().detectCollision(this);
-                if (nextCell == target) {
-                    target = beggarHouseLocation;
-                }
-            }
-            this.setCell(nextCell);
+            moveAlong(pathFinder, target);
         }
     }
 
@@ -58,6 +49,7 @@ public class Beggar extends NPC {
     public void processColliding(Bottle bottle) {
         bottle.setCell(null);
         this.carryingBottle = bottle;
+        target = beggarHouseLocation;
     }
 
 

@@ -2,7 +2,7 @@ package ru.spbau.turaevT.drunkard.objects;
 
 import ru.spbau.turaevT.drunkard.characters.INPC;
 
-public class Column extends StaticObject {
+public class Column extends PhysicalObject {
 
     @Override
     public char present() {

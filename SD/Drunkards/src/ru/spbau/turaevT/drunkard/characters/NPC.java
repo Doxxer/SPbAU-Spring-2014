@@ -1,15 +1,27 @@
 package ru.spbau.turaevT.drunkard.characters;
 
+import ru.spbau.turaevT.drunkard.algorithm.IPathFinder;
+import ru.spbau.turaevT.drunkard.field.ICell;
 import ru.spbau.turaevT.drunkard.objects.Bottle;
 import ru.spbau.turaevT.drunkard.objects.Column;
 import ru.spbau.turaevT.drunkard.objects.Lantern;
-import ru.spbau.turaevT.drunkard.objects.StaticObject;
+import ru.spbau.turaevT.drunkard.objects.PhysicalObject;
 
-public abstract class NPC extends StaticObject implements INPC {
+public abstract class NPC extends PhysicalObject implements INPC {
 
     @Override
     public void processColliding(Column object) {
         // do nothing
+    }
+
+    protected void moveAlong(IPathFinder route, ICell target) {
+        ICell nextCell = route.getNextCell(getCell(), target);
+        if (nextCell == null) return;
+
+        if (!nextCell.isEmpty()) {
+            nextCell.getFieldObject().detectCollision(this);
+        }
+        this.setCell(nextCell);
     }
 
     @Override

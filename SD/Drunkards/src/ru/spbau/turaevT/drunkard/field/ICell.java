@@ -1,6 +1,6 @@
 package ru.spbau.turaevT.drunkard.field;
 
-import ru.spbau.turaevT.drunkard.objects.IStaticObject;
+import ru.spbau.turaevT.drunkard.objects.IPhysicalObject;
 
 /**
  * The <tt>ICell</tt> interface provides access to cell in the game field
@@ -16,9 +16,9 @@ public interface ICell {
 
     boolean isEmpty();
 
-    IStaticObject getFieldObject();
+    IPhysicalObject getFieldObject();
 
-    void setFieldObject(IStaticObject fieldObject);
+    void setFieldObject(IPhysicalObject fieldObject);
 
     int getyCoordinate();
 

@@ -7,9 +7,9 @@ import ru.spbau.turaevT.drunkard.field.IField;
 /**
  * Provides access to game object
  * <p>
- * StaticObject is the object, that can't produce any action
+ * PhysicalObject is the object, that can't produce any action
  */
-public interface IStaticObject {
+public interface IPhysicalObject {
 
     /**
      * Return symbol, associating this object

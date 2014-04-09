@@ -22,16 +22,7 @@ public class Policeman extends NPC {
 
     @Override
     public void doAction() {
-        ICell nextCell = pathFinder.getNextCell(getCell(), target);
-        if (nextCell == null) return;
-
-        if (!nextCell.isEmpty()) {
-            nextCell.getFieldObject().detectCollision(this);
-            if (nextCell == target) {
-                target = policeStationLocation;
-            }
-        }
-        this.setCell(nextCell);
+        moveAlong(pathFinder, target);
     }
 
     @Override
@@ -39,6 +30,7 @@ public class Policeman extends NPC {
         if (drunkard.getCell() == target) { // found it!
             drunkard.setCell(null);
             this.carryingDrunkard = drunkard;
+            target = policeStationLocation;
         }
     }
 

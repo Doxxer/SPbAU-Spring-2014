@@ -2,7 +2,7 @@ package ru.spbau.turaevT.drunkard.objects;
 
 import ru.spbau.turaevT.drunkard.characters.INPC;
 
-public class Bottle extends StaticObject {
+public class Bottle extends PhysicalObject {
     @Override
     public char present() {
         return 'B';

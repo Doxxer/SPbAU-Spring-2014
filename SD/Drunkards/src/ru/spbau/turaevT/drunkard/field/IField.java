@@ -1,6 +1,6 @@
 package ru.spbau.turaevT.drunkard.field;
 
-import ru.spbau.turaevT.drunkard.objects.IStaticObject;
+import ru.spbau.turaevT.drunkard.objects.IPhysicalObject;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public interface IField {
 
     List<ICell> getNearCells(ICell cell);
 
-    void registerStaticObject(IStaticObject object, int x, int y);
+    void registerStaticObject(IPhysicalObject object, int x, int y);
 
     /**
      * Return distance between tow given cells

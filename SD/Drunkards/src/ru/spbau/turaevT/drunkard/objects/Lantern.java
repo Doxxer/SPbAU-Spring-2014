@@ -6,7 +6,7 @@ import ru.spbau.turaevT.drunkard.field.IField;
 
 import java.util.ArrayList;
 
-public class Lantern extends StaticObject {
+public class Lantern extends PhysicalObject {
     private final static int RADIUS = 3;
 
     private ArrayList<ICell> lightedCells = null;
