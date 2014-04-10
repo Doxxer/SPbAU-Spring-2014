@@ -37,10 +37,10 @@ for k_sampleSize, sample_size in enumerate(SAMPLES_SIZES):
 for i in range(N):
     print(res_rmse[0][i], res_rmse[1][i], res_rmse[2][i], res_rmse[3][i], res_rmse[4][i], )
 
-loglog(SAMPLES_SIZES, res_rmse[0], label=u"Обычное выборочное среднее")
-loglog(SAMPLES_SIZES, res_rmse[1], label=u"Выборочная медиана")
-loglog(SAMPLES_SIZES, res_rmse[2], label=u"Квартильное среднее [25-75]")
-loglog(SAMPLES_SIZES, res_rmse[3], label=u"Подрезанное среднее [5-95]")
+loglog(SAMPLES_SIZES, res_rmse[0], label="mean")
+loglog(SAMPLES_SIZES, res_rmse[1], label="median")
+loglog(SAMPLES_SIZES, res_rmse[2], label="quartile mean [25-75]")
+loglog(SAMPLES_SIZES, res_rmse[3], label="trimmed mean [5-95]")
 loglog(SAMPLES_SIZES, res_rmse[4], label="winsorized mean")
 grid(True)
 legend(loc="lower left")
