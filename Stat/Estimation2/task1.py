@@ -32,7 +32,13 @@ for k, sample_size in enumerate(SAMPLES_SIZES):
         res_rmse[stat][k] = RMSE(ACTUAL_VALUE, res[stat])
     print(sample_size, np.mean(res[0]), np.mean(res[1]), np.mean(res[2]))
 
-print res_rmse
+print res_rmse[0]
+print res_rmse[1]
+print res_rmse[2]
+
+ARE_1_2 = (res_rmse[2][-1] / res_rmse[1][-1]) ** 2
+
+print ARE_1_2
 
 loglog(SAMPLES_SIZES, res_rmse[0], label="B(1, 1)")
 loglog(SAMPLES_SIZES, res_rmse[1], label="B(1/3, 1)")
