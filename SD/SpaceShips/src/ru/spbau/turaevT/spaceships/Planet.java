@@ -15,7 +15,7 @@ public class Planet extends SpaceObject {
 
     @Override
     protected int getSerialNumber() {
-        return 3;
+        return 2;
     }
 
     @Override
