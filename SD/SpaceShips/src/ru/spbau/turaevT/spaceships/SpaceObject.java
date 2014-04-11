@@ -7,19 +7,26 @@ package ru.spbau.turaevT.spaceships;
  * @version 1.0
  */
 abstract class SpaceObject {
-    final String name;
+    private final String name;
 
     SpaceObject(String name) {
         this.name = name;
     }
 
+    protected abstract int getSerialNumber();
 
     public abstract void hit(SpaceObject spaceObject);
 
-    protected abstract void processHit(Asteroid asteroid);
+    protected void processHit(Asteroid asteroid) {
+    }
 
-    protected abstract void processHit(Planet planet);
+    protected void processHit(Planet planet) {
+    }
 
-    protected abstract void processHit(SpaceShip spaceShip);
+    protected void processHit(SpaceShip spaceShip) {
+    }
 
+    public String getName() {
+        return name;
+    }
 }
