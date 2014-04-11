@@ -14,31 +14,26 @@ public class Planet extends SpaceObject {
     }
 
     @Override
-    protected int getSerialNumber() {
-        return 2;
-    }
-
-    @Override
     public void hit(SpaceObject spaceObject) {
-        if (this.getSerialNumber() <= spaceObject.getSerialNumber())
-            spaceObject.processHit(this);
-        else
+        if (!spaceObject.processHit(this))
             spaceObject.hit(this);
-
     }
 
     @Override
-    public void processHit(Asteroid asteroid) {
+    public boolean processHit(Asteroid asteroid) {
         System.out.println(MessageFormat.format("Planet {0} hit Asteroid {1}", this.getName(), asteroid.getName()));
+        return true;
     }
 
     @Override
-    public void processHit(Planet planet) {
+    public boolean processHit(Planet planet) {
         System.out.println(MessageFormat.format("Planet {1} hit Planet {0}", this.getName(), planet.getName()));
+        return true;
     }
 
     @Override
-    public void processHit(SpaceShip spaceShip) {
+    public boolean processHit(SpaceShip spaceShip) {
         System.out.println(MessageFormat.format("Planet {0} hit SpaceShip {1}", this.getName(), spaceShip.getName()));
+        return true;
     }
 }

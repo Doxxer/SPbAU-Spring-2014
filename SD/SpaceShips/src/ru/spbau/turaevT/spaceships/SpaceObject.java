@@ -13,17 +13,18 @@ abstract class SpaceObject {
         this.name = name;
     }
 
-    protected abstract int getSerialNumber();
-
     public abstract void hit(SpaceObject spaceObject);
 
-    protected void processHit(Asteroid asteroid) {
+    protected boolean processHit(Asteroid asteroid) {
+        return false;
     }
 
-    protected void processHit(Planet planet) {
+    protected boolean processHit(Planet planet) {
+        return false;
     }
 
-    protected void processHit(SpaceShip spaceShip) {
+    protected boolean processHit(SpaceShip spaceShip) {
+        return false;
     }
 
     public String getName() {

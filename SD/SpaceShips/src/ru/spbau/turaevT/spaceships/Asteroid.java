@@ -14,20 +14,14 @@ public class Asteroid extends SpaceObject {
     }
 
     @Override
-    protected int getSerialNumber() {
-        return 0;
-    }
-
-    @Override
     public void hit(SpaceObject spaceObject) {
-        if (this.getSerialNumber() <= spaceObject.getSerialNumber())
-            spaceObject.processHit(this);
-        else
+        if (!spaceObject.processHit(this))
             spaceObject.hit(this);
     }
 
     @Override
-    public void processHit(Asteroid asteroid) {
+    public boolean processHit(Asteroid asteroid) {
         System.out.println(MessageFormat.format("Asteroid {0} hit Asteroid {1}", this.getName(), asteroid.getName()));
+        return true;
     }
 }
