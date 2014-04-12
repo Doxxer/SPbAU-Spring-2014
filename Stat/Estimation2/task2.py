@@ -29,7 +29,7 @@ for k_sampleSize, sample_size in enumerate(SAMPLES_SIZES):
         stat[1][test] = np.median(sample)
         stat[2][test] = tmean(sample, (perc[0], perc[1]))
         stat[3][test] = tmean(sample, (perc[2], perc[3]))
-        stat[4][test] = np.mean(winsorize(sample, (0.05, 0.95)))
+        stat[4][test] = np.mean(winsorize(sample, (0.05, 0.05)))
     for k_stat in range(5):
         res_rmse[k_stat][k_sampleSize] = RMSE(ACTUAL_VALUE, stat[k_stat])
     print k_sampleSize, N
