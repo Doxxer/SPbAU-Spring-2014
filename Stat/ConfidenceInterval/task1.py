@@ -15,9 +15,12 @@ xPlot = list(range(N))[N / lDataStrip:]
 
 # ------ Setup Statistics
 # Реальная дисперсия оценки Be(1/3,1)
-Var1 = quad(lambda x: 3 * (f(x) ** 2) * (x ** (2.0 / 3)), 0, 1)[0] - ACTUAL_VALUE ** 2
+pdf1 = lambda x: beta.pdf(x, 1.0 / 3, 1)
+var1 = quad(lambda x: f(x) ** 2 / pdf1(x), 0, 1)[0] - ACTUAL_VALUE ** 2
+
 # Реальная дисперсия оценки Be(1/2,1/2)
-Var2 = quad(lambda x: np.pi * (f(x) ** 2) * (np.sqrt(x * (1 - x))), 0, 1)[0] - ACTUAL_VALUE ** 2
+pdf2 = lambda x: beta.pdf(x, 0.5, 0.5)
+var2 = quad(lambda x: f(x) ** 2 / pdf2(x), 0, 1)[0] - ACTUAL_VALUE ** 2
 xGamma = norm.ppf(0.95)
 #---------- END SETUP
 
@@ -50,7 +53,7 @@ def calc_ci(a, var=None):
         variance = cumulative_variance(a)
 
     cummeanData = cumulative_mean(a)
-    q = xGamma / index * variance
+    q = xGamma / index * np.sqrt(variance)
 
     return cummeanData - q, cummeanData + q
 
@@ -91,5 +94,5 @@ def solve(sample, pdf, label, var):
 if __name__ == "__main__":
     # generate_samples()
 
-    # solve(sample=(np.load('rv1_sample.npy')), pdf=(np.load('rv1_pdf.npy')), label="Be(1/3, 1)", var=Var1)
-    solve(sample=(np.load('rv2_sample.npy')), pdf=(np.load('rv2_pdf.npy')), label="Be(1/2, 1/2)", var=Var2)
+    #solve(sample=(np.load('rv1_sample.npy')), pdf=(np.load('rv1_pdf.npy')), label="Be(1/3, 1)", var=var1)
+    solve(sample=(np.load('rv2_sample.npy')), pdf=(np.load('rv2_pdf.npy')), label="Be(1/2, 1/2)", var=var2)
