@@ -38,6 +38,12 @@ nmod' xs = do
     x <- [0 .. (length xs) - 2]
     return $ abs $ (xs !! x) - (xs !! (x+1))
 
+nmod'' :: Num a => [a] -> [a]
+nmod'' xs = zipWith (f' . (-)) xs (tail xs)
+    where
+        f' :: (Num b) => a -> b
+        f' = abs
+
 
 -- 4. Покажите, что каждая монада — это аппликативный функтор
 pure :: (Monad m) => a -> m a
@@ -75,6 +81,11 @@ main = do
     print $ nmod' [2, 7, 22, 9]
     print $ nmod' [2, 7]
     print $ nmod' [2]
+
+    print $ nmod'' [2, 7, 22, 9]
+    print $ nmod'' [2, 7]
+    print $ nmod'' [2]
+
     
     putStrLn "------- 4 --------"
     print $ Just (+2) <*> Just 5
