@@ -1,0 +1,38 @@
+\documentclass[russian]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=1cm,rmargin=1cm}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{babel}
+\usepackage{mathtools}
+\usepackage[T2A]{fontenc}
+\makeatletter
+\@ifundefined{date}{}{\date{}}
+\begin{document}
+
+\title{Алгоритмы. HW\#9}
+\author{Тураев Тимур, 504 (SE)}
+\maketitle
+
+\paragraph*{2}
+
+\textit{По заданным комплексным $z_i$ и неотрицательным целым $a_i$ посчитайте коэффициенты полинома $\prod_i(x-z_i)^{a_i}$. Пусть $n = \sum a_i$. Решите задачу за $O(n \log n)$}
+
+Можно действовать чуть иначе: сразу применим подсказку про <<разделяй и властвуй>>: разобьем вычисляемый многочлен пополам на 2 многочлена и посчитаем их тем же методом: получим 2 многочлена какой-то степени (не больше $n$). Их можно перемножить за $O(n \log n)$. Получим рекуррентное соотношение: $T(n) = 2 \cdot T(n/2) + cn\log n$
+
+Проблема в том, что мастер-метод к такому соотношению неприменим, поэтому придется считать руками: всего уровней у дерева, ясно, $\log n$. На каждом уровне стоимость: $k \cdot c(n/k)\log (n/k) = cn\log n - cn\log k$, где $k$ это степень двойки. Значит: 
+
+\[
+T(n) = cn\log n \cdot \log n - cn(\log 2 + \log 4 + \log 8 + \ldots + \log 2^{\log n}) = cn{\log^2 n} - cn\log (2 \cdot 4 \cdot \ldots 2^{\log n}) = cn{\log^2 n} - cn\log (2^{1 + 2 + \ldots + \log n})
+\]
+\[
+T(n) = cn{\log^2 n} - cn\log (2^{(\log n \cdot (\log n + 1))/2}) = cn{\log^2 n} - \frac{cn(\log n \cdot (\log n + 1))}{2 \cdot \log_2 10} = O(n \cdot \log^2 n)
+\]
+
+
+\end{document}
