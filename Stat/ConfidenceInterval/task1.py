@@ -9,9 +9,10 @@ from scipy.stats import beta, norm
 # #--------- SETUP
 f = lambda x: np.sin(x) ** (-2.0 / 3)  # подынтегральная функция
 ACTUAL_VALUE = quad(f, 0, 1)[0]  # реальное значение интеграла
-N = 10 ** 7  # число оценок
-lDataStrip = 5  # какую часть усекать чтобы избежать разлетания графика
-xPlot = list(range(N))[N / lDataStrip:]
+N = 10 ** 3  # число оценок
+lDataStrip = 0  # какую часть усекать чтобы избежать разлетания графика
+rDataStrip = 0
+xPlot = list(range(N))[0 if lDataStrip == 0 else N / lDataStrip:-1 if rDataStrip == 0 else N / rDataStrip]
 
 # ------ Setup Statistics
 # Реальная дисперсия оценки Be(1/3,1)
@@ -67,11 +68,14 @@ def solve(sample, pdf, label, var):
     ci1, ci2 = calc_ci(result)
     known_var_CI1, known_var_CI2 = calc_ci(result, var)
 
-    cumulativeMean = cumulativeMean[size / lDataStrip:]
-    ci1 = ci1[size / lDataStrip:]
-    ci2 = ci2[size / lDataStrip:]
-    known_var_CI1 = known_var_CI1[size / lDataStrip:]
-    known_var_CI2 = known_var_CI2[size / lDataStrip:]
+    cumulativeMean = cumulativeMean[
+                     0 if lDataStrip == 0 else size / lDataStrip:-1 if rDataStrip == 0 else size / rDataStrip]
+    ci1 = ci1[0 if lDataStrip == 0 else size / lDataStrip:-1 if rDataStrip == 0 else size / rDataStrip]
+    ci2 = ci2[0 if lDataStrip == 0 else size / lDataStrip:-1 if rDataStrip == 0 else size / rDataStrip]
+    known_var_CI1 = known_var_CI1[
+                    0 if lDataStrip == 0 else size / lDataStrip:-1 if rDataStrip == 0 else size / rDataStrip]
+    known_var_CI2 = known_var_CI2[
+                    0 if lDataStrip == 0 else size / lDataStrip:-1 if rDataStrip == 0 else size / rDataStrip]
 
     print "start plotting..."
 
@@ -94,5 +98,5 @@ def solve(sample, pdf, label, var):
 if __name__ == "__main__":
     # generate_samples()
 
-    #solve(sample=(np.load('rv1_sample.npy')), pdf=(np.load('rv1_pdf.npy')), label="Be(1/3, 1)", var=var1)
-    solve(sample=(np.load('rv2_sample.npy')), pdf=(np.load('rv2_pdf.npy')), label="Be(1/2, 1/2)", var=var2)
+    solve(sample=(np.load('rv1_sample.npy')), pdf=(np.load('rv1_pdf.npy')), label="Be(1/3, 1)", var=var1)
+    # solve(sample=(np.load('rv2_sample.npy')), pdf=(np.load('rv2_pdf.npy')), label="Be(1/2, 1/2)", var=var2)
