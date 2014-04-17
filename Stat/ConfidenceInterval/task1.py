@@ -9,8 +9,8 @@ from scipy.stats import beta, norm
 # #--------- SETUP
 f = lambda x: np.sin(x) ** (-2.0 / 3)  # подынтегральная функция
 ACTUAL_VALUE = quad(f, 0, 1)[0]  # реальное значение интеграла
-N = 10 ** 3  # число оценок
-lDataStrip = 0  # какую часть усекать чтобы избежать разлетания графика
+N = 10 ** 5  # число оценок
+lDataStrip = 5  # какую часть усекать чтобы избежать разлетания графика
 rDataStrip = 0
 xPlot = list(range(N))[0 if lDataStrip == 0 else N / lDataStrip:-1 if rDataStrip == 0 else N / rDataStrip]
 
@@ -22,7 +22,7 @@ var1 = quad(lambda x: f(x) ** 2 / pdf1(x), 0, 1)[0] - ACTUAL_VALUE ** 2
 # Реальная дисперсия оценки Be(1/2,1/2)
 pdf2 = lambda x: beta.pdf(x, 0.5, 0.5)
 var2 = quad(lambda x: f(x) ** 2 / pdf2(x), 0, 1)[0] - ACTUAL_VALUE ** 2
-xGamma = norm.ppf(0.95)
+xGamma = norm.ppf(0.975)
 #---------- END SETUP
 
 def generate_samples():
@@ -96,7 +96,7 @@ def solve(sample, pdf, label, var):
 
 
 if __name__ == "__main__":
-    # generate_samples()
+    generate_samples()
 
     solve(sample=(np.load('rv1_sample.npy')), pdf=(np.load('rv1_pdf.npy')), label="Be(1/3, 1)", var=var1)
     # solve(sample=(np.load('rv2_sample.npy')), pdf=(np.load('rv2_pdf.npy')), label="Be(1/2, 1/2)", var=var2)
