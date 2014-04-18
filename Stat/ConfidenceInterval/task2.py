@@ -13,7 +13,13 @@ z = norm.ppf(1 - 0.5 * alpha)
 
 def clopper_pearson(x, n):
     right = beta.ppf(1 - alpha / 2, x + 1, n - x)
+    if (np.isnan(right)):
+        right = 1
+
     left = beta.ppf(alpha / 2, x, n - x + 1)
+    if (np.isnan(left)):
+        left = 0
+
     return right - left, (left, right)
 
 
@@ -41,8 +47,8 @@ def normal_approximation(x, n):
 
 
 def solve(n, p):
-    res = np.zeros((4, M))
-    emp = np.zeros((4, M))
+    res = np.zeros((4, M)).tolist()
+    emp = np.zeros((4, M)).tolist()
     for k, x in enumerate(binom.rvs(n, p, size=M).tolist()):
         cp = clopper_pearson(x, n)
         at = arcsine_transformation(x, n)
