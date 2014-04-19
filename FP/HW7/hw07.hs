@@ -75,19 +75,54 @@ foldt1 :: (t -> r -> r) -> r -> Tree t -> r
 foldt1 f z Nil = z
 foldt1 f z (Branch l v r) = foldt1 f (f v (foldt1 f z r)) l
 
-flatten1 :: Tree t -> [t]
-flatten1 = foldt1 (\x y -> x:y) []
-
 foldt2 :: (t -> r -> r) -> r -> Tree t -> r
 foldt2 f z Nil = z
 foldt2 f z (Branch l v r) = foldt2 f (f v (foldt2 f z l)) r
 
-flatten2 :: Tree t -> [t]
-flatten2 = foldt2 (\x y -> y ++ [x]) []
+------------------- изменения от 19.04.2014
 
-flatten3 :: Tree t -> [t]
-flatten3 = foldt2 (\x y -> x:y) []
+foldt3 :: (t -> r -> r -> r) -> r -> Tree t -> r
+foldt3 f z Nil = z
+foldt3 f z (Branch l v r) = f v (foldt3 f z l) (foldt3 f z r)
 
+foldt3rev :: (t -> r -> r -> r) -> r -> Tree t -> r
+foldt3rev f z Nil = z
+foldt3rev f z (Branch l v r) = f v (foldt3rev f z r) (foldt3rev f z l)
+
+getRoot :: Tree a -> [a]
+getRoot Nil = []
+getRoot (Branch _ v _) = [v]
+
+getChildren :: Tree a -> [Tree a]
+getChildren (Branch l v r) = [l, r]
+getChildren Nil = []
+
+bfs :: Tree a -> [a]
+bfs x = bfs' [x] where
+        bfs' :: [Tree a] -> [a]
+        bfs' [] = []
+        bfs' x = (concatMap getRoot x) ++ (bfs' $ concatMap getChildren x)
+
+flattenTreeInOrder :: Tree t -> [t]
+flattenTreeInOrder = foldt1 (:) []
+
+flattenTreeReverseInOrder :: Tree t -> [t]
+flattenTreeReverseInOrder = foldt2 (:) []
+
+flattenTreePreOrder :: Tree t -> [t]
+flattenTreePreOrder = foldt3 (\x y ys -> x : y ++ ys) []
+
+flattenTreePostOrder :: Tree t -> [t]
+flattenTreePostOrder = foldt3 (\x y ys -> y ++ ys ++ [x]) []
+
+flattenTreeReversePreOrder :: Tree t -> [t]
+flattenTreeReversePreOrder = foldt3rev (\x y ys -> x : y ++ ys) []
+
+flattenTreeReversePostOrder :: Tree t -> [t]
+flattenTreeReversePostOrder = foldt3rev (\x y ys -> y ++ ys ++ [x]) []
+
+
+------------------- конец изменений от 19.04.2014
 
 main :: IO()
 main = do
@@ -125,8 +160,14 @@ main = do
     print $ reverse'' [1..10]
     
     ---------------------------------
-    
+    print $ "---tree-----"
     let t1 = Branch (Branch Nil 1 Nil) 2 (Branch (Branch Nil 3 Nil) 4 (Branch Nil 5 Nil))
-    print $ flatten1 t1
-    print $ flatten2 t1
-    print $ flatten3 t1 -- reverse in-order
+    print $ flattenTreeInOrder t1    
+    print $ flattenTreePreOrder t1
+    print $ flattenTreePostOrder t1
+    print $ bfs t1    
+
+    print $ "--- tree rev -----"    
+    print $ flattenTreeReverseInOrder t1
+    print $ flattenTreeReversePreOrder t1
+    print $ flattenTreeReversePostOrder t1
