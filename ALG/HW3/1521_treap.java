@@ -1,4 +1,13 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StreamTokenizer;
+import java.io.Writer;
 import java.util.Random;
 
 class Node {
@@ -32,8 +41,8 @@ class Node {
 }
 
 class Pair<A, B> {
-    public final A first;
-    public final B second;
+    public A first;
+    public B second;
 
     Pair(A first, B second) {
         this.first = first;
@@ -42,6 +51,8 @@ class Pair<A, B> {
 }
 
 class Treap {
+    private static final Pair<Node, Node> emptyNode = new Pair<>(null, null);
+    private static Pair<Node, Node> splitResult = new Pair<>(null, null);
     private Node root = null;
 
     private static Node merge(Node left, Node right) {
@@ -61,27 +72,28 @@ class Treap {
 
     private static Pair<Node, Node> split(Node node, int splitPosition) {
         if (node == null) {
-            return new Pair<>(null, null);
+            return emptyNode;
         }
 
         int currentPosition = Node.getSize(node.left) + 1;
-        Pair<Node, Node> result;
         if (currentPosition <= splitPosition) {
             Pair<Node, Node> splittedNodes = split(node.right, splitPosition - currentPosition);
             node.right = null;
-            result = new Pair<>(merge(node, splittedNodes.first), splittedNodes.second);
+            splitResult.first = merge(node, splittedNodes.first);
+            splitResult.second = splittedNodes.second;
         } else {
-            Pair<Node, Node> pair = split(node.left, splitPosition);
+            Pair<Node, Node> splittedNodes = split(node.left, splitPosition);
             node.left = null;
-            result = new Pair<>(pair.first, merge(pair.second, node));
+            splitResult.first = splittedNodes.first;
+            splitResult.second = merge(splittedNodes.second, node);
         }
-        if (result.first != null) {
-            result.first.updateSize();
+        if (splitResult.first != null) {
+            splitResult.first.updateSize();
         }
-        if (result.second != null) {
-            result.second.updateSize();
+        if (splitResult.second != null) {
+            splitResult.second.updateSize();
         }
-        return result;
+        return splitResult;
     }
 
     public void add(int position, int data) {
@@ -101,10 +113,9 @@ class Treap {
     }
 
     private Pair<Node, Node> split(int position) {
-        return split(root, position);
+        Pair<Node, Node> splitted = split(root, position);
+        return new Pair<>(splitted.first, splitted.second);
     }
-
-
 }
 
 public class Main {
