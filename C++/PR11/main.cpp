@@ -43,12 +43,15 @@ private:
     void work()
     {
         while (!done) {
-            std::unique_lock<std::mutex> lock(mutex_);
-            cond_variable.wait(lock, [this] { return done || !task_queue.empty(); });
-            if (done)
-                break;
-            std::function<void()> task = task_queue.front();
-            task_queue.pop();
+            std::function<void()> task;
+            {
+                std::unique_lock<std::mutex> lock(mutex_);
+                cond_variable.wait(lock, [this] { return done || !task_queue.empty(); });
+                if (done)
+                    break;
+                task = task_queue.front();
+                task_queue.pop();
+            }
             task();
         }
     }
