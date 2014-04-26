@@ -7,7 +7,7 @@ builddir = .
 all: clean $(builddir)/main.o
 	$(CXX) $(builddir)/main.o -o $(builddir)/$(APPNAME)
 
-$(builddir)/main.o: $(srcdir)/main.cpp
+$(builddir)/main.o: $(srcdir)/main.cpp $(srcdir)/queue.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
     
 clean:
