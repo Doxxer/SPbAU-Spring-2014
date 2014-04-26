@@ -41,7 +41,7 @@ private:
         while (!done) {
             auto task = task_queue.pop();
             if (task) {
-                std::cout << id << " ";
+                std::cout << "thread #" << id << " ";
                 task->operator()();
             }
         }
@@ -50,7 +50,6 @@ private:
 
 void foo(int a)
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(a));
     std::cout << a << std::endl;
 }
 
