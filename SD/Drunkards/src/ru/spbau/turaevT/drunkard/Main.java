@@ -4,9 +4,8 @@ import ru.spbau.turaevT.drunkard.algorithm.BFSPathFindingAlgorithm;
 import ru.spbau.turaevT.drunkard.buildings.Bar;
 import ru.spbau.turaevT.drunkard.buildings.BeggarHouse;
 import ru.spbau.turaevT.drunkard.buildings.PoliceStation;
-import ru.spbau.turaevT.drunkard.field.Field;
 import ru.spbau.turaevT.drunkard.field.FieldConsolePrinter;
-import ru.spbau.turaevT.drunkard.field.IField;
+import ru.spbau.turaevT.drunkard.field.HexagonalField;
 import ru.spbau.turaevT.drunkard.field.IFieldPrinter;
 import ru.spbau.turaevT.drunkard.game.Game;
 import ru.spbau.turaevT.drunkard.game.IGame;
@@ -30,9 +29,10 @@ public class Main {
 
         IFieldPrinter printer = new FieldConsolePrinter();
         IGame game = new Game();
-        IField field = new Field(15, 15);
-        Bar bar = new Bar(field, field.getCell(9, 0), game);
+        //IField field = new RectangleField(15, 15);
+        HexagonalField field = new HexagonalField(15, 15);
 
+        Bar bar = new Bar(field, field.getCell(9, 0), game);
         Lantern lantern = new Lantern();
         Column column = new Column();
         PoliceStation policeStation = new PoliceStation(field, field.getCell(14, 3), game, lantern, new BFSPathFindingAlgorithm(field));
