@@ -1,0 +1,88 @@
+-------- Списки -----------
+-- mzero = []
+-- mplus = (++)
+-- a >>= k = concat (map k a) 
+-- return a = [a]
+1. Left Zero [Левый ноль] (mzero >>= k ≡ mzero)
+
+[] >>= k = concat (map k []) = [] = mzero
+
+Закон выполняется.
+
+
+2. Left Distribution [Левая дистрибутивность] (a `mplus` b) >>= k ≡ (a >>= k) `mplus` (b >>= k)
+
+Закон выражает природу ++, map и concat:
+
+Левая часть:
+concat (map k (a ++ b)) -- соединяем два списка и проходим по каждому списку стрелкой Клейсли, затем склеиваем списки…
+
+Правая часть:
+(concat (map k a)) ++ concat (map k b) -- а это тоже самое, что сначала пройтись map k по первому, затем по второму, сконкатенировать результаты и затем склеить 2 списка.
+    
+Закон выполняется.
+
+3. Left Catch law ((return a) `mplus` b ≡ return a)
+
+[1] ++ [2, 3] = [1, 2, 3] != [1]
+
+Закон не выполняется.
+
+
+-------- Maybe -----------
+-- mzero = Nothing
+-- mplus выдает первый Just
+1. Left Zero [Левый ноль] (mzero >>= k ≡ mzero)
+
+Nothing >>= k = Nothing -- это определение bing для Maybe
+
+Закон выполняется.
+
+
+2. Left Distribution [Левая дистрибутивность] (a `mplus` b) >>= k ≡ (a >>= k) `mplus` (b >>= k)
+
+Можно рассмотреть 4 случая: 
+a = Nothing, b = Nothing:
+    Nothing `mplus` Nothing = Nothing
+    Nothing >>= k = Nothing
+    
+    С другой стороны:
+    Nothing >>= k = Nothing
+    Nothing >>= k = Nothing
+    Nothing `mplus` Nothing = Nothing
+
+a = Just x, b = Nothing:
+    Just x `mplus` Nothing = Just x
+    Just x >>= k = k x
+    
+    С другой стороны:
+    Just x >>= k = k x
+    Nothing >>= k = Nothing
+    (k x) `mplus` Nothing = k x
+
+a = Nothing, b = Just x:
+    Nothing `mplus` Just x = Just x
+    Just x >>= k = k x
+    
+    С другой стороны:
+    Nothing >>= k = Nothing
+    Just x >>= k = k x
+    Nothing `mplus` (k x) = k x
+
+a = Just z, b = Just x:
+    Just z `mplus` Just x = Just z
+    Just z >>= k = k z
+    
+    С другой стороны:
+    Just z >>= k = k z
+    Just x >>= k = k x
+    (k z) `mplus` (k x) = k z
+    
+Закон выполняется.
+
+3. Left Catch law ((return a) `mplus` b ≡ return a)
+
+return = Just -- определение return для Maybe
+Just a `mplus` b == Just a -- по смыслу mplus
+
+Закон выполняется.￼
