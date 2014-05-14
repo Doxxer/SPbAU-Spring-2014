@@ -1,0 +1,20 @@
+CXX = g++
+CXXFLAGS = -std=c++11 -Wall -Wextra -pedantic
+APPNAME = main
+srcdir = .
+builddir = .
+
+all: $(builddir)/main.o
+	$(CXX) $(builddir)/main.o -o $(builddir)/$(APPNAME)
+
+$(builddir)/main.o: $(srcdir)/2.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+    
+clean:
+	rm -f *.o $(APPNAME)
+	
+run:
+	$(builddir)/$(APPNAME) < test.txt
+	$(builddir)/$(APPNAME) < test2.txt
+
+.PHONY: clean
