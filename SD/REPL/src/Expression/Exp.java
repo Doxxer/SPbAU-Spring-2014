@@ -2,9 +2,13 @@ package Expression;
 
 public interface Exp {
 
-    public void accept(ExpVisitor visitor);
+    public int getBegin();
 
-    public void traverse(ExpVisitor visitor);
+    public int getEnd();
+
+    public void accept(ExpressionVisitor visitor);
+
+    public void traverse(ExpressionVisitor visitor);
 
     public Exp evaluate(EvaluateVisitor visitor) throws EvaluateError;
 }

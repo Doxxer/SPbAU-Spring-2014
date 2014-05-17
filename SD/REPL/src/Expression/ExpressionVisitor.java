@@ -1,6 +1,6 @@
 package Expression;
 
-public interface ExpVisitor {
+public interface ExpressionVisitor {
     void visit(Num num);
 
     void visit(Var var);

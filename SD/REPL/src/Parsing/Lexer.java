@@ -43,12 +43,13 @@ public class Lexer implements Selector<Token> {
                 throw new LexerError("unknown token", pos);
             }
         }
-        //tokens.add(new Token(Token.Type.EOF, "eof"));
     }
 
     private int getOperation(int pos, Token token) {
         char c = line.charAt(pos);
         token.value = Character.toString(c);
+        token.begin = pos;
+        token.end = pos + 1;
         switch (c) {
             case '+':
                 token.type = Token.Type.OPERATION_PLUS;
@@ -77,6 +78,7 @@ public class Lexer implements Selector<Token> {
 
     private int getNumber(int pos, Token token) throws LexerError {
         String value = "";
+        int begin = pos;
         while (pos < line.length() && (Character.isDigit(line.charAt(pos)) || line.charAt(pos) == '.')) {
             value += line.charAt(pos);
             pos++;
@@ -87,11 +89,14 @@ public class Lexer implements Selector<Token> {
 
         token.type = Token.Type.NUMBER;
         token.value = value;
+        token.begin = begin;
+        token.end = pos;
         return pos - 1;
     }
 
     private int getVariable(int pos, Token token) {
         String value = "";
+        int begin = pos;
         while (pos < line.length() && (
                 Character.isAlphabetic(line.charAt(pos)) || line.charAt(pos) == '_' || Character.isDigit(line.charAt(pos)))) {
             value += line.charAt(pos);
@@ -99,6 +104,8 @@ public class Lexer implements Selector<Token> {
         }
         token.type = Token.Type.VAR;
         token.value = value;
+        token.begin = begin;
+        token.end = pos;
         return pos - 1;
     }
 

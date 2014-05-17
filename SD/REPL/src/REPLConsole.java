@@ -1,16 +1,20 @@
 import Actions.AllowInputOnlyToLastLineFilter;
 import Actions.UserInputProcessor;
 import Actions.Utilities;
+import Expression.Exp;
+import Impl.Colorizer;
+import Parsing.Parser;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditListener;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 
 public class REPLConsole {
     public static final String SIMPLIFY = "Simplify";
@@ -47,13 +51,24 @@ public class REPLConsole {
                 userInputProcessor.setMode(SIMPLIFY.equals(optionPane.getSelectedItem()));
             }
         });
-
-
         frame.add(optionPane, "North");
 
-        JEditorPane textArea = new JEditorPane();
-        AbstractDocument document = (AbstractDocument) textArea.getDocument();
-        document.setDocumentFilter(new AllowInputOnlyToLastLineFilter());
+        StyledDocument styledDocument = new DefaultStyledDocument();
+        Style base = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+
+        Style def = styledDocument.addStyle("default", base);
+        StyleConstants.setForeground(def, Color.BLACK);
+
+        Style operand = styledDocument.addStyle("operand", base);
+        StyleConstants.setForeground(operand, Color.BLUE);
+        StyleConstants.setBold(operand, true);
+
+        Style error = styledDocument.addStyle("error", base);
+        StyleConstants.setForeground(error, Color.RED);
+        StyleConstants.setUnderline(error, true);
+
+        JTextPane textArea = new JTextPane(styledDocument);
+
         textArea.setText("Welcome to REPL Console! " + System.lineSeparator() + ">");
         textArea.setEditable(true);
         frame.add(textArea, "Center");
@@ -61,9 +76,11 @@ public class REPLConsole {
         userInputProcessor = new UserInputProcessor();
         optionPane.setSelectedIndex(0);
 
+        AbstractDocument document = (AbstractDocument) textArea.getDocument();
         // ----------- add listeners ----------
-
+        document.setDocumentFilter(new AllowInputOnlyToLastLineFilter());
         document.addUndoableEditListener(undoableEditListener);
+        document.addDocumentListener(new Coloring());
 
         textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke("ENTER"), new EvaluateAction());
         textArea.getKeymap().addActionForKeyStroke(KeyStroke.getKeyStroke("control shift Z"), new UndoEvaluationAction());
@@ -79,7 +96,7 @@ public class REPLConsole {
         );
 
         frame.setVisible(true);
-        frame.setSize(500, 300);
+        frame.setSize(500, 800);
     }
 
     private abstract class PrintToConsoleAction extends AbstractAction {
@@ -104,6 +121,55 @@ public class REPLConsole {
                 e1.printStackTrace();
             } finally {
                 document.addUndoableEditListener(undoableEditListener);
+            }
+        }
+    }
+
+    private class Coloring implements DocumentListener {
+        public void insertUpdate(DocumentEvent e) {
+            process(e);
+        }
+
+        public void removeUpdate(DocumentEvent e) {
+            process(e);
+        }
+
+        public void changedUpdate(DocumentEvent e) {
+        }
+
+        public void process(DocumentEvent e) {
+            final StyledDocument document = (StyledDocument) e.getDocument();
+            try {
+                String text = document.getText(0, document.getLength());
+                boolean isUserInput = '>' == text.charAt(Utilities.lastLineIndex(document) + 1);
+                int begin = Utilities.lastLineIndex(document) + GREETING.length();
+                final String userInput = text.substring(begin);
+                if (!isUserInput || userInput.isEmpty())
+                    return;
+
+                try {
+                    Exp exp = new Parser(userInput).process();
+                    Colorizer c = new Colorizer(userInputProcessor.getContext(), userInputProcessor.isSimplifyMode());
+                    exp.accept(c);
+                    SwingUtilities.invokeLater(() -> {
+                        document.removeUndoableEditListener(undoableEditListener);
+                        document.setCharacterAttributes(begin, userInput.length(), document.getStyle("default"), true);
+                        for (Colorizer.Segment segment : c.getSegments()) {
+                            document.setCharacterAttributes(begin + segment.getBegin(),
+                                    segment.length(), document.getStyle(segment.getStyle()), true);
+                        }
+                        document.addUndoableEditListener(undoableEditListener);
+                    });
+
+                } catch (ParseException e1) {
+                    SwingUtilities.invokeLater(() -> {
+                        document.removeUndoableEditListener(undoableEditListener);
+                        Style s = document.getStyle("error");
+                        document.setCharacterAttributes(begin, userInput.length(), s, true);
+                        document.addUndoableEditListener(undoableEditListener);
+                    });
+                }
+            } catch (BadLocationException ignored) {
             }
         }
     }

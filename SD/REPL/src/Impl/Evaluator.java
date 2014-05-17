@@ -43,9 +43,9 @@ public class Evaluator implements EvaluateVisitor {
         if (left instanceof Num && right instanceof Num) {
             Num l = (Num) left;
             Num r = (Num) right;
-            result = new Num(l.number.doubleValue() + r.number.doubleValue());
+            result = new Num(l.number.doubleValue() + r.number.doubleValue(), 0, 0);
         } else {
-            result = new Sum(left, right);
+            result = new Sum(left, right, sum.getBegin(), sum.getEnd());
         }
     }
 
@@ -57,9 +57,9 @@ public class Evaluator implements EvaluateVisitor {
         if (left instanceof Num && right instanceof Num) {
             Num l = (Num) left;
             Num r = (Num) right;
-            result = new Num(l.number.doubleValue() * r.number.doubleValue());
+            result = new Num(l.number.doubleValue() * r.number.doubleValue(), 0, 0);
         } else {
-            result = new Mul(left, right);
+            result = new Mul(left, right, mul.getBegin(), mul.getEnd());
         }
     }
 
@@ -75,9 +75,9 @@ public class Evaluator implements EvaluateVisitor {
             if (r.number.doubleValue() == 0)
                 throw new EvaluateError("Division by zero");
 
-            result = new Num(l.number.doubleValue() / r.number.doubleValue());
+            result = new Num(l.number.doubleValue() / r.number.doubleValue(), 0, 0);
         } else {
-            result = new Div(left, right);
+            result = new Div(left, right, div.getBegin(), div.getEnd());
         }
     }
 
@@ -95,9 +95,9 @@ public class Evaluator implements EvaluateVisitor {
         if (left instanceof Num && right instanceof Num) {
             Num l = (Num) left;
             Num r = (Num) right;
-            result = new Num(l.number.doubleValue() - r.number.doubleValue());
+            result = new Num(l.number.doubleValue() - r.number.doubleValue(), 0, 0);
         } else {
-            result = new Sub(left, right);
+            result = new Sub(left, right, sub.getBegin(), sub.getEnd());
         }
     }
 }

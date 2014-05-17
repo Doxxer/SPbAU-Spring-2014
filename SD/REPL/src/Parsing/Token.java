@@ -3,6 +3,8 @@ package Parsing;
 public class Token {
     public Type type;
     public String value;
+    public int begin;
+    public int end;
 
     public Token(Type type, String value) {
         this.type = type;

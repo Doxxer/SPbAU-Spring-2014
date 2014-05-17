@@ -33,17 +33,22 @@ public class Parser {
         String value = lexer.current().value;
 
         if (!lexer.hasNext()) {
-            return new Var(value);
+            return new Var(value, lexer.current().begin, lexer.current().end);
         }
         lexer.next();
-        if (lexer.current().type == Token.Type.OPERATION_EQ && lexer.hasNext()) {
-            lexer.next(); // =
-            Exp exp = parseExpression();
-            if (exp == null)
+        if (lexer.current().type == Token.Type.OPERATION_EQ) {
+            if (lexer.hasNext()) {
+                lexer.next(); // =
+                Exp exp = parseExpression();
+                if (exp == null)
+                    return null;
+                return new Assignment(value, exp, lexer.current().begin, lexer.current().end);
+            }
+            else {
                 return null;
-            return new Assignment(value, exp);
+            }
         }
-        return new Var(value);
+        return new Var(value, lexer.current().begin, lexer.current().end);
     }
 
     private Exp parseExpression() {
@@ -67,9 +72,9 @@ public class Parser {
 
         switch (type) {
             case OPERATION_PLUS:
-                return new Sum(lhs, rhs);
+                return new Sum(lhs, rhs, lhs.getBegin(), rhs.getEnd());
             case OPERATION_MINUS:
-                return new Sub(lhs, rhs);
+                return new Sub(lhs, rhs, lhs.getBegin(), rhs.getEnd());
             default:
                 return null;
         }
@@ -93,9 +98,9 @@ public class Parser {
 
         switch (type) {
             case OPERATION_DIV:
-                return new Div(lhs, rhs);
+                return new Div(lhs, rhs, lhs.getBegin(), rhs.getEnd());
             case OPERATION_MULT:
-                return new Mul(lhs, rhs);
+                return new Mul(lhs, rhs, lhs.getBegin(), rhs.getEnd());
             default:
                 return null;
         }
@@ -111,7 +116,7 @@ public class Parser {
             if (value == null)
                 return null;
 
-            return new Sub(new Num(0), value);
+            return new Sub(new Num(0, lexer.current().begin, lexer.current().begin), value, lexer.current().begin, value.getEnd());
         }
 
         // not? parse (...)
@@ -137,7 +142,7 @@ public class Parser {
         if (lexer.current().type != Token.Type.NUMBER)
             return null;
 
-        Num num = new Num(Double.parseDouble(lexer.current().value));
+        Num num = new Num(Double.parseDouble(lexer.current().value), lexer.current().begin, lexer.current().end);
         if (lexer.hasNext())
             lexer.next();
         return num;

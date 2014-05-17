@@ -25,6 +25,14 @@ public class UserInputProcessor {
         context = new HashMap<>();
     }
 
+    public Map<String, Exp> getContext() {
+        return context;
+    }
+
+    public boolean isSimplifyMode() {
+        return simplifyMode;
+    }
+
     public void setMode(boolean simplifyMode) {
         System.out.println("mode set to " + simplifyMode);
         this.simplifyMode = simplifyMode;

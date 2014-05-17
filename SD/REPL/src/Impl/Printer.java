@@ -2,7 +2,7 @@ package Impl;
 
 import Expression.*;
 
-public class Printer implements ExpVisitor {
+public class Printer implements ExpressionVisitor {
 
     private final StringBuilder stringBuilder;
 
