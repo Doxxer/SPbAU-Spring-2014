@@ -84,7 +84,7 @@ public class Evaluator implements EvaluateVisitor {
     @Override
     public void visit(Assignment assignment) throws EvaluateError {
         result = assignment.innerExpression.evaluate(this);
-        context.put(assignment.name, result);
+        context.put(assignment.innerVariable.name, result);
     }
 
     @Override

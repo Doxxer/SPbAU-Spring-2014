@@ -31,9 +31,11 @@ public class Parser {
         }
 
         String value = lexer.current().value;
+        int varBegin = lexer.current().begin;
+        int varEnd = lexer.current().end;
 
         if (!lexer.hasNext()) {
-            return new Var(value, lexer.current().begin, lexer.current().end);
+            return new Var(value, varBegin, varEnd);
         }
         lexer.next();
         if (lexer.current().type == Token.Type.OPERATION_EQ) {
@@ -42,13 +44,13 @@ public class Parser {
                 Exp exp = parseExpression();
                 if (exp == null)
                     return null;
-                return new Assignment(value, exp, lexer.current().begin, lexer.current().end);
+                return new Assignment(new Var(value, varBegin, varEnd), exp, lexer.current().begin, lexer.current().end);
             }
             else {
                 return null;
             }
         }
-        return new Var(value, lexer.current().begin, lexer.current().end);
+        return new Var(value, varBegin, varEnd);
     }
 
     private Exp parseExpression() {

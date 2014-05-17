@@ -34,7 +34,6 @@ public class UserInputProcessor {
     }
 
     public void setMode(boolean simplifyMode) {
-        System.out.println("mode set to " + simplifyMode);
         this.simplifyMode = simplifyMode;
     }
 

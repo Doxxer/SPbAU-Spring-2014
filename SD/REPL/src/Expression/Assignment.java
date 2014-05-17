@@ -2,13 +2,14 @@ package Expression;
 
 public class Assignment implements Exp {
     public final Exp innerExpression;
-    public final String name;
+    public final Var innerVariable;
+
     private final int begin;
     private final int end;
 
-    public Assignment(String name, Exp exp, int begin, int end) {
+    public Assignment(Var var, Exp exp, int begin, int end) {
         this.innerExpression = exp;
-        this.name = name;
+        this.innerVariable = var;
         this.begin = begin;
         this.end = end;
     }

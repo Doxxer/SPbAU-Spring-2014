@@ -28,7 +28,7 @@ public class Printer implements ExpressionVisitor {
 
     @Override
     public void visit(Assignment assignment) {
-        System.out.println(assignment.name);
+        stringBuilder.append(assignment.innerVariable.name);
         stringBuilder.append(" = (");
         assignment.innerExpression.accept(this);
         stringBuilder.append(")");

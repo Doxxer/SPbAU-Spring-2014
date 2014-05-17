@@ -36,9 +36,7 @@ public class Colorizer implements ExpressionVisitor {
         String style = "operand";
         if (!context.containsKey(var.name) && !simplifyMode) {
             style = "error";
-            System.out.println("var error " + var.name);
         }
-
         segmentList.add(new Segment(var.getBegin(), var.getEnd(), style));
     }
 
@@ -62,6 +60,7 @@ public class Colorizer implements ExpressionVisitor {
 
     @Override
     public void visit(Assignment assignment) {
+        assignment.innerVariable.accept(this);
         assignment.innerExpression.accept(this);
     }
 
