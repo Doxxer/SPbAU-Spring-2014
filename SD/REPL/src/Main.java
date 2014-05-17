@@ -1,9 +1,5 @@
 import Expression.*;
-import Impl.Evaluator;
 import Impl.Printer;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -33,27 +29,28 @@ public class Main {
                 )
         );
 
-        Printer prettyPrinter = new Printer();
+        StringBuilder resultBuffer = new StringBuilder();
+        Printer prettyPrinter = new Printer(resultBuffer);
 
         exp.accept(prettyPrinter);
-        System.out.println();
+        System.out.println(resultBuffer.toString());
 
-        Map<String, Exp> context = new HashMap<>();
-
-        try {
-            exp.evaluate(new Evaluator(context)).accept(prettyPrinter);
-            System.out.println();
-        } catch (EvaluateError evaluateError) {
-            evaluateError.printStackTrace();
-        }
-
-        try {
-            assignment.evaluate(new Evaluator(context)).accept(prettyPrinter);
-            System.out.println();
-            exp1.evaluate(new Evaluator(context)).accept(prettyPrinter);
-            System.out.println();
-        } catch (EvaluateError evaluateError) {
-            evaluateError.printStackTrace();
-        }
+//        Map<String, Exp> context = new HashMap<>();
+//
+//        try {
+//            exp.evaluate(new Evaluator(context)).accept(prettyPrinter);
+//            System.out.println();
+//        } catch (EvaluateError evaluateError) {
+//            evaluateError.printStackTrace();
+//        }
+//
+//        try {
+//            assignment.evaluate(new Evaluator(context)).accept(prettyPrinter);
+//            System.out.println();
+//            exp1.evaluate(new Evaluator(context)).accept(prettyPrinter);
+//            System.out.println();
+//        } catch (EvaluateError evaluateError) {
+//            evaluateError.printStackTrace();
+//        }
     }
 }

@@ -1,15 +1,27 @@
+import Expression.EvaluateError;
+import Expression.Exp;
+import Impl.Evaluator;
+import Impl.Printer;
+import Parsing.Parser;
+
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class REPLConsole {
 
     public static final String SIMPLIFY = "Simplify";
     public static final String EVALUATE = "Evaluate";
     public static final String GREETING = System.lineSeparator() + ">";
+    private static Map<String, Exp> context = new HashMap<>();
     private JFrame frame;
 
     public static void main(String[] args) {
@@ -22,7 +34,7 @@ public class REPLConsole {
     }
 
     private static boolean cursorOnLastLine(int offset, Document document) {
-        int lastLineIndex = 0;
+        int lastLineIndex;
         try {
             lastLineIndex = lastLineIndex(document);
         } catch (BadLocationException e) {
@@ -54,6 +66,7 @@ public class REPLConsole {
         JEditorPane textArea = new JEditorPane();
         AbstractDocument document = (AbstractDocument) textArea.getDocument();
         document.setDocumentFilter(new Filter());
+        document.addDocumentListener(new MyDocumentListener());
         textArea.setText("Welcome to REPL Console! " + System.lineSeparator() + ">");
         textArea.setEditable(true);
         frame.add(textArea, "Center");
@@ -67,8 +80,16 @@ public class REPLConsole {
                     String text = document.getText(0, document.getLength());
                     String userInput = text.substring(lastLineIndex(document) + GREETING.length());
 
-                    //todo implement me
-                    String result = "Evaluation result from user input: " + userInput;
+                    Parser p = new Parser(userInput);
+                    String result;
+
+                    try {
+                        StringBuilder b = new StringBuilder();
+                        p.process().evaluate(new Evaluator(context, simplifyMode())).accept(new Printer(b));
+                        result = b.toString();
+                    } catch (ParseException | EvaluateError error) {
+                        result = error.getMessage();
+                    }
 
                     document.insertString(endOffset(document), System.lineSeparator() + result, null);
                     document.insertString(endOffset(document), GREETING, null);
@@ -92,8 +113,6 @@ public class REPLConsole {
     }
 
     private class Filter extends DocumentFilter {
-
-
         @Override
         public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
             if (cursorOnLastLine(offset, fb)) {
@@ -113,7 +132,39 @@ public class REPLConsole {
                 super.replace(fb, offset, length, text, attrs);
             }
         }
-
     }
 
+    private class MyDocumentListener implements DocumentListener {
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            try {
+                processUserInput(e);
+            } catch (BadLocationException ignored) {
+            }
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            try {
+                processUserInput(e);
+            } catch (BadLocationException ignored) {
+            }
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+        }
+
+        private void processUserInput(DocumentEvent e) throws BadLocationException {
+            Document document = e.getDocument();
+            String text = document.getText(0, document.getLength());
+            boolean fromUser = text.charAt(lastLineIndex(document) + 1) == '>';
+            final String userInput = text.substring(lastLineIndex(document) + GREETING.length());
+            if (!fromUser || userInput.isEmpty())
+                return;
+
+            // System.out.println(userInput);
+        }
+    }
 }

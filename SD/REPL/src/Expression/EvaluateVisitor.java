@@ -14,4 +14,6 @@ public interface EvaluateVisitor {
     void visit(Div div) throws EvaluateError;
 
     void visit(Assignment assignment) throws EvaluateError;
+
+    void visit(Sub sub) throws EvaluateError;
 }

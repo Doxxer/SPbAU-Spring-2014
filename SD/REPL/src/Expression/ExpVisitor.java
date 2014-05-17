@@ -12,4 +12,6 @@ public interface ExpVisitor {
     void visit(Div div);
 
     void visit(Assignment assignment);
+
+    void visit(Sub sub);
 }

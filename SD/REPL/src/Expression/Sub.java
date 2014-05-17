@@ -1,7 +1,7 @@
 package Expression;
 
-public class Sum extends BiExp {
-    public Sum(Exp left, Exp right) {
+public class Sub extends BiExp {
+    public Sub(Exp left, Exp right) {
         super(left, right);
     }
 
@@ -23,4 +23,3 @@ public class Sum extends BiExp {
         return visitor.result();
     }
 }
-

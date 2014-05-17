@@ -5,11 +5,13 @@ import Expression.*;
 import java.util.Map;
 
 public class Evaluator implements EvaluateVisitor {
+    private final boolean justSimplify;
     private Exp result;
     private Map<String, Exp> context;
 
-    public Evaluator(Map<String, Exp> context) {
+    public Evaluator(Map<String, Exp> context, boolean justSimplify) {
         this.context = context;
+        this.justSimplify = justSimplify;
     }
 
     @Override
@@ -26,6 +28,8 @@ public class Evaluator implements EvaluateVisitor {
     public void visit(Var var) throws EvaluateError {
         if (context.containsKey(var.name)) {
             result = context.get(var.name).evaluate(this);
+        } else if (justSimplify) {
+            result = var;
         } else {
             throw new EvaluateError("Error: " + var.name + " is undefined");
         }
@@ -81,5 +85,19 @@ public class Evaluator implements EvaluateVisitor {
     public void visit(Assignment assignment) throws EvaluateError {
         result = assignment.innerExpression.evaluate(this);
         context.put(assignment.name, result);
+    }
+
+    @Override
+    public void visit(Sub sub) throws EvaluateError {
+        Exp left = sub.left.evaluate(this);
+        Exp right = sub.right.evaluate(this);
+
+        if (left instanceof Num && right instanceof Num) {
+            Num l = (Num) left;
+            Num r = (Num) right;
+            result = new Num(l.number.doubleValue() - r.number.doubleValue());
+        } else {
+            result = new Sub(left, right);
+        }
     }
 }

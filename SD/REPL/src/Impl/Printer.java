@@ -4,43 +4,58 @@ import Expression.*;
 
 public class Printer implements ExpVisitor {
 
+    private final StringBuilder stringBuilder;
+
+    public Printer(StringBuilder stringBuilder) {
+        this.stringBuilder = stringBuilder;
+    }
+
     public void visit(Num exp) {
-        System.out.print(exp.number);
+        stringBuilder.append(exp.number);
     }
 
     @Override
     public void visit(Var var) {
-        System.out.println(var.name);
+        stringBuilder.append(var.name);
     }
 
     public void visit(Div exp) {
         Div div = exp;
         div.left.accept(this);
-        System.out.print(" / ");
+        stringBuilder.append(" / ");
         div.right.accept(this);
     }
 
     @Override
     public void visit(Assignment assignment) {
         System.out.println(assignment.name);
-        System.out.println(" = (");
+        stringBuilder.append(" = (");
         assignment.innerExpression.accept(this);
-        System.out.println(")");
+        stringBuilder.append(")");
+    }
+
+    @Override
+    public void visit(Sub sub) {
+        stringBuilder.append("(");
+        sub.left.accept(this);
+        stringBuilder.append(" - ");
+        sub.right.accept(this);
+        stringBuilder.append(")");
     }
 
     public void visit(Mul exp) {
         Mul mul = exp;
         mul.left.accept(this);
-        System.out.print(" * ");
+        stringBuilder.append(" * ");
         mul.right.accept(this);
     }
 
     public void visit(Sum exp) {
         Sum sum = exp;
-        System.out.print("(");
+        stringBuilder.append("(");
         sum.left.accept(this);
-        System.out.print(" + ");
+        stringBuilder.append(" + ");
         sum.right.accept(this);
-        System.out.print(")");
+        stringBuilder.append(")");
     }
 }
