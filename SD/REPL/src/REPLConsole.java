@@ -1,3 +1,4 @@
+import Expression.Assignment;
 import Expression.EvaluateError;
 import Expression.Exp;
 import Impl.Evaluator;
@@ -85,7 +86,10 @@ public class REPLConsole {
 
                     try {
                         StringBuilder b = new StringBuilder();
-                        p.process().evaluate(new Evaluator(context, simplifyMode())).accept(new Printer(b));
+                        Exp expression = p.process();
+                        if (!simplifyMode() && expression instanceof Assignment)
+                            throw new ParseException("Assignments disallowed in non-simplify mode", 0);
+                        expression.evaluate(new Evaluator(context, simplifyMode())).accept(new Printer(b));
                         result = b.toString();
                     } catch (ParseException | EvaluateError error) {
                         result = error.getMessage();

@@ -16,7 +16,7 @@ public class Parser {
             lexer.process();
 
             Exp exp = parseExpression();
-            if (exp == null) {
+            if (exp == null || lexer.hasNext()) {
                 throw new ParseException("Cannot parse that string", 0);
             }
             return exp;
@@ -60,6 +60,9 @@ public class Parser {
 
         Exp rhs = parseExpression();
         if (rhs == null)
+            return null;
+
+        if (lhs instanceof Assignment || rhs instanceof Assignment)
             return null;
 
         switch (type) {
