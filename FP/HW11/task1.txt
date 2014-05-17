@@ -76,9 +76,17 @@ a = Just z, b = Just x:
     С другой стороны:
     Just z >>= k = k z
     Just x >>= k = k x
-    (k z) `mplus` (k x) = k z
+    (k z) `mplus` (k x) = k z -- это не так!!! k z может быть Nothing
     
-Закон выполняется.
+-- пример:
+--     > let k x = if x == 42 then Nothing else Just x
+--     > (Just 42 `mplus` Just 5) >>= k
+--     Nothing
+--     > (Just 42 >>= k) `mplus` (Just 5 >>= k)
+--     Just 5
+    
+    
+Закон НЕ выполняется.
 
 3. Left Catch law ((return a) `mplus` b ≡ return a)
 
