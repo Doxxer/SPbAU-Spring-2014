@@ -1,0 +1,22 @@
+LOCATION | N =    10; Non-parametric: width = 2.57175853805 (0.0147719279667); empirical CL = 0.9495
+LOCATION | N =    10;     Parametric: width = 2.61537066955 (0.0150224317584); empirical CL = 0.9526
+SCALE    | N =    10; Non-parametric: width = 2.85287699908 (0.0163866447432); empirical CL = 0.9501
+SCALE    | N =    10;     Parametric: width = 3.03424184009 (0.0174283865426); empirical CL = 0.9574
+
+
+LOCATION | N =   100; Non-parametric: width = 0.632206076181 (0.00101727749613); empirical CL = 0.9499
+LOCATION | N =   100;     Parametric: width = 0.630459012727 (0.00101446631097); empirical CL = 0.9487
+SCALE    | N =   100; Non-parametric: width = 0.642166782852 (0.00103330518571); empirical CL = 0.9499
+SCALE    | N =   100;     Parametric: width = 0.643619601061 (0.00103564290331); empirical CL = 0.9522
+
+
+LOCATION | N =  1000; Non-parametric: width = 0.196270498553 (9.79744846809e-05); empirical CL = 0.9502
+LOCATION | N =  1000;     Parametric: width = 0.195711753652 (9.7695569897e-05); empirical CL = 0.9495
+SCALE    | N =  1000; Non-parametric: width = 0.195498694475 (9.75892148245e-05); empirical CL = 0.9506
+SCALE    | N =  1000;     Parametric: width = 0.195733442153 (9.77063963822e-05); empirical CL = 0.9501
+
+
+LOCATION | N = 10000; Non-parametric: width = 0.0606667560884 (9.61640564402e-06); empirical CL = 0.9501
+LOCATION | N = 10000;     Parametric: width = 0.0615845827371 (9.76189213338e-06); empirical CL = 0.9533
+SCALE    | N = 10000; Non-parametric: width = 0.0621231679949 (9.84726433138e-06); empirical CL = 0.9504
+SCALE    | N = 10000;     Parametric: width = 0.0621657448763 (9.85401327577e-06); empirical CL = 0.9499
