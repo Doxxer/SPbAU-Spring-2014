@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO Add javadoc!
+ * Represents game with tournaments
  *
  * @author Turaev Timur
  * @version 1.0
@@ -21,53 +21,27 @@ public class Game {
     private final List<Tournament> tournaments = new ArrayList<>();
     private int tournamentsLeft;
 
+    /**
+     * Constructs new game. It loads player AIs and constructs tournaments and starts them.
+     *
+     * @param fieldSize        field size (number of rooms)
+     * @param pathToAI         directory with AI classes
+     * @param tournamentsCount number of tournaments
+     * @throws MalformedURLException if either no legal protocol could be found in a specification string or the
+     *                               string could not be parsed.
+     * @throws GameException         if game error occurred
+     */
     public Game(int fieldSize, String pathToAI, int tournamentsCount) throws MalformedURLException, GameException {
-        List<Class<? extends Player>> players = new ArrayList<>();
-
-        File classDirectory = new File(pathToAI);
-        URLClassLoader urlLoader = new URLClassLoader(new URL[]{classDirectory.toURI().toURL()});
-
-        File[] files = classDirectory.listFiles();
-        if (files == null)
-            throw new GameException("Directory with AIs is empty");
-
-        for (File file : files) {
-            String filename = file.getName();
-
-            if (!filename.endsWith(".class") || filename.equals(".") || filename.equals("..") || filename.startsWith("."))
-                continue;
-
-            filename = filename.substring(0, filename.lastIndexOf('.'));
-            try {
-                Class<?> givenClass;
-                try {
-                    givenClass = urlLoader.loadClass(filename);
-                } catch (NoClassDefFoundError e) {
-                    String errorMessage = e.getMessage();
-                    int startIndex = errorMessage.lastIndexOf(" ") + 1;
-                    int endIndex = errorMessage.length() - 1;
-                    String className = e.getMessage().substring(startIndex, endIndex).replace('/', '.');
-                    givenClass = urlLoader.loadClass(className);
-                }
-                if (givenClass == null) {
-                    throw new ClassNotFoundException("");
-                }
-                Class<? extends Player> aiClass = givenClass.asSubclass(Player.class);
-                aiClass.getConstructor(Tournament.class, int.class, int.class, int.class, String.class); //check proper constructor
-                players.add(aiClass);
-                System.out.println("Loaded " + aiClass.getSimpleName() + "...");
-            } catch (ClassNotFoundException e) {
-                System.err.println("Failed to load AI from " + filename + " class. There is no class in given file.");
-            } catch (ClassCastException e) {
-                System.err.println("Failed to load AI from " + filename + " class. Class not extends Player class");
-            } catch (NoSuchMethodException e) {
-                System.err.println("Failed to load AI from " + filename + " class. There is no proper constructor in given class");
-            }
-        }
+        List<Class<? extends Player>> players = loadPlayersAI(pathToAI);
 
         if (fieldSize < players.size()) {
             throw new GameException("Field size must be greater or equal than players count");
         }
+
+        if (players.size() == 0) {
+            throw new GameException("Must be at least 1 player");
+        }
+
         tournamentsLeft = tournamentsCount;
         for (int i = 0; i < tournamentsCount; i++) {
             Tournament tournament = new Tournament(this, players, fieldSize);
@@ -76,6 +50,9 @@ public class Game {
         }
     }
 
+    /**
+     * Runs the game. After the game prints result table.
+     */
     public void run() {
         for (Thread tournamentsThread : tournamentsThreads) {
             tournamentsThread.start();
@@ -88,19 +65,76 @@ public class Game {
             }
         } catch (InterruptedException ignored) {
         }
+
         for (Thread tournamentsThread : tournamentsThreads) {
             tournamentsThread.interrupt();
         }
 
+        printResultTable();
+    }
+
+    private List<Class<? extends Player>> loadPlayersAI(String pathToAI) throws MalformedURLException, GameException {
+        List<Class<? extends Player>> players = new ArrayList<>();
+        File classDirectory = new File(pathToAI);
+        URLClassLoader classLoader = new URLClassLoader(new URL[]{classDirectory.toURI().toURL()});
+
+        File[] files = classDirectory.listFiles();
+        if (files == null)
+            throw new GameException("Directory with AIs is not exist or is empty");
+
+        for (File file : files) {
+            String aiClassFileName = file.getName();
+
+            if (!aiClassFileName.endsWith(".class") || aiClassFileName.equals(".") || aiClassFileName.equals("..") || aiClassFileName.startsWith("."))
+                continue;
+
+            Class<? extends Player> player = loadAI(classLoader, aiClassFileName.substring(0, aiClassFileName.lastIndexOf('.')));
+            if (player != null)
+                players.add(player);
+        }
+        return players;
+    }
+
+    private Class<? extends Player> loadAI(URLClassLoader classLoader, String aiClassFileName) {
+        try {
+            Class<?> givenClass;
+            try {
+                givenClass = classLoader.loadClass(aiClassFileName);
+            } catch (NoClassDefFoundError e) {
+                String errorMessage = e.getMessage();
+                int startIndex = errorMessage.lastIndexOf(" ") + 1;
+                int endIndex = errorMessage.length() - 1;
+                String className = e.getMessage().substring(startIndex, endIndex).replace('/', '.');
+                givenClass = classLoader.loadClass(className);
+            }
+            if (givenClass == null) {
+                throw new ClassNotFoundException("");
+            }
+            Class<? extends Player> player = givenClass.asSubclass(Player.class);
+            //check proper constructor
+            player.getConstructor(Tournament.class, int.class, int.class, int.class, String.class);
+            System.out.println("Loaded " + player.getSimpleName() + "AI player...");
+            return player;
+        } catch (ClassNotFoundException e) {
+            System.err.println("Failed to load AI from " + aiClassFileName + " class. There is no class in given file.");
+        } catch (ClassCastException e) {
+            System.err.println("Failed to load AI from " + aiClassFileName + " class. Class not extends Player class");
+        } catch (NoSuchMethodException e) {
+            System.err.println("Failed to load AI from " + aiClassFileName + " class. There is no proper constructor in given class");
+        }
+        return null;
+    }
+
+    private void printResultTable() {
         Map<String, List<Integer>> gameResult = new HashMap<>();
 
         for (Tournament tournament : tournaments) {
-            Map<String, Integer> tournamentScore = tournament.getScore();
-            for (Map.Entry<String, Integer> entry : tournamentScore.entrySet()) {
-                List<Integer> scores = gameResult.get(entry.getKey());
+            Map<Player, Integer> tournamentScore = tournament.getScore();
+            for (Map.Entry<Player, Integer> entry : tournamentScore.entrySet()) {
+                List<Integer> scores = gameResult.get(entry.getKey().getName());
                 if (scores == null) {
-                    gameResult.put(entry.getKey(), new ArrayList<Integer>());
-                    scores = gameResult.get(entry.getKey());
+                    gameResult.put(entry.getKey().getName(), new ArrayList<Integer>());
+                    scores = gameResult.get(entry.getKey().getName());
                 }
                 scores.add(entry.getValue());
             }
@@ -124,6 +158,9 @@ public class Game {
         System.out.print(stringBuilder.toString());
     }
 
+    /**
+     * Ends the tournament.
+     */
     public void tournamentOver() {
         synchronized (gameLock) {
             tournamentsLeft--;

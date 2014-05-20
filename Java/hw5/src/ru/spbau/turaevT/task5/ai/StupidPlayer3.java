@@ -4,11 +4,10 @@ import ru.spbau.turaevT.task5.Player;
 import ru.spbau.turaevT.task5.PlayerInfo;
 import ru.spbau.turaevT.task5.Tournament;
 
-import java.util.List;
 import java.util.Random;
 
 /**
- * TODO Add javadoc!
+ * Sample random playing AI implementation
  *
  * @author Turaev Timur
  * @version 1.0
@@ -16,14 +15,25 @@ import java.util.Random;
 public class StupidPlayer3 extends Player {
     private static final Random random = new Random();
 
+    /**
+     * Constructs random playing AI class
+     *
+     * @param tournament tournament which player belongs
+     * @param number     number of player, his ID
+     * @param roomNumber number if first room, where player will be spawned
+     * @param nextVictim number of next victim
+     * @param name       player name
+     */
     public StupidPlayer3(Tournament tournament, int number, int roomNumber, int nextVictim, String name) {
         super(tournament, number, roomNumber, nextVictim, name);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public int move() {
-        List<PlayerInfo> playersInfo = getPlayersInfo();
-        for (PlayerInfo playerInfo : playersInfo) {
+        for (PlayerInfo playerInfo : getPlayersInfo()) {
             if (playerInfo.getNumber() == getNextVictim() && playerInfo.getRoomNumber() == getRoomNumber()) {
                 return 0;
             }

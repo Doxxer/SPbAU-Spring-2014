@@ -4,7 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
- * TODO Add javadoc!
+ * Represents tournament
+ * Runs all AI in separate threads
  *
  * @author Turaev Timur
  * @version 1.0
@@ -12,20 +13,57 @@ import java.util.*;
 public class Tournament implements Runnable {
 
     private final List<Player> players;
-    private Map<Player, Thread> threads = new HashMap<>();
-    private Map<Player, Boolean> stepGate = new HashMap<>();
-    private Map<String, Integer> score = new HashMap<>();
-    private Map<Player, Integer> decision = Collections.synchronizedMap(new HashMap<Player, Integer>());
-
-    private final Object aiLock = new Object();
-    private int stepsLeft = 0;
+    private final Object lock = new Object();
     private final Game game;
-    private int fieldSize;
+    private final Map<Player, Thread> threads = new HashMap<>();
+    private final Map<Player, Boolean> stepGate = new HashMap<>();
+    private final Map<Player, Integer> score = new HashMap<>();
+    private final Map<Player, Integer> decision = Collections.synchronizedMap(new HashMap<Player, Integer>());
+    private final int fieldSize;
+    private int stepsLeft = 0;
 
+    /**
+     * Constructs new Tournament and initializes threads
+     *
+     * @param game             game witch tournament belongs to
+     * @param playersClassList players' AI
+     * @param fieldSize        number of rooms
+     */
     public Tournament(Game game, List<Class<? extends Player>> playersClassList, int fieldSize) {
         this.game = game;
         this.fieldSize = fieldSize;
         this.players = new ArrayList<>();
+
+        initializeAI(playersClassList);
+        initializeThreads();
+    }
+
+    private void initializeThreads() {
+        for (final Player player : players) {
+            threads.put(player, new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        try {
+                            synchronized (lock) {
+                                while (!stepGate.get(player)) {
+                                    lock.wait();
+                                }
+                                stepsLeft--;
+                                stepGate.put(player, false);
+                                decision.put(player, player.move());
+                                lock.notifyAll();
+                            }
+                        } catch (InterruptedException e) {
+                            break;
+                        }
+                    }
+                }
+            }));
+        }
+    }
+
+    private void initializeAI(List<Class<? extends Player>> playersClassList) {
         List<Integer> rooms = generateRoomsLayout(fieldSize);
         List<Integer> victims = generateVictimsLayout(playersClassList.size());
 
@@ -37,40 +75,13 @@ public class Tournament implements Runnable {
                         .newInstance(this, i, rooms.get(i), victims.get(i), playerClass.getSimpleName());
                 players.add(player);
                 stepGate.put(player, false);
-                score.put(player.getName(), 0);
+                score.put(player, 0);
             } catch (NoSuchMethodException ignored) {
 
             } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
                 System.err.println("Error occurred while instantiating AI class: " + e.getMessage());
             }
         }
-
-        for (final Player player : players) {
-            threads.put(player, new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    while (true) {
-                        try {
-                            synchronized (aiLock) {
-                                while (!stepGate.get(player)) {
-                                    aiLock.wait();
-                                }
-                                stepsLeft--;
-                                stepGate.put(player, false);
-                                decision.put(player, player.move());
-                                aiLock.notifyAll();
-                            }
-                        } catch (InterruptedException e) {
-                            break;
-                        }
-                    }
-                }
-            }));
-        }
-    }
-
-    public Map<String, Integer> getScore() {
-        return score;
     }
 
     private List<Integer> generateVictimsLayout(int maxSize) {
@@ -109,41 +120,14 @@ public class Tournament implements Runnable {
         }
         while (players.size() > 1) {
             try {
-                synchronized (aiLock) {
+                synchronized (lock) {
                     stepsLeft = players.size();
                     allowAIStep();
-                    aiLock.notifyAll();
+                    lock.notifyAll();
                     while (stepsLeft != 0) {
-                        aiLock.wait();
+                        lock.wait();
                     }
-
-                    for (Map.Entry<Player, Integer> entry : decision.entrySet()) {
-                        Player murderer = entry.getKey();
-                        if (murderer.getRoomNumber() != -1 && entry.getValue() == 0) {
-                            Player kenny = null;
-                            for (Player victim : players) {
-                                if (victim.getNumber() == murderer.getNextVictim() && victim.getRoomNumber() == murderer.getRoomNumber()) {
-                                    kenny = victim;
-                                    break;
-                                }
-                            }
-                            if (kenny == null)
-                                continue; // no victim in murderer's room
-
-                            threads.get(kenny).interrupt();
-                            players.remove(kenny);
-                            murderer.setNextVictim(kenny.getNextVictim());
-                            kenny.setRoomNumber(-1);
-                            score.put(murderer.getName(), score.get(murderer.getName()) + 2);
-                        }
-                    }
-                    for (Map.Entry<Player, Integer> entry : decision.entrySet()) {
-                        Player player = entry.getKey();
-                        if (player.getRoomNumber() != -1 && entry.getValue() != 0) {
-                            player.setRoomNumber(player.getRoomNumber() + entry.getValue());
-                        }
-                    }
-                    decision.clear();
+                    movePlayers();
                 }
             } catch (InterruptedException e) {
                 break;
@@ -151,18 +135,48 @@ public class Tournament implements Runnable {
         }
 
         if (players.size() == 1) {
-            String winner = players.get(0).getName();
+            Player winner = players.get(0);
             score.put(winner, score.get(winner) + 5);
         }
-
         for (Map.Entry<Player, Thread> entry : threads.entrySet()) {
             entry.getValue().interrupt();
         }
-
         synchronized (Game.gameLock) {
             game.tournamentOver();
         }
+    }
 
+    private void movePlayers() {
+        // kill kenny
+        for (Map.Entry<Player, Integer> entry : decision.entrySet()) {
+            Player murderer = entry.getKey();
+            if (murderer.getRoomNumber() != -1 && entry.getValue() == 0) {
+                Player kenny = null;
+                for (Player victim : players) {
+                    if (victim.getNumber() == murderer.getNextVictim() && victim.getRoomNumber() == murderer.getRoomNumber()) {
+                        kenny = victim;
+                        break;
+                    }
+                }
+                if (kenny == null) {
+                    continue; // no victim in murderer's room
+                }
+
+                threads.get(kenny).interrupt();
+                players.remove(kenny);
+                murderer.setNextVictim(kenny.getNextVictim());
+                kenny.setRoomNumber(-1);
+                score.put(murderer, score.get(murderer) + 2 + score.get(kenny));
+            }
+        }
+        // move luckers
+        for (Map.Entry<Player, Integer> entry : decision.entrySet()) {
+            Player player = entry.getKey();
+            if (player.getRoomNumber() != -1 && entry.getValue() != 0) {
+                player.setRoomNumber(player.getRoomNumber() + entry.getValue());
+            }
+        }
+        decision.clear();
     }
 
     private void allowAIStep() {
@@ -171,10 +185,29 @@ public class Tournament implements Runnable {
         }
     }
 
+    /**
+     * Returns score table for this tournament
+     *
+     * @return score table for this tournament
+     */
+    public Map<Player, Integer> getScore() {
+        return score;
+    }
+
+    /**
+     * Returns all live players
+     *
+     * @return all live players
+     */
     public List<Player> getPlayers() {
         return players;
     }
 
+    /**
+     * Returns maximal room number (i.e. field size)
+     *
+     * @return maximal room number (i.e. field size)
+     */
     public int getFieldSize() {
         return fieldSize;
     }
