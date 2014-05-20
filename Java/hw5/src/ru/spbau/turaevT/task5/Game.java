@@ -16,20 +16,13 @@ import java.util.Map;
  * @version 1.0
  */
 public class Game {
-
-    private final int fieldSize;
-    private final int tournamentsCount;
-    private final List<Class<? extends Player>> players;
-    private final List<Thread> tournamentsThreads = new ArrayList<>();
-
     public final static Object gameLock = new Object();
+    private final List<Thread> tournamentsThreads = new ArrayList<>();
     private final List<Tournament> tournaments = new ArrayList<>();
     private int tournamentsLeft;
 
     public Game(int fieldSize, String pathToAI, int tournamentsCount) throws MalformedURLException, GameException {
-        this.fieldSize = fieldSize;
-        this.tournamentsCount = tournamentsCount;
-        this.players = new ArrayList<>();
+        List<Class<? extends Player>> players = new ArrayList<>();
 
         File classDirectory = new File(pathToAI);
         URLClassLoader urlLoader = new URLClassLoader(new URL[]{classDirectory.toURI().toURL()});
