@@ -3,21 +3,14 @@ package com.aptu.sd.coffeemachine.shell;
 import com.aptu.sd.coffeemachine.machine.AutomatException;
 import com.aptu.sd.coffeemachine.machine.VendingMachine;
 
-/**
- * Created by IntelliJ IDEA.
- * User: andrey
- * Date: 5/22/12, 11:58 PM
- */
-public class Cancel implements Command {
-
+public class Encash implements Command {
     @Override
-    public void execute(String[] args, VendingMachine machine) {
+    public void execute(String[] args, VendingMachine machine) throws CommandParseException {
         try {
-            long amount = machine.cancel();
-            System.out.println("Returned: " + amount);
+            long cash = machine.encash();
+            System.out.println("Encashed: " + cash);
         } catch (AutomatException e) {
             System.out.println(e.getMessage());
         }
-
     }
 }

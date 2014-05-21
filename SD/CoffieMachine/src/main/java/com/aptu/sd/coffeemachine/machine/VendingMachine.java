@@ -9,11 +9,11 @@ public interface VendingMachine {
 
     long getDeposit();
 
-    void deposit(long amount) throws NonPositiveDepositException;
+    void deposit(long amount) throws NonPositiveDepositException, AutomatException;
 
-    long cancel();
+    long cancel() throws AutomatException;
 
-    void purchaseProduct(String productName) throws NoSuchProductException, DepositTooSmallException;
+    void purchaseProduct(String productName) throws NoSuchProductException, DepositTooSmallException, AutomatException;
 
-    long encash();
+    long encash() throws AutomatException;
 }

@@ -5,17 +5,20 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: andrey
- * Date: 5/22/12, 11:41 PM
- */
-
-public class Shell {
+public class Shell2 {
+    private static Shell2 ourInstance = new Shell2();
     private Map<String, Command> commands = new HashMap<>();
     private VendingMachine currentMachine;
     private VendingMachine firstMachine;
     private VendingMachine secondMachine;
+
+    private Shell2() {
+
+    }
+
+    public static Shell2 getInstance() {
+        return ourInstance;
+    }
 
     public void setCommands(List<Command> commands) {
         for (Command command : commands) {
@@ -60,5 +63,11 @@ public class Shell {
             currentMachine = firstMachine;
         }
         return currentMachine;
+    }
+
+    public void switchMachines() {
+        if (currentMachine == firstMachine)
+            currentMachine = secondMachine;
+        else currentMachine = firstMachine;
     }
 }

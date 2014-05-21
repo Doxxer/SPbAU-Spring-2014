@@ -1,6 +1,6 @@
 package com.aptu.sd.coffeemachine.springapp;
 
-import com.aptu.sd.coffeemachine.shell.Shell;
+import com.aptu.sd.coffeemachine.shell.Shell2;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class JavaConfigSpringApp {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CoffeeMachineConfig.class);
-        Shell shell = (Shell) applicationContext.getBean("shell");
+        Shell2 shell = (Shell2) applicationContext.getBean("shell");
         shell.run();
     }
 }

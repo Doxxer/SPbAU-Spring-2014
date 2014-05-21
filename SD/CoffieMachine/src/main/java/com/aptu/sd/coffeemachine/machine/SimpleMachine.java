@@ -11,10 +11,11 @@ import java.util.Map;
  * Date: 5/22/12, 11:13 PM
  */
 public class SimpleMachine implements VendingMachine {
-    private Map<String, Product> productMap = new HashMap<String, Product>();
+    private Map<String, Product> productMap = new HashMap<>();
     private long deposit;
     private long storage;
 
+    @Override
     public long getDeposit() {
         return deposit;
     }
@@ -25,6 +26,7 @@ public class SimpleMachine implements VendingMachine {
         }
     }
 
+    @Override
     public void deposit(long amount) throws NonPositiveDepositException {
         if (amount <= 0) {
             throw new NonPositiveDepositException(amount + ": deposit must be positive");
@@ -32,13 +34,14 @@ public class SimpleMachine implements VendingMachine {
         this.deposit += amount;
     }
 
-
+    @Override
     public long cancel() {
         long amount = deposit;
         deposit = 0;
         return amount;
     }
 
+    @Override
     public void purchaseProduct(String productName) throws NoSuchProductException, DepositTooSmallException {
         Product product = productMap.get(productName);
         if (product == null) {
@@ -52,6 +55,7 @@ public class SimpleMachine implements VendingMachine {
         product.setCount(product.getCount() - 1);
     }
 
+    @Override
     public long encash() {
         long t = storage;
         storage = 0;

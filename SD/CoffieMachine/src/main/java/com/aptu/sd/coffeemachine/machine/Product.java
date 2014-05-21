@@ -10,7 +10,8 @@ public class Product {
     private long price;
     private int count;
 
-    public Product() {}
+    public Product() {
+    }
 
     public Product(String name, long price, int count) {
         this.name = name;
@@ -22,8 +23,16 @@ public class Product {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public long getPrice() {
         return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
     }
 
     public int getCount() {
@@ -32,14 +41,5 @@ public class Product {
 
     public void setCount(int count) {
         this.count = count;
-    }
-
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(long price) {
-        this.price = price;
     }
 }

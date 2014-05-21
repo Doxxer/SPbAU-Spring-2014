@@ -27,6 +27,13 @@ public class SimpleMachineTest {
         assertEquals(10, machine.cancel());
     }
 
+    @Test
+    public void encashOnDeposit() throws NonPositiveDepositException, NoSuchProductException, DepositTooSmallException {
+        machine.deposit(10);
+        machine.purchaseProduct("latte");
+        assertEquals(6, machine.encash());
+    }
+
     @Test(expected = NonPositiveDepositException.class)
     public void negativeDepositIsNotAllowed() throws NonPositiveDepositException {
         machine.deposit(-10);
