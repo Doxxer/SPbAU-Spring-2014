@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- Products -->
+    <bean id="capuccino" class="com.aptu.sd.coffeemachine.machine.Product">
+        <property name="name" value="capuccino"/>
+        <property name="price" value="4"/>
+        <property name="count" value="10"/>
+    </bean>
+
+    <bean id="latte" class="com.aptu.sd.coffeemachine.machine.Product">
+        <property name="name" value="latte"/>
+        <property name="price" value="6"/>
+        <property name="count" value="15"/>
+    </bean>
+
+    <!-- Machine -->
+    <bean id="machine"
+          class="com.aptu.sd.coffeemachine.machine.SimpleMachine">
+        <property name="products">
+            <list>
+                <ref bean="capuccino"/>
+                <ref bean="latte"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Commands -->
+    <bean id="insert" class="com.aptu.sd.coffeemachine.shell.Insert"/>
+    <bean id="select" class="com.aptu.sd.coffeemachine.shell.Select"/>
+    <bean id="cancel" class="com.aptu.sd.coffeemachine.shell.Cancel"/>
+    <bean id="exit" class="com.aptu.sd.coffeemachine.shell.Exit"/>
+
+    <bean id="shell"
+          class="com.aptu.sd.coffeemachine.shell.Shell">
+        <property name="machine" ref="machine"/>
+        <property name="commands">
+            <list>
+                <ref bean="insert"/>
+                <ref bean="select"/>
+                <ref bean="cancel"/>
+                <ref bean="exit"/>
+            </list>
+        </property>
+    </bean>
+</beans>
