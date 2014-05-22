@@ -10,6 +10,10 @@ import com.aptu.sd.coffeemachine.machine.VendingMachine;
  */
 public class Cancel implements Command {
 
+    public Cancel() {
+        System.out.println("Cancel ctor called");
+    }
+
     @Override
     public void execute(String[] args, VendingMachine machine) {
         try {

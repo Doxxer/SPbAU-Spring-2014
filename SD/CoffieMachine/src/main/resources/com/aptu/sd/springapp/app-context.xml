@@ -31,16 +31,17 @@
     </bean>
 
     <!-- Commands -->
-    <bean id="insert" class="com.aptu.sd.coffeemachine.shell.Insert" />
-    <bean id="select" class="com.aptu.sd.coffeemachine.shell.Select"/>
-    <bean id="cancel" class="com.aptu.sd.coffeemachine.shell.Cancel" />
-    <bean id="exit" class="com.aptu.sd.coffeemachine.shell.Exit"/>
-    <bean id="switch" class="com.aptu.sd.coffeemachine.shell.Switch"/>
+    <bean id="insert" class="com.aptu.sd.coffeemachine.shell.Insert" scope="prototype"/>
+    <bean id="select" class="com.aptu.sd.coffeemachine.shell.Select" scope="prototype"/>
+    <bean id="cancel" class="com.aptu.sd.coffeemachine.shell.Cancel" scope="prototype"/>
+    <bean id="exit" class="com.aptu.sd.coffeemachine.shell.Exit" scope="prototype"/>
+    <bean id="switch" class="com.aptu.sd.coffeemachine.shell.Switch" scope="prototype"/>
+    <bean id="encash" class="com.aptu.sd.coffeemachine.shell.Encash" scope="prototype"/>
 
     <bean id="shell"
           class="com.aptu.sd.coffeemachine.shell.Shell2" factory-method="getInstance" lazy-init="false">
         <property name="firstMachine" ref="simpleMachine"/>
-        <property name="secondMachine" ref="testMachine" />
+        <property name="secondMachine" ref="testMachine"/>
         <property name="commands">
             <list>
                 <ref bean="insert"/>
@@ -48,6 +49,7 @@
                 <ref bean="cancel"/>
                 <ref bean="exit"/>
                 <ref bean="switch"/>
+                <ref bean="encash"/>
             </list>
         </property>
     </bean>

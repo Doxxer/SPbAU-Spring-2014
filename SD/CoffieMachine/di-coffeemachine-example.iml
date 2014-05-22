@@ -5,6 +5,8 @@
       <configuration>
         <fileset id="fileset" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/java/com/aptu/sd/coffeemachine/springapp/CoffeeMachineConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/resources/com/aptu/sd/springapp/app-context.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/com/aptu/sd/springapp/app-context.xml</file>
         </fileset>
       </configuration>
     </facet>
