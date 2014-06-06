@@ -1,8 +1,7 @@
 #include "ThreadPool.hpp"
 
-ThreadPool::ThreadPool(size_t workers) :
-        is_running_(true),
-        pool_size_(workers ? workers : boost::thread::hardware_concurrency()) {
+ThreadPool::ThreadPool(size_t workers)
+        : is_running_(true), pool_size_(workers ? workers : boost::thread::hardware_concurrency()) {
     for (size_t i = 0; i < pool_size_; ++i) {
         threads_.create_thread(boost::bind(&ThreadPool::pool_main, this));
     }

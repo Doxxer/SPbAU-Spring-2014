@@ -1,5 +1,5 @@
-#ifndef __ThreadPool_H_
-#define __ThreadPool_H_
+#ifndef THREADPOOL_HPP_EC0B8D9A
+#define THREADPOOL_HPP_EC0B8D9A
 
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
@@ -36,9 +36,7 @@ public:
     void stop();
 
 private:
-
     void pool_main();
 };
 
-
-#endif //__ThreadPool_H_
+#endif /* end of include guard: THREADPOOL_HPP_EC0B8D9A */

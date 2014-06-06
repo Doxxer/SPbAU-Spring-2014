@@ -1,21 +1,24 @@
 CXX = clang++
 CXXFLAGS = -Wall -Wextra -std=c++11 -pedantic
-APPNAME = updatedb
-OBJECTS = $(builddir)/main.o $(builddir)/FileSystemWalker.o $(builddir)/ThreadPool.o
-BOOST_INCLUDE_PATHS = -I/usr/local/Cellar/boost/1.55.0_1/include/
-BOOST_LIB_PATHS = -L/usr/local/Cellar/boost/1.55.0_1/lib/
+APPNAME = updatedb locate
+OBJECTS = $(builddir)/FileSystemWalker.o $(builddir)/ThreadPool.o
+BOOST_INCLUDE_PATHS = -I/usr/local/include/
+BOOST_LIB_PATHS = -L/usr/local/lib/
 LIBS = -lboost_system -lboost_thread-mt -lboost_filesystem -lboost_program_options -lboost_timer
-srcdir = .
+srcdir = src
 builddir = obj
 
-all: clean $(builddir) $(APPNAME)
+all: $(builddir) $(APPNAME)
 
 $(builddir):
 	mkdir -p $(builddir)
 
 ####################
 
-$(builddir)/main.o: $(srcdir)/main.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
+$(builddir)/locate.o: $(srcdir)/locate.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
+
+$(builddir)/updatedb.o: $(srcdir)/updatedb.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
 	
 $(builddir)/FileSystemWalker.o: $(srcdir)/FileSystemWalker.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
@@ -26,14 +29,17 @@ $(builddir)/ThreadPool.o: $(srcdir)/ThreadPool.cpp $(srcdir)/ThreadPool.hpp
 	
 ####################
 
-$(APPNAME): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $@ $(BOOST_LIB_PATHS) $(LIBS)
+updatedb: $(OBJECTS) $(builddir)/updatedb.o 
+	$(CXX) $(CXXFLAGS) $(OBJECTS) $(builddir)/updatedb.o -o $@ $(BOOST_LIB_PATHS) $(LIBS)
+
+locate: $(OBJECTS) $(builddir)/locate.o 
+	$(CXX) $(CXXFLAGS) $(OBJECTS) $(builddir)/locate.o -o $@ $(BOOST_LIB_PATHS) $(LIBS)
 
 clean:
 	rm -rf $(builddir)
 	rm -rf $(APPNAME)
 	
 run:
-	./$(APPNAME) --database-root /Users/doxer/Documents --output "path to file"
+	./updatedb --database-root /Users/doxer/Documents --output "path to file"
 
 .PHONY: clean

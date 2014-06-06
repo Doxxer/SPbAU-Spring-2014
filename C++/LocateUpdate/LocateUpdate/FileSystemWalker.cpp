@@ -1,6 +1,6 @@
 #include "FileSystemWalker.hpp"
 
-namespace fs=boost::filesystem;
+namespace fs = boost::filesystem;
 
 void FileSystemWalker::scan() {
     fs::path rootPath(root_);

@@ -1,12 +1,12 @@
-#ifndef __FileSystemWalker_H_
-#define __FileSystemWalker_H_
+#ifndef FILESYSTEMWALKER_HPP
+#define FILESYSTEMWALKER_HPP
 
 #include <string>
 #include <boost/function.hpp>
 #include <boost/filesystem.hpp>
 #include "ThreadPool.hpp"
 
-namespace fs=boost::filesystem;
+namespace fs = boost::filesystem;
 
 using std::string;
 
@@ -24,17 +24,16 @@ private:
     private:
         fs::path path_;
         FileSystemWalker *fileSystemWalker_;
+
     public:
         void operator()();
 
         fs_scanner_worker(FileSystemWalker *fileSystemWalker, fs::path path)
                 : path_(path), fileSystemWalker_(fileSystemWalker) {
-
         }
     };
 
 public:
-
     FileSystemWalker(string const &root, boost::function<void(fs::path)> const &callback)
             : root_(root), callback_(callback) {
     }
@@ -42,5 +41,4 @@ public:
     void scan();
 };
 
-
-#endif //__FileSystemWalker_H_
+#endif /* end of include guard: FILESYSTEMWALKER_HPP */
