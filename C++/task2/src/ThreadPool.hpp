@@ -1,5 +1,5 @@
-#ifndef THREADPOOL_HPP_EC0B8D9A
-#define THREADPOOL_HPP_EC0B8D9A
+#ifndef THREADPOOL_HPP
+#define THREADPOOL_HPP
 
 #include <boost/function.hpp>
 #include <boost/thread.hpp>
@@ -24,14 +24,16 @@ private:
 public:
     ThreadPool(size_t workers = 0);
 
+    ~ThreadPool();
+
     template <typename Task> void add_task(Task task)
     {
-        boost::unique_lock<boost::mutex> lock(tasks_mutex_);
+        boost::lock_guard<boost::mutex> lock(tasks_mutex_);
         tasks_.push(boost::function<void()>(task));
         tasks_cv_.notify_one();
     }
 
-    void wait();
+    void start_and_wait();
 
     void stop();
 
@@ -39,4 +41,4 @@ private:
     void pool_main();
 };
 
-#endif /* end of include guard: THREADPOOL_HPP_EC0B8D9A */
+#endif /* end of include guard: THREADPOOL_HPP */

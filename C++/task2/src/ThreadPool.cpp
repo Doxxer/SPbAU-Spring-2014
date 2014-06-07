@@ -8,7 +8,12 @@ ThreadPool::ThreadPool(size_t workers)
     }
 }
 
-void ThreadPool::wait()
+ThreadPool::~ThreadPool()
+{
+    stop();
+}
+
+void ThreadPool::start_and_wait()
 {
     boost::unique_lock<boost::mutex> lock(wait_mutex_);
     waiting_thread_count = 0;
@@ -21,6 +26,8 @@ void ThreadPool::wait()
 void ThreadPool::stop()
 {
     is_running_ = false;
+    started = true;
+    start_cv_.notify_all();
     tasks_cv_.notify_all();
     threads_.join_all();
 }

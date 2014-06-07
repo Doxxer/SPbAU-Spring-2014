@@ -12,7 +12,7 @@ void FileSystemWalker::scan()
         throw std::runtime_error(root_ + " is not a directory");
 
     add_task(rootPath);
-    threadPool.wait();
+    threadPool.start_and_wait();
     threadPool.stop();
 }
 

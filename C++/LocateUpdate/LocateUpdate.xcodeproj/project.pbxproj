@@ -7,65 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B572031430768DE599EAB9B /* libboost_program_options.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572592A669C2192D3C58D3 /* libboost_program_options.dylib */; };
-		5B572130B700A0C1D322FB86 /* libboost_thread-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572E178653AD125C449E87 /* libboost_thread-mt.a */; };
-		5B572131A407B1F7E017E82E /* libboost_timer-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5725EE8E99EB8E08390C67 /* libboost_timer-mt.a */; };
-		5B5721388F2BDCA5A91F7946 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572F2A3105CE876A15E278 /* libboost_system.dylib */; };
-		5B57213FCD91EEA77789AAD0 /* libboost_system-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57214C2806DADA958E22EF /* libboost_system-mt.a */; };
-		5B5721BD7999ED9E37F7D45B /* libboost_program_options-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572EB9A07EA4DD478897FD /* libboost_program_options-mt.dylib */; };
-		5B5721DBD3C86434B6E22219 /* libboost_atomic-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572DF2DEC3D357597B4CA5 /* libboost_atomic-mt.a */; };
-		5B57229A48B865B9FE69F165 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572F2A3105CE876A15E278 /* libboost_system.dylib */; };
-		5B5722DAB6241373407AF8B4 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572D943F22EE19C99C8F36 /* libboost_system.a */; };
-		5B57235F7C90008067FAC7BC /* libboost_program_options-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572EB9A07EA4DD478897FD /* libboost_program_options-mt.dylib */; };
-		5B57251FAC6341E9B1F55B98 /* libboost_atomic-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572E511D1CA0753442CDE1 /* libboost_atomic-mt.dylib */; };
-		5B5725279A38B3BEF8DC1BE0 /* libboost_thread-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572DA01A2BF0D12383851A /* libboost_thread-mt.dylib */; };
-		5B57255A97CF4D59BDE77B64 /* libboost_filesystem-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57213A63FA840257C9DCDB /* libboost_filesystem-mt.dylib */; };
-		5B5725CE39FAADB82C3703AC /* libboost_atomic-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572E511D1CA0753442CDE1 /* libboost_atomic-mt.dylib */; };
-		5B5725D29EB769C7D78AEC6E /* libboost_timer-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57210B3B0F5C6C82CCA660 /* libboost_timer-mt.dylib */; };
-		5B572614FD48F8CB0A6EAB67 /* libboost_atomic-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572DF2DEC3D357597B4CA5 /* libboost_atomic-mt.a */; };
-		5B572640EC316521B4EC31BB /* libboost_program_options-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5726C6D0968DED953ACF54 /* libboost_program_options-mt.a */; };
-		5B57267E9A521F78C6B2E715 /* libboost_timer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572EF529B3556AA4916911 /* libboost_timer.a */; };
-		5B5726942B8063686B9144E0 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572D943F22EE19C99C8F36 /* libboost_system.a */; };
-		5B5726A6582FB908DE4C507E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B572F35EFE6A564BA3F5DCE /* main.cpp */; };
-		5B57271B7F827A9153F017B4 /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572E420374AFAE9E191B14 /* libboost_system-mt.dylib */; };
-		5B572746016F18B79EA6419A /* libboost_timer-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57210B3B0F5C6C82CCA660 /* libboost_timer-mt.dylib */; };
-		5B57275E014C6692E3107347 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572153045F3B55A66D4886 /* libboost_filesystem.a */; };
-		5B5727AA7F8D2757598279A6 /* libboost_timer.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572A4FF32FF32AFE1C2F65 /* libboost_timer.dylib */; };
-		5B5728D1B8AEC69A575F91AD /* libboost_timer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572EF529B3556AA4916911 /* libboost_timer.a */; };
-		5B572909616E82B864AD4477 /* libboost_timer-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5725EE8E99EB8E08390C67 /* libboost_timer-mt.a */; };
-		5B5729BD2622A0A10B1EEC51 /* libboost_program_options.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572770A64C9C438609651E /* libboost_program_options.a */; };
-		5B5729E6DD676DA0FC7778C3 /* libboost_thread-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572DA01A2BF0D12383851A /* libboost_thread-mt.dylib */; };
-		5B572A96FFD5878BC8022B22 /* libboost_filesystem-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572374C7A993622243A182 /* libboost_filesystem-mt.a */; };
-		5B572A9A9776D769D49E200B /* libboost_filesystem-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572374C7A993622243A182 /* libboost_filesystem-mt.a */; };
-		5B572B3260118FF79A4E352B /* FileSystemWalker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B5724C4C0EB68E3AAA0E870 /* FileSystemWalker.cpp */; };
-		5B572BA4A34A9FF13DA5D9AA /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57269749280980A4237654 /* libboost_filesystem.dylib */; };
-		5B572BAF4D61E797948BB73C /* libboost_program_options.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572592A669C2192D3C58D3 /* libboost_program_options.dylib */; };
-		5B572BC5F6687A52A0C7A52D /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57269749280980A4237654 /* libboost_filesystem.dylib */; };
-		5B572BF33570F6F9CFA7B506 /* ThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B572A01225B1A3FD347983E /* ThreadPool.cpp */; };
-		5B572C1A07FE863AD09BEB27 /* libboost_thread-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572E178653AD125C449E87 /* libboost_thread-mt.a */; };
-		5B572D2B1B94F8A2962C0CD1 /* libboost_filesystem-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57213A63FA840257C9DCDB /* libboost_filesystem-mt.dylib */; };
-		5B572DDC9FCB464E864B169A /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572E420374AFAE9E191B14 /* libboost_system-mt.dylib */; };
-		5B572DE3683CD3CE190A840C /* libboost_system-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57214C2806DADA958E22EF /* libboost_system-mt.a */; };
-		5B572E2D7AD95D9B6A94F401 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572153045F3B55A66D4886 /* libboost_filesystem.a */; };
-		5B572E517E8E946FCC9DED30 /* FileSystemWalker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B5724C4C0EB68E3AAA0E870 /* FileSystemWalker.cpp */; };
-		5B572E7A7232667B0DB3AF66 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B5720B2D070E2C4B142D18D /* main.cpp */; };
-		5B572F3FA98AB3AAE04CACDA /* libboost_timer.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572A4FF32FF32AFE1C2F65 /* libboost_timer.dylib */; };
-		5B572FA6E8DCE3DA43954286 /* libboost_program_options.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572770A64C9C438609651E /* libboost_program_options.a */; };
-		5B572FE43BE9A766125D32E6 /* libboost_program_options-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5726C6D0968DED953ACF54 /* libboost_program_options-mt.a */; };
-		5B572FE4A25D6D61B7563D41 /* ThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B572A01225B1A3FD347983E /* ThreadPool.cpp */; };
+		5B572235A751A3627E0BBACE /* utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B57249EA5172C55ED4EE6EB /* utilities.cpp */; };
+		5B57235735853BE14F418B6F /* libboost_program_options.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572298888D3E486EB36330 /* libboost_program_options.dylib */; };
+		5B5723651DD4E981AD313DB0 /* libboost_timer-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57237B6626F9DE9B6EF6BA /* libboost_timer-mt.dylib */; };
+		5B5724AA47B7227333973B1C /* libboost_timer-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57219B051C90579DDE72B7 /* libboost_timer-mt.a */; };
+		5B5724FAA1EF0E4D11CA1578 /* FileSystemWalker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B572540AAB124F1CBD3071D /* FileSystemWalker.cpp */; };
+		5B57253060DA061E9F27615E /* libboost_timer.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572ED19EBC586E55FBAE94 /* libboost_timer.dylib */; };
+		5B572579EE2E61455FDDA074 /* libboost_thread-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572F9FD47FAC824EF10BF2 /* libboost_thread-mt.dylib */; };
+		5B5727346A2B44D55D542752 /* libboost_filesystem-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5724C2A387FFB4CD201385 /* libboost_filesystem-mt.dylib */; };
+		5B5727F710869F254AB0E3F7 /* DatabaseBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B5723E2E4F63A190AEF02F6 /* DatabaseBuilder.cpp */; };
+		5B57280F1C2DDBDDC279CC29 /* ThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B5728EB9DE83B27AA0C2DF6 /* ThreadPool.cpp */; };
+		5B57284BC0646A4F6A107AAB /* libboost_program_options-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5721DDD51C747B9F49D59A /* libboost_program_options-mt.dylib */; };
+		5B57288D05089C8BE4DF5EBA /* libboost_thread-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5728897E11350131BE1478 /* libboost_thread-mt.a */; };
+		5B5728ED6EFD43486E516125 /* updatedb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B57225545A661897FC6F48D /* updatedb.cpp */; };
+		5B5729613D12A6F4F2399D04 /* libboost_filesystem-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5722B747EC378FB36DCF3C /* libboost_filesystem-mt.a */; };
+		5B572B2DE3B74841E3FEDB43 /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572CB513337F4ECBC1F52A /* libboost_filesystem.dylib */; };
+		5B572C2E2BCA752B94118413 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5722474625BD24C7C0A54E /* libboost_filesystem.a */; };
+		5B572C8D8A0FD4301324824B /* SuffixIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B572852CE7C5C387F31FB2D /* SuffixIterator.cpp */; };
+		5B572D4EE3B596D247F0C438 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572FB9455133DAAA8DEE8C /* libboost_system.dylib */; };
+		5B572D53C3A8F87CBAD2EF81 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57242E59885376F7A26E94 /* libboost_system.a */; };
+		5B572D82338F054F28787F3C /* libboost_program_options-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57243F662DA41F41508057 /* libboost_program_options-mt.a */; };
+		5B572DA26255B369B1F001FB /* libboost_program_options.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57230EDF4D43E8A356A921 /* libboost_program_options.a */; };
+		5B572F737EF47349D3289ACB /* libboost_timer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572B7B328A8EA37A4EC4BD /* libboost_timer.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		5B57294A85EAE6E99CBC33DC /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		5B57299474E6B10D4F926659 /* CopyFiles */ = {
+		5B572EBD0647222AAE850519 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -77,182 +44,131 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5B5720B2D070E2C4B142D18D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		5B5720BCB7066029BCFE914C /* FileSystemWalker.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FileSystemWalker.hpp; sourceTree = "<group>"; };
-		5B57210B3B0F5C6C82CCA660 /* libboost_timer-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_timer-mt.dylib"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_timer-mt.dylib"; sourceTree = "<absolute>"; };
-		5B57213A63FA840257C9DCDB /* libboost_filesystem-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_filesystem-mt.dylib"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_filesystem-mt.dylib"; sourceTree = "<absolute>"; };
-		5B57214C2806DADA958E22EF /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-mt.a"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_system-mt.a"; sourceTree = "<absolute>"; };
-		5B572153045F3B55A66D4886 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_filesystem.a; sourceTree = "<absolute>"; };
-		5B572374C7A993622243A182 /* libboost_filesystem-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_filesystem-mt.a"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_filesystem-mt.a"; sourceTree = "<absolute>"; };
-		5B5724C4C0EB68E3AAA0E870 /* FileSystemWalker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemWalker.cpp; sourceTree = "<group>"; };
-		5B572592A669C2192D3C58D3 /* libboost_program_options.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_program_options.dylib; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_program_options.dylib; sourceTree = "<absolute>"; };
-		5B5725EE8E99EB8E08390C67 /* libboost_timer-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_timer-mt.a"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_timer-mt.a"; sourceTree = "<absolute>"; };
-		5B57269749280980A4237654 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_filesystem.dylib; sourceTree = "<absolute>"; };
-		5B5726C6D0968DED953ACF54 /* libboost_program_options-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_program_options-mt.a"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_program_options-mt.a"; sourceTree = "<absolute>"; };
-		5B572770A64C9C438609651E /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_program_options.a; sourceTree = "<absolute>"; };
-		5B572A01225B1A3FD347983E /* ThreadPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadPool.cpp; sourceTree = "<group>"; };
-		5B572A4FF32FF32AFE1C2F65 /* libboost_timer.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_timer.dylib; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_timer.dylib; sourceTree = "<absolute>"; };
-		5B572C41D0FA533D159BF771 /* ThreadPool.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ThreadPool.hpp; sourceTree = "<group>"; };
-		5B572D943F22EE19C99C8F36 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_system.a; sourceTree = "<absolute>"; };
-		5B572DA01A2BF0D12383851A /* libboost_thread-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_thread-mt.dylib"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_thread-mt.dylib"; sourceTree = "<absolute>"; };
-		5B572DF2DEC3D357597B4CA5 /* libboost_atomic-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_atomic-mt.a"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_atomic-mt.a"; sourceTree = "<absolute>"; };
-		5B572E178653AD125C449E87 /* libboost_thread-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_thread-mt.a"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_thread-mt.a"; sourceTree = "<absolute>"; };
-		5B572E420374AFAE9E191B14 /* libboost_system-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_system-mt.dylib"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_system-mt.dylib"; sourceTree = "<absolute>"; };
-		5B572E511D1CA0753442CDE1 /* libboost_atomic-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_atomic-mt.dylib"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_atomic-mt.dylib"; sourceTree = "<absolute>"; };
-		5B572EB9A07EA4DD478897FD /* libboost_program_options-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_program_options-mt.dylib"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_program_options-mt.dylib"; sourceTree = "<absolute>"; };
-		5B572EF529B3556AA4916911 /* libboost_timer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_timer.a; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_timer.a; sourceTree = "<absolute>"; };
-		5B572F2A3105CE876A15E278 /* libboost_system.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_system.dylib; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_system.dylib; sourceTree = "<absolute>"; };
-		5B572F35EFE6A564BA3F5DCE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		5B5720676D0E1D6F3F694942 /* SuffixIterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SuffixIterator.hpp; sourceTree = "<group>"; };
+		5B57219B051C90579DDE72B7 /* libboost_timer-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_timer-mt.a"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_timer-mt.a"; sourceTree = "<absolute>"; };
+		5B5721B19AFD3DAD5C0668DB /* utilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = utilities.hpp; sourceTree = "<group>"; };
+		5B5721DDD51C747B9F49D59A /* libboost_program_options-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_program_options-mt.dylib"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_program_options-mt.dylib"; sourceTree = "<absolute>"; };
+		5B5722474625BD24C7C0A54E /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_filesystem.a; sourceTree = "<absolute>"; };
+		5B57225545A661897FC6F48D /* updatedb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = updatedb.cpp; sourceTree = "<group>"; };
+		5B572298888D3E486EB36330 /* libboost_program_options.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_program_options.dylib; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_program_options.dylib; sourceTree = "<absolute>"; };
+		5B5722B747EC378FB36DCF3C /* libboost_filesystem-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_filesystem-mt.a"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_filesystem-mt.a"; sourceTree = "<absolute>"; };
+		5B57230EDF4D43E8A356A921 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_program_options.a; sourceTree = "<absolute>"; };
+		5B57237B6626F9DE9B6EF6BA /* libboost_timer-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_timer-mt.dylib"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_timer-mt.dylib"; sourceTree = "<absolute>"; };
+		5B5723E2E4F63A190AEF02F6 /* DatabaseBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DatabaseBuilder.cpp; sourceTree = "<group>"; };
+		5B5723FA43ED7EB4094996F4 /* FileSystemWalker.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FileSystemWalker.hpp; sourceTree = "<group>"; };
+		5B57242E59885376F7A26E94 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_system.a; sourceTree = "<absolute>"; };
+		5B57243F662DA41F41508057 /* libboost_program_options-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_program_options-mt.a"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_program_options-mt.a"; sourceTree = "<absolute>"; };
+		5B57249EA5172C55ED4EE6EB /* utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utilities.cpp; sourceTree = "<group>"; };
+		5B5724C2A387FFB4CD201385 /* libboost_filesystem-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_filesystem-mt.dylib"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_filesystem-mt.dylib"; sourceTree = "<absolute>"; };
+		5B572540AAB124F1CBD3071D /* FileSystemWalker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemWalker.cpp; sourceTree = "<group>"; };
+		5B57258FB771567F0D320E7E /* DatabaseBuilder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DatabaseBuilder.hpp; sourceTree = "<group>"; };
+		5B572852CE7C5C387F31FB2D /* SuffixIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuffixIterator.cpp; sourceTree = "<group>"; };
+		5B5728897E11350131BE1478 /* libboost_thread-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_thread-mt.a"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_thread-mt.a"; sourceTree = "<absolute>"; };
+		5B5728EB9DE83B27AA0C2DF6 /* ThreadPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadPool.cpp; sourceTree = "<group>"; };
+		5B572B21D76470713CD56B58 /* ThreadPool.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ThreadPool.hpp; sourceTree = "<group>"; };
+		5B572B7B328A8EA37A4EC4BD /* libboost_timer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_timer.a; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_timer.a; sourceTree = "<absolute>"; };
+		5B572CB513337F4ECBC1F52A /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_filesystem.dylib; sourceTree = "<absolute>"; };
+		5B572ED19EBC586E55FBAE94 /* libboost_timer.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_timer.dylib; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_timer.dylib; sourceTree = "<absolute>"; };
+		5B572F9FD47FAC824EF10BF2 /* libboost_thread-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_thread-mt.dylib"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_thread-mt.dylib"; sourceTree = "<absolute>"; };
+		5B572FA19929641EAFBA5FC8 /* locate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = locate.cpp; sourceTree = "<group>"; };
+		5B572FB9455133DAAA8DEE8C /* libboost_system.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_system.dylib; path = /usr/local/Cellar/boost/1.55.0_1/lib/libboost_system.dylib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5B5722F00179F4E25DE2E1AC /* Frameworks */ = {
+		5B57222D62016183CD43D708 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B5721DBD3C86434B6E22219 /* libboost_atomic-mt.a in Frameworks */,
-				5B57251FAC6341E9B1F55B98 /* libboost_atomic-mt.dylib in Frameworks */,
-				5B572A96FFD5878BC8022B22 /* libboost_filesystem-mt.a in Frameworks */,
-				5B57255A97CF4D59BDE77B64 /* libboost_filesystem-mt.dylib in Frameworks */,
-				5B572E2D7AD95D9B6A94F401 /* libboost_filesystem.a in Frameworks */,
-				5B572BC5F6687A52A0C7A52D /* libboost_filesystem.dylib in Frameworks */,
-				5B572640EC316521B4EC31BB /* libboost_program_options-mt.a in Frameworks */,
-				5B57235F7C90008067FAC7BC /* libboost_program_options-mt.dylib in Frameworks */,
-				5B572FA6E8DCE3DA43954286 /* libboost_program_options.a in Frameworks */,
-				5B572031430768DE599EAB9B /* libboost_program_options.dylib in Frameworks */,
-				5B572DE3683CD3CE190A840C /* libboost_system-mt.a in Frameworks */,
-				5B572DDC9FCB464E864B169A /* libboost_system-mt.dylib in Frameworks */,
-				5B5722DAB6241373407AF8B4 /* libboost_system.a in Frameworks */,
-				5B5721388F2BDCA5A91F7946 /* libboost_system.dylib in Frameworks */,
-				5B572C1A07FE863AD09BEB27 /* libboost_thread-mt.a in Frameworks */,
-				5B5725279A38B3BEF8DC1BE0 /* libboost_thread-mt.dylib in Frameworks */,
-				5B572131A407B1F7E017E82E /* libboost_timer-mt.a in Frameworks */,
-				5B5725D29EB769C7D78AEC6E /* libboost_timer-mt.dylib in Frameworks */,
-				5B5728D1B8AEC69A575F91AD /* libboost_timer.a in Frameworks */,
-				5B5727AA7F8D2757598279A6 /* libboost_timer.dylib in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5B57253EB00AC77F766B3E40 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5B572614FD48F8CB0A6EAB67 /* libboost_atomic-mt.a in Frameworks */,
-				5B5725CE39FAADB82C3703AC /* libboost_atomic-mt.dylib in Frameworks */,
-				5B572A9A9776D769D49E200B /* libboost_filesystem-mt.a in Frameworks */,
-				5B572D2B1B94F8A2962C0CD1 /* libboost_filesystem-mt.dylib in Frameworks */,
-				5B57275E014C6692E3107347 /* libboost_filesystem.a in Frameworks */,
-				5B572BA4A34A9FF13DA5D9AA /* libboost_filesystem.dylib in Frameworks */,
-				5B572FE43BE9A766125D32E6 /* libboost_program_options-mt.a in Frameworks */,
-				5B5721BD7999ED9E37F7D45B /* libboost_program_options-mt.dylib in Frameworks */,
-				5B5729BD2622A0A10B1EEC51 /* libboost_program_options.a in Frameworks */,
-				5B572BAF4D61E797948BB73C /* libboost_program_options.dylib in Frameworks */,
-				5B57213FCD91EEA77789AAD0 /* libboost_system-mt.a in Frameworks */,
-				5B57271B7F827A9153F017B4 /* libboost_system-mt.dylib in Frameworks */,
-				5B5726942B8063686B9144E0 /* libboost_system.a in Frameworks */,
-				5B57229A48B865B9FE69F165 /* libboost_system.dylib in Frameworks */,
-				5B572130B700A0C1D322FB86 /* libboost_thread-mt.a in Frameworks */,
-				5B5729E6DD676DA0FC7778C3 /* libboost_thread-mt.dylib in Frameworks */,
-				5B572909616E82B864AD4477 /* libboost_timer-mt.a in Frameworks */,
-				5B572746016F18B79EA6419A /* libboost_timer-mt.dylib in Frameworks */,
-				5B57267E9A521F78C6B2E715 /* libboost_timer.a in Frameworks */,
-				5B572F3FA98AB3AAE04CACDA /* libboost_timer.dylib in Frameworks */,
+				5B5729613D12A6F4F2399D04 /* libboost_filesystem-mt.a in Frameworks */,
+				5B5727346A2B44D55D542752 /* libboost_filesystem-mt.dylib in Frameworks */,
+				5B572C2E2BCA752B94118413 /* libboost_filesystem.a in Frameworks */,
+				5B572B2DE3B74841E3FEDB43 /* libboost_filesystem.dylib in Frameworks */,
+				5B572D82338F054F28787F3C /* libboost_program_options-mt.a in Frameworks */,
+				5B57284BC0646A4F6A107AAB /* libboost_program_options-mt.dylib in Frameworks */,
+				5B572DA26255B369B1F001FB /* libboost_program_options.a in Frameworks */,
+				5B57235735853BE14F418B6F /* libboost_program_options.dylib in Frameworks */,
+				5B572D53C3A8F87CBAD2EF81 /* libboost_system.a in Frameworks */,
+				5B572D4EE3B596D247F0C438 /* libboost_system.dylib in Frameworks */,
+				5B57288D05089C8BE4DF5EBA /* libboost_thread-mt.a in Frameworks */,
+				5B572579EE2E61455FDDA074 /* libboost_thread-mt.dylib in Frameworks */,
+				5B5724AA47B7227333973B1C /* libboost_timer-mt.a in Frameworks */,
+				5B5723651DD4E981AD313DB0 /* libboost_timer-mt.dylib in Frameworks */,
+				5B572F737EF47349D3289ACB /* libboost_timer.a in Frameworks */,
+				5B57253060DA061E9F27615E /* libboost_timer.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5B57262D760105069926C4B8 = {
-			isa = PBXGroup;
-			children = (
-				5B572865ADDB3790D6956B86 /* Products */,
-				5B57286729BFF03B6762D69F /* LocateUpdate */,
-				5B572C2249B8BD911B200AD8 /* Frameworks */,
-				5B572CF2B9A64364BB7990C5 /* locate */,
-			);
-			sourceTree = "<group>";
-		};
-		5B572865ADDB3790D6956B86 /* Products */ = {
+		5B572017FF9B336F550B2715 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5B57286729BFF03B6762D69F /* LocateUpdate */ = {
+		5B572432D02640C1D874964F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5B572F35EFE6A564BA3F5DCE /* main.cpp */,
-				5B5724C4C0EB68E3AAA0E870 /* FileSystemWalker.cpp */,
-				5B5720BCB7066029BCFE914C /* FileSystemWalker.hpp */,
-				5B572A01225B1A3FD347983E /* ThreadPool.cpp */,
-				5B572C41D0FA533D159BF771 /* ThreadPool.hpp */,
-			);
-			path = LocateUpdate;
-			sourceTree = "<group>";
-		};
-		5B572C2249B8BD911B200AD8 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5B572DF2DEC3D357597B4CA5 /* libboost_atomic-mt.a */,
-				5B572E511D1CA0753442CDE1 /* libboost_atomic-mt.dylib */,
-				5B572374C7A993622243A182 /* libboost_filesystem-mt.a */,
-				5B57213A63FA840257C9DCDB /* libboost_filesystem-mt.dylib */,
-				5B572153045F3B55A66D4886 /* libboost_filesystem.a */,
-				5B57269749280980A4237654 /* libboost_filesystem.dylib */,
-				5B5726C6D0968DED953ACF54 /* libboost_program_options-mt.a */,
-				5B572EB9A07EA4DD478897FD /* libboost_program_options-mt.dylib */,
-				5B572770A64C9C438609651E /* libboost_program_options.a */,
-				5B572592A669C2192D3C58D3 /* libboost_program_options.dylib */,
-				5B57214C2806DADA958E22EF /* libboost_system-mt.a */,
-				5B572E420374AFAE9E191B14 /* libboost_system-mt.dylib */,
-				5B572D943F22EE19C99C8F36 /* libboost_system.a */,
-				5B572F2A3105CE876A15E278 /* libboost_system.dylib */,
-				5B572E178653AD125C449E87 /* libboost_thread-mt.a */,
-				5B572DA01A2BF0D12383851A /* libboost_thread-mt.dylib */,
-				5B5725EE8E99EB8E08390C67 /* libboost_timer-mt.a */,
-				5B57210B3B0F5C6C82CCA660 /* libboost_timer-mt.dylib */,
-				5B572EF529B3556AA4916911 /* libboost_timer.a */,
-				5B572A4FF32FF32AFE1C2F65 /* libboost_timer.dylib */,
+				5B5722B747EC378FB36DCF3C /* libboost_filesystem-mt.a */,
+				5B5724C2A387FFB4CD201385 /* libboost_filesystem-mt.dylib */,
+				5B5722474625BD24C7C0A54E /* libboost_filesystem.a */,
+				5B572CB513337F4ECBC1F52A /* libboost_filesystem.dylib */,
+				5B57243F662DA41F41508057 /* libboost_program_options-mt.a */,
+				5B5721DDD51C747B9F49D59A /* libboost_program_options-mt.dylib */,
+				5B57230EDF4D43E8A356A921 /* libboost_program_options.a */,
+				5B572298888D3E486EB36330 /* libboost_program_options.dylib */,
+				5B57242E59885376F7A26E94 /* libboost_system.a */,
+				5B572FB9455133DAAA8DEE8C /* libboost_system.dylib */,
+				5B5728897E11350131BE1478 /* libboost_thread-mt.a */,
+				5B572F9FD47FAC824EF10BF2 /* libboost_thread-mt.dylib */,
+				5B57219B051C90579DDE72B7 /* libboost_timer-mt.a */,
+				5B57237B6626F9DE9B6EF6BA /* libboost_timer-mt.dylib */,
+				5B572B7B328A8EA37A4EC4BD /* libboost_timer.a */,
+				5B572ED19EBC586E55FBAE94 /* libboost_timer.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5B572CF2B9A64364BB7990C5 /* locate */ = {
+		5B5724F3B294E2E0FE66EC6D /* LocateUpdate */ = {
 			isa = PBXGroup;
 			children = (
-				5B5720B2D070E2C4B142D18D /* main.cpp */,
+				5B5723E2E4F63A190AEF02F6 /* DatabaseBuilder.cpp */,
+				5B57258FB771567F0D320E7E /* DatabaseBuilder.hpp */,
+				5B572540AAB124F1CBD3071D /* FileSystemWalker.cpp */,
+				5B5723FA43ED7EB4094996F4 /* FileSystemWalker.hpp */,
+				5B572FA19929641EAFBA5FC8 /* locate.cpp */,
+				5B5728EB9DE83B27AA0C2DF6 /* ThreadPool.cpp */,
+				5B572B21D76470713CD56B58 /* ThreadPool.hpp */,
+				5B57225545A661897FC6F48D /* updatedb.cpp */,
+				5B5721B19AFD3DAD5C0668DB /* utilities.hpp */,
+				5B572852CE7C5C387F31FB2D /* SuffixIterator.cpp */,
+				5B5720676D0E1D6F3F694942 /* SuffixIterator.hpp */,
+				5B57249EA5172C55ED4EE6EB /* utilities.cpp */,
 			);
-			path = locate;
+			path = LocateUpdate;
+			sourceTree = "<group>";
+		};
+		5B5727CDDEFEA6A764009411 = {
+			isa = PBXGroup;
+			children = (
+				5B572017FF9B336F550B2715 /* Products */,
+				5B5724F3B294E2E0FE66EC6D /* LocateUpdate */,
+				5B572432D02640C1D874964F /* Frameworks */,
+			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5B572402AD3F0F6A56DD49AE /* locate */ = {
+		5B5720E269DBE00555C79BD7 /* LocateUpdate */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5B572BC8BE85F402EB2429F0 /* Build configuration list for PBXNativeTarget "locate" */;
+			buildConfigurationList = 5B572488CA51086C67ED64CD /* Build configuration list for PBXNativeTarget "LocateUpdate" */;
 			buildPhases = (
-				5B5728877FFDE8D405B088F9 /* Sources */,
-				5B5722F00179F4E25DE2E1AC /* Frameworks */,
-				5B57294A85EAE6E99CBC33DC /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = locate;
-			productName = locate;
-			productType = "com.apple.product-type.tool";
-		};
-		5B572DB84BC636BAA9FE7AB3 /* LocateUpdate */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5B57253EBFB942C7D9B49E29 /* Build configuration list for PBXNativeTarget "LocateUpdate" */;
-			buildPhases = (
-				5B5726A810193EDDBD569879 /* Sources */,
-				5B57253EB00AC77F766B3E40 /* Frameworks */,
-				5B57299474E6B10D4F926659 /* CopyFiles */,
+				5B5724193BBB9C35C7ADEAC5 /* Sources */,
+				5B57222D62016183CD43D708 /* Frameworks */,
+				5B572EBD0647222AAE850519 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -265,54 +181,46 @@
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		5B5720DC6FF429AA6D50810B /* Project object */ = {
+		5B5721A36BCFECBD9433533C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				ORGANIZATIONNAME = spbau;
 			};
-			buildConfigurationList = 5B572C82EA5DF2D92216B072 /* Build configuration list for PBXProject "LocateUpdate" */;
+			buildConfigurationList = 5B5720FDAA753A739B0C0825 /* Build configuration list for PBXProject "LocateUpdate" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 5B57262D760105069926C4B8;
-			productRefGroup = 5B572865ADDB3790D6956B86 /* Products */;
+			mainGroup = 5B5727CDDEFEA6A764009411;
+			productRefGroup = 5B572017FF9B336F550B2715 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5B572DB84BC636BAA9FE7AB3 /* LocateUpdate */,
-				5B572402AD3F0F6A56DD49AE /* locate */,
+				5B5720E269DBE00555C79BD7 /* LocateUpdate */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5B5726A810193EDDBD569879 /* Sources */ = {
+		5B5724193BBB9C35C7ADEAC5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B5726A6582FB908DE4C507E /* main.cpp in Sources */,
-				5B572B3260118FF79A4E352B /* FileSystemWalker.cpp in Sources */,
-				5B572BF33570F6F9CFA7B506 /* ThreadPool.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5B5728877FFDE8D405B088F9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5B572E7A7232667B0DB3AF66 /* main.cpp in Sources */,
-				5B572E517E8E946FCC9DED30 /* FileSystemWalker.cpp in Sources */,
-				5B572FE4A25D6D61B7563D41 /* ThreadPool.cpp in Sources */,
+				5B5727F710869F254AB0E3F7 /* DatabaseBuilder.cpp in Sources */,
+				5B5724FAA1EF0E4D11CA1578 /* FileSystemWalker.cpp in Sources */,
+				5B57280F1C2DDBDDC279CC29 /* ThreadPool.cpp in Sources */,
+				5B5728ED6EFD43486E516125 /* updatedb.cpp in Sources */,
+				5B572C8D8A0FD4301324824B /* SuffixIterator.cpp in Sources */,
+				5B572235A751A3627E0BBACE /* utilities.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		5B5720746C9CFBC4FE25A0FF /* Debug */ = {
+		5B572366772276C3B6F9B9A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -346,34 +254,14 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
-		5B5721188235A6149A3D6E8E /* Debug */ = {
+		5B57260E7B9BFC3E24F4849D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					/usr/local/Cellar/boost/1.55.0/lib/,
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
 					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
 					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
 					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
@@ -390,154 +278,49 @@
 					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
 					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
 					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+				);
+				HEADER_SEARCH_PATHS = (
+					/usr/local/Cellar/boost/1.55.0_1/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/Cellar/boost/1.55.0_1/lib,
 				);
 				PRODUCT_NAME = updatedb;
 			};
 			name = Debug;
 		};
-		5B5727C5686697C5B3EB9850 /* Release */ = {
+		5B57271283DEFA43047A43F9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ADDITIONAL_SDKS = (
-				);
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
 				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/Cellar/boost/1.55.0_1/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
-					/usr/local/Cellar/boost/1.55.0_1/lib/,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
-		5B572805849597C55E9A6583 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ADDITIONAL_SDKS = (
-				);
-				ALWAYS_SEARCH_USER_PATHS = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					/usr/local/Cellar/boost/1.55.0_1/include,
-				);
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/Cellar/boost/1.55.0_1/lib/,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
-			};
-			name = Debug;
-		};
-		5B572A54EEA58E3784097983 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/usr/local/Cellar/boost/1.55.0/lib/,
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
-					"\"${PROJECT_DIR}/../../../../../../../usr/local/Cellar/boost/1.55.0_1/lib\"/**",
+					/usr/local/Cellar/boost/1.55.0_1/lib,
 				);
 				PRODUCT_NAME = updatedb;
 			};
 			name = Release;
 		};
-		5B572DBCEDDC7172ADF4212F /* Release */ = {
+		5B5728B783E3AE8D57A0BC38 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -565,7 +348,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -573,32 +355,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5B57253EBFB942C7D9B49E29 /* Build configuration list for PBXNativeTarget "LocateUpdate" */ = {
+		5B5720FDAA753A739B0C0825 /* Build configuration list for PBXProject "LocateUpdate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5B5721188235A6149A3D6E8E /* Debug */,
-				5B572A54EEA58E3784097983 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-		};
-		5B572BC8BE85F402EB2429F0 /* Build configuration list for PBXNativeTarget "locate" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5B5720746C9CFBC4FE25A0FF /* Debug */,
-				5B572DBCEDDC7172ADF4212F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-		};
-		5B572C82EA5DF2D92216B072 /* Build configuration list for PBXProject "LocateUpdate" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5B572805849597C55E9A6583 /* Debug */,
-				5B5727C5686697C5B3EB9850 /* Release */,
+				5B572366772276C3B6F9B9A8 /* Debug */,
+				5B5728B783E3AE8D57A0BC38 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		5B572488CA51086C67ED64CD /* Build configuration list for PBXNativeTarget "LocateUpdate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B57260E7B9BFC3E24F4849D /* Debug */,
+				5B57271283DEFA43047A43F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 5B5720DC6FF429AA6D50810B /* Project object */;
+	rootObject = 5B5721A36BCFECBD9433533C /* Project object */;
 }

@@ -1,7 +1,7 @@
 CXX = clang++
 CXXFLAGS = -Wall -Wextra -std=c++11 -pedantic
 APPNAME = updatedb locate
-OBJECTS = $(builddir)/FileSystemWalker.o $(builddir)/ThreadPool.o
+OBJECTS = $(builddir)/FileSystemWalker.o $(builddir)/ThreadPool.o $(builddir)/DatabaseBuilder.o $(builddir)/utilities.o
 BOOST_INCLUDE_PATHS = -I/usr/local/include/
 BOOST_LIB_PATHS = -L/usr/local/lib/
 LIBS = -lboost_system -lboost_thread-mt -lboost_filesystem -lboost_program_options -lboost_timer
@@ -15,10 +15,10 @@ $(builddir):
 
 ####################
 
-$(builddir)/locate.o: $(srcdir)/locate.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
+$(builddir)/locate.o: $(srcdir)/locate.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
 
-$(builddir)/updatedb.o: $(srcdir)/updatedb.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
+$(builddir)/updatedb.o: $(srcdir)/updatedb.cpp $(srcdir)/DatabaseBuilder.hpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
 	
 $(builddir)/FileSystemWalker.o: $(srcdir)/FileSystemWalker.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
@@ -27,6 +27,12 @@ $(builddir)/FileSystemWalker.o: $(srcdir)/FileSystemWalker.cpp $(srcdir)/FileSys
 $(builddir)/ThreadPool.o: $(srcdir)/ThreadPool.cpp $(srcdir)/ThreadPool.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
 	
+$(builddir)/DatabaseBuilder.o: $(srcdir)/DatabaseBuilder.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/SuffixIterator.hpp $(srcdir)/utilities.hpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
+
+$(builddir)/utilities.o: $(srcdir)/utilities.cpp $(srcdir)/utilities.hpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
+
 ####################
 
 updatedb: $(OBJECTS) $(builddir)/updatedb.o 
@@ -40,6 +46,6 @@ clean:
 	rm -rf $(APPNAME)
 	
 run:
-	./updatedb --database-root /Users/doxer/Documents --output "path to file"
+	./updatedb --database-root /Users/doxer/Dropbox/Public --output "index.db"
 
 .PHONY: clean

@@ -65,11 +65,10 @@ int main(int argc, const char *argv[])
         DatabaseBuilder databaseBuilder(databaseRootPath, outputFile);
         databaseBuilder.build();
 
-        std::ifstream f(outputFile);
-        utilities::read(f);
-        for (size_t i = 0; i < 20; ++i) {
-            cout << utilities::read_string(f) << endl;
-        }
+//        std::ifstream f(outputFile);
+//        for (size_t i = 0; i < 20; ++i) {
+//            cout << utilities::read_string(f) << endl;
+//        }
         
         boost::timer::cpu_times elapsed_times(timer.elapsed());
         cout << "scanning throught takes " << format(elapsed_times, 9) << endl;

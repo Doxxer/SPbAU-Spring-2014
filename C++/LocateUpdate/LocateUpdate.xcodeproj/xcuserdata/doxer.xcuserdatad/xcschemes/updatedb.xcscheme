@@ -7,7 +7,7 @@
             buildForRunning = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5B572DB84BC636BAA9FE7AB3"
+               BlueprintIdentifier = "5B5720E269DBE00555C79BD7"
                BuildableName = "updatedb"
                BlueprintName = "LocateUpdate"
                ReferencedContainer = "container:LocateUpdate.xcodeproj">
@@ -21,7 +21,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5B572DB84BC636BAA9FE7AB3"
+            BlueprintIdentifier = "5B5720E269DBE00555C79BD7"
             BuildableName = "updatedb"
             BlueprintName = "LocateUpdate"
             ReferencedContainer = "container:LocateUpdate.xcodeproj">
@@ -41,7 +41,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "&quot;path to file&quot;"
+            argument = "index.db"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

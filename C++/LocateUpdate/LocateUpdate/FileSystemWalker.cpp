@@ -2,7 +2,8 @@
 
 namespace fs = boost::filesystem;
 
-void FileSystemWalker::scan() {
+void FileSystemWalker::scan()
+{
     fs::path rootPath(root_);
 
     if (!exists(rootPath))
@@ -11,12 +12,14 @@ void FileSystemWalker::scan() {
         throw std::runtime_error(root_ + " is not a directory");
 
     add_task(rootPath);
-    threadPool.wait();
+    threadPool.start_and_wait();
     threadPool.stop();
 }
 
-void FileSystemWalker::fs_scanner_worker::operator()() {
-    try {
+void FileSystemWalker::fs_scanner_worker::operator()()
+{
+    try
+    {
         for (fs::directory_iterator entry = fs::directory_iterator(path_);
              entry != fs::directory_iterator();
              ++entry) {
@@ -27,7 +30,8 @@ void FileSystemWalker::fs_scanner_worker::operator()() {
             fileSystemWalker_->callback_(entry->path());
         }
     }
-    catch (fs::filesystem_error const &e) {
+    catch (fs::filesystem_error const &e)
+    {
         std::cerr << e.what() << std::endl;
     }
 }

@@ -11,9 +11,18 @@ namespace fs = boost::filesystem;
 using std::string;
 
 class FileSystemWalker {
+public:
+    FileSystemWalker(string const &root, boost::function<void(fs::path)> const &callback)
+        : root_(root), callback_(callback)
+    {
+    }
+
+    void scan();
+
 private:
     string root_;
     ThreadPool threadPool;
+
     boost::function<void(fs::path)> callback_;
 
     void add_task(fs::path path)
@@ -34,14 +43,6 @@ private:
         {
         }
     };
-
-public:
-    FileSystemWalker(string const &root, boost::function<void(fs::path)> const &callback)
-        : root_(root), callback_(callback)
-    {
-    }
-
-    void scan();
 };
 
 #endif /* end of include guard: FILESYSTEMWALKER_HPP */
