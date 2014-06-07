@@ -12,7 +12,7 @@
 using std::string;
 
 class SuffixIterator
-        : public boost::iterator_facade<SuffixIterator, suffix, boost::single_pass_traversal_tag> {
+    : public boost::iterator_facade<SuffixIterator, suffix, boost::single_pass_traversal_tag> {
 
 private:
     suffix *current_suffix;
@@ -29,7 +29,7 @@ public:
     }
 
     explicit SuffixIterator(string const &s, size_t position_in_db)
-            : current_suffix(new suffix{s, position_in_db})
+        : current_suffix(new suffix{s, position_in_db})
     {
     }
 

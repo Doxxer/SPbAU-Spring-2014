@@ -13,13 +13,16 @@ using std::endl;
 
 /*
 FILE FORMAT:
-<HEADER>
-<Absolute path 1> -- полные пути к файлам/папкам (вместе с размером, чтобы можно было прочитать utilities::read_string)
-<Absolute path 2>
+<HEADER> -- позиция, следующая за последним абсолютным путем: начало списка суффиксов
+<size_1><Absolute path 1> -- полные пути к файлам/папкам (вместе с размером, чтобы можно было
+прочитать utilities::read_string)
+<size_2><Absolute path 2>
 ...
-<Absolute path n>
+<size_n><Absolute path n>
+<SUFFIX_1:string><number of refernces><reference1><reference2>...<reference_n> -- суффикс, число
+ссылок на полные пути, сами ссылки в виде позиций в файле
+<SUFFIX_2:string><number of refernces><reference1><reference2>...<reference_n>
 */
-
 
 void parse_parameters(int argc, char const *argv[], string &databaseRootPath, string &outputFile)
 {
@@ -65,13 +68,29 @@ int main(int argc, const char *argv[])
         DatabaseBuilder databaseBuilder(databaseRootPath, outputFile);
         databaseBuilder.build();
 
-//        std::ifstream f(outputFile);
-//        for (size_t i = 0; i < 20; ++i) {
-//            cout << utilities::read_string(f) << endl;
-//        }
+        // TODO revove
+        std::ifstream f(outputFile);
+        utilities::read(f);
+        for (size_t i = 0; i < 2; ++i) {
+            cout << utilities::read_string(f) << endl;
+        }
+
+        size_t q = 0;
         
+        while (f.good()) {
+            cout << utilities::read_string(f);
+            size_t rc = utilities::read(f);
+            cout << " rc = " << rc;
+            for (size_t i = 0; i < rc; ++i) {
+                cout << " #" << utilities::read(f);
+            }
+            cout << endl;
+        }
+        
+        // END TODO
+
         boost::timer::cpu_times elapsed_times(timer.elapsed());
-        cout << "scanning throught takes " << format(elapsed_times, 9) << endl;
+        cout << endl << "scanning throught takes " << format(elapsed_times, 9) << endl;
     }
     catch (std::exception const &e)
     {

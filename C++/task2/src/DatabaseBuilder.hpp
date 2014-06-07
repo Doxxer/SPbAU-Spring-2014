@@ -22,7 +22,7 @@ private:
 
 public:
     DatabaseBuilder(string const &root, string const &outputFile)
-        : root_(root), outputFile_(outputFile)
+            : root_(root), outputFile_(outputFile)
     {
         if (!outputFile_)
             throw std::runtime_error("File " + outputFile + "can't be opened");
@@ -30,29 +30,20 @@ public:
 
     void build()
     {
-        write_suffixies_offset(0);
+        utilities::write(outputFile_, 0, 0);
         FileSystemWalker fileSystemWalker(root_, boost::bind(&DatabaseBuilder::callback, this, _1));
         fileSystemWalker.scan();
         
+        sort(suffixies_.begin(), suffixies_.end());
+
         // TODO sort
-        
-        write_suffixies_offset(outputFile_.tellp());
-        write_suffixies();        
+
+        utilities::write(outputFile_, 0, outputFile_.tellp());
+        write_suffixies();
     }
 
-    void write_suffixies_offset(size_t offset)
-    {
-        size_t pos = outputFile_.tellp();
-        outputFile_.seekp(0);
-        utilities::write(outputFile_, offset);
-        if (pos > 0)
-            outputFile_.seekp(pos);
-    }
-    
-    void write_suffixies() {
-        
-    }
-    
+    void write_suffixies();
+
     // called when fs_scanner reach file or folder
     void callback(boost::filesystem::path path);
 };

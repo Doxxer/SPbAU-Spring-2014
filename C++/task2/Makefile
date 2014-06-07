@@ -46,6 +46,6 @@ clean:
 	rm -rf $(APPNAME)
 	
 run:
-	./updatedb --database-root /Users/doxer/Dropbox/Public --output "index.db"
+	./updatedb --database-root /Users/doxer/Dropbox/Public/Test --output "index.db"
 
 .PHONY: clean

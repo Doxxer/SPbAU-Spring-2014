@@ -33,7 +33,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/doxer/Dropbox/Public"
+            argument = "/Users/doxer/Dropbox/Public/Test"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
