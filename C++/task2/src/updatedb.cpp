@@ -69,13 +69,17 @@ int main(int argc, const char *argv[])
         databaseBuilder.build();
 
         // TODO revove
-        std::ifstream f(outputFile);
-        utilities::read(f);
-        for (size_t i = 0; i < 2; ++i) {
+        std::ifstream f(outputFile, std::ios::ate);
+        size_t end = f.tellg();
+        f.seekg(0);
+
+        size_t suffixes_position = utilities::read(f);
+
+        while (f.tellg() < suffixes_position) {
             cout << utilities::read_string(f) << endl;
         }
 
-        while (f.good()) {
+        while (f.tellg() < end) {
             cout << utilities::read_string(f);
             size_t rc = utilities::read(f);
             cout << " rc = " << rc;

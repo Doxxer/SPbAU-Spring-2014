@@ -24,44 +24,37 @@ FILE FORMAT:
 <SUFFIX_2:string><number of refernces><reference1><reference2>...<reference_n>
 */
 
-void parse_parameters(int argc, char const *argv[], string &databaseRootPath, string &outputFile)
-{
+void parse_parameters(int argc, char const *argv[], string &databaseRootPath, string &outputFile) {
     boost::program_options::options_description desc("Program options");
     desc.add_options()("database-root",
-                       boost::program_options::value<string>(&databaseRootPath)->required(),
-                       "Indexation root directory")(
-        "output",
-        boost::program_options::value<string>(&outputFile)->required(),
-        "Index file name");
+            boost::program_options::value<string>(&databaseRootPath)->required(),
+            "Indexation root directory")(
+            "output",
+            boost::program_options::value<string>(&outputFile)->required(),
+            "Index file name");
     boost::program_options::variables_map vm;
     store(boost::program_options::command_line_parser(argc, argv).options(desc).run(), vm);
-    try
-    {
+    try {
         notify(vm);
     }
-    catch (std::exception const &e)
-    {
+    catch (std::exception const &e) {
         cerr << e.what() << endl;
         cerr << desc << endl;
         throw;
     }
 }
 
-int main(int argc, const char *argv[])
-{
+int main(int argc, const char *argv[]) {
     string databaseRootPath, outputFile;
 
-    try
-    {
+    try {
         parse_parameters(argc, argv, databaseRootPath, outputFile);
     }
-    catch (...)
-    {
+    catch (...) {
         return 1;
     }
 
-    try
-    {
+    try {
         cout << "Database: " << databaseRootPath << endl << "Output file: " << outputFile << endl;
         boost::timer::cpu_timer timer;
 
@@ -69,15 +62,17 @@ int main(int argc, const char *argv[])
         databaseBuilder.build();
 
         // TODO revove
-        std::ifstream f(outputFile);
-        utilities::read(f);
-        for (size_t i = 0; i < 2; ++i) {
+        std::ifstream f(outputFile, std::ios::ate);
+        size_t end = f.tellg();
+        f.seekg(0);
+
+        size_t suffixes_position = utilities::read(f);
+
+        while (f.tellg() < suffixes_position) {
             cout << utilities::read_string(f) << endl;
         }
 
-        size_t q = 0;
-        
-        while (f.good()) {
+        while (f.tellg() < end) {
             cout << utilities::read_string(f);
             size_t rc = utilities::read(f);
             cout << " rc = " << rc;
@@ -86,14 +81,13 @@ int main(int argc, const char *argv[])
             }
             cout << endl;
         }
-        
+
         // END TODO
 
         boost::timer::cpu_times elapsed_times(timer.elapsed());
         cout << endl << "scanning throught takes " << format(elapsed_times, 9) << endl;
     }
-    catch (std::exception const &e)
-    {
+    catch (std::exception const &e) {
         cerr << e.what() << endl;
         return 1;
     }
