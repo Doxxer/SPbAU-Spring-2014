@@ -46,6 +46,7 @@ clean:
 	rm -rf $(APPNAME)
 	
 run:
-	./updatedb --database-root /Users/doxer/Documents --output "index.db"
+	# ./updatedb --database-root /Users/doxer/Documents --output "index.db"
+	./locate --database "index.db" klm
 
 .PHONY: clean

@@ -4,7 +4,6 @@
 #include <boost/program_options.hpp>
 #include <boost/timer/timer.hpp>
 #include "DatabaseBuilder.hpp"
-#include "utilities.hpp"
 
 using std::string;
 using std::cout;
@@ -33,10 +32,10 @@ void parse_parameters(int argc, char const *argv[], string &databaseRootPath, st
         "output",
         boost::program_options::value<string>(&outputFile)->required(),
         "Index file name");
-    boost::program_options::variables_map vm;
-    store(boost::program_options::command_line_parser(argc, argv).options(desc).run(), vm);
+    boost::program_options::variables_map vm;    
     try
     {
+        store(boost::program_options::command_line_parser(argc, argv).options(desc).allow_unregistered().run(), vm);
         notify(vm);
     }
     catch (std::exception const &e)
