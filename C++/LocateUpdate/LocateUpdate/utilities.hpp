@@ -14,8 +14,7 @@ struct suffix {
     string suff;
     size_t position;
 
-    bool operator<(const suffix &other) const
-    {
+    bool operator<(const suffix &other) const {
         return suff < other.suff;
     }
 };
@@ -24,15 +23,15 @@ typedef std::vector<suffix> suffixies;
 
 namespace utilities {
 
-size_t write(ofstream &, string const &);
+    size_t write(ofstream &, string const &);
 
-void write(ofstream &, size_t);
+    void write(ofstream &, size_t);
 
-void write(ofstream &, size_t, size_t);
+    void write(ofstream &, size_t, size_t);
 
-size_t read(ifstream &);
+    size_t read(ifstream &);
 
-string read_string(ifstream &);
+    string read_string(ifstream &);
 }
 
 #endif /* end of include guard: UTILITIES_HPP */

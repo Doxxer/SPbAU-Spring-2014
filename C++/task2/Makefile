@@ -18,7 +18,7 @@ $(builddir):
 $(builddir)/locate.o: $(srcdir)/locate.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
 
-$(builddir)/updatedb.o: $(srcdir)/updatedb.cpp $(srcdir)/DatabaseBuilder.hpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
+$(builddir)/updatedb.o: $(srcdir)/updatedb.cpp $(srcdir)/DatabaseBuilder.hpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp $(srcdir)/utilities.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
 	
 $(builddir)/FileSystemWalker.o: $(srcdir)/FileSystemWalker.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
@@ -27,7 +27,7 @@ $(builddir)/FileSystemWalker.o: $(srcdir)/FileSystemWalker.cpp $(srcdir)/FileSys
 $(builddir)/ThreadPool.o: $(srcdir)/ThreadPool.cpp $(srcdir)/ThreadPool.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
 	
-$(builddir)/DatabaseBuilder.o: $(srcdir)/DatabaseBuilder.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/SuffixIterator.hpp $(srcdir)/utilities.hpp
+$(builddir)/DatabaseBuilder.o: $(srcdir)/DatabaseBuilder.cpp $(srcdir)/DatabaseBuilder.hpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp $(srcdir)/SuffixIterator.hpp $(srcdir)/utilities.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
 
 $(builddir)/utilities.o: $(srcdir)/utilities.cpp $(srcdir)/utilities.hpp
@@ -46,6 +46,6 @@ clean:
 	rm -rf $(APPNAME)
 	
 run:
-	./updatedb --database-root /Users/doxer/Dropbox/Public/Test --output "index.db"
+	./updatedb --database-root /Users/doxer/Documents --output "index.db"
 
 .PHONY: clean

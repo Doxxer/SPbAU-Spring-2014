@@ -12,40 +12,34 @@
 using std::string;
 
 class SuffixIterator
-    : public boost::iterator_facade<SuffixIterator, suffix, boost::single_pass_traversal_tag> {
+        : public boost::iterator_facade<SuffixIterator, suffix, boost::single_pass_traversal_tag> {
 
 private:
     suffix *current_suffix;
 
 public:
-    SuffixIterator() : current_suffix(new suffix{"", 0})
-    {
+    SuffixIterator() : current_suffix(new suffix{"", 0}) {
         // creates the "end" iterator
     }
 
-    ~SuffixIterator()
-    {
+    ~SuffixIterator() {
         delete current_suffix;
     }
 
     explicit SuffixIterator(string const &s, size_t position_in_db)
-        : current_suffix(new suffix{s, position_in_db})
-    {
+            : current_suffix(new suffix{s, position_in_db}) {
     }
 
     boost::iterator_facade<SuffixIterator, suffix, boost::single_pass_traversal_tag>::reference
-    dereference() const
-    {
+    dereference() const {
         return *current_suffix;
     }
 
-    bool equal(SuffixIterator const &rhs) const
-    {
+    bool equal(SuffixIterator const &rhs) const {
         return current_suffix->suff == rhs.current_suffix->suff;
     }
 
-    SuffixIterator &increment()
-    {
+    SuffixIterator &increment() {
         if (!current_suffix->suff.empty())
             current_suffix->suff = current_suffix->suff.substr(1);
         return *this;

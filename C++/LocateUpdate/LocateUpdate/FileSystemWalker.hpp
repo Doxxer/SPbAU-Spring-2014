@@ -13,8 +13,7 @@ using std::string;
 class FileSystemWalker {
 public:
     FileSystemWalker(string const &root, boost::function<void(fs::path)> const &callback)
-        : root_(root), callback_(callback)
-    {
+            : root_(root), callback_(callback) {
     }
 
     void scan();
@@ -25,8 +24,7 @@ private:
 
     boost::function<void(fs::path)> callback_;
 
-    void add_task(fs::path path)
-    {
+    void add_task(fs::path path) {
         threadPool.add_task(fs_scanner_worker(this, path));
     }
 
@@ -39,8 +37,7 @@ private:
         void operator()();
 
         fs_scanner_worker(FileSystemWalker *fileSystemWalker, fs::path path)
-            : path_(path), fileSystemWalker_(fileSystemWalker)
-        {
+                : path_(path), fileSystemWalker_(fileSystemWalker) {
         }
     };
 };

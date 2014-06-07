@@ -26,8 +26,8 @@ public:
 
     ~ThreadPool();
 
-    template <typename Task> void add_task(Task task)
-    {
+    template<typename Task>
+    void add_task(Task task) {
         boost::lock_guard<boost::mutex> lock(tasks_mutex_);
         tasks_.push(boost::function<void()>(task));
         tasks_cv_.notify_one();

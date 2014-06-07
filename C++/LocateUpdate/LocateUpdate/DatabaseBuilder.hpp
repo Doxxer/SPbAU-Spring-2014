@@ -22,23 +22,22 @@ private:
 
 public:
     DatabaseBuilder(string const &root, string const &outputFile)
-            : root_(root), outputFile_(outputFile)
-    {
+            : root_(root), outputFile_(outputFile) {
         if (!outputFile_)
             throw std::runtime_error("File " + outputFile + "can't be opened");
     }
 
-    void build()
-    {
+    void build() {
         utilities::write(outputFile_, 0, 0);
         FileSystemWalker fileSystemWalker(root_, boost::bind(&DatabaseBuilder::callback, this, _1));
         fileSystemWalker.scan();
 
-        // TODO parallel sort
+        // TODO parallel sort ???
         sort(suffixies_.begin(), suffixies_.end());
 
         utilities::write(outputFile_, 0, outputFile_.tellp());
         write_suffixies();
+        outputFile_.close();
     }
 
     void write_suffixies();

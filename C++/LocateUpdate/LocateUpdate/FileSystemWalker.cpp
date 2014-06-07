@@ -2,8 +2,7 @@
 
 namespace fs = boost::filesystem;
 
-void FileSystemWalker::scan()
-{
+void FileSystemWalker::scan() {
     fs::path rootPath(root_);
 
     if (!exists(rootPath))
@@ -16,10 +15,8 @@ void FileSystemWalker::scan()
     threadPool.stop();
 }
 
-void FileSystemWalker::fs_scanner_worker::operator()()
-{
-    try
-    {
+void FileSystemWalker::fs_scanner_worker::operator()() {
+    try {
         for (fs::directory_iterator entry = fs::directory_iterator(path_);
              entry != fs::directory_iterator();
              ++entry) {
@@ -30,8 +27,7 @@ void FileSystemWalker::fs_scanner_worker::operator()()
             fileSystemWalker_->callback_(entry->path());
         }
     }
-    catch (fs::filesystem_error const &e)
-    {
+    catch (fs::filesystem_error const &e) {
         std::cerr << e.what() << std::endl;
     }
 }

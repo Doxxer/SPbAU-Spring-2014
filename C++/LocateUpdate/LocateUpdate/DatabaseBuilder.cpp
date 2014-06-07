@@ -1,8 +1,7 @@
 #include "DatabaseBuilder.hpp"
 #include "SuffixIterator.hpp"
 
-void DatabaseBuilder::callback(boost::filesystem::path path)
-{
+void DatabaseBuilder::callback(boost::filesystem::path path) {
     boost::lock_guard<boost::mutex> lock(mutex_);
 
     size_t path_position_in_db = utilities::write(outputFile_, path.string());
@@ -19,8 +18,7 @@ void DatabaseBuilder::callback(boost::filesystem::path path)
         suffixies_.push_back(*suffix);
 }
 
-void DatabaseBuilder::write_suffixies()
-{
+void DatabaseBuilder::write_suffixies() {
     typedef std::vector<size_t> refs;
     typedef std::pair<string, refs> suffix_refs;
 

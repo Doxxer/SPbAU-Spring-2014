@@ -23,7 +23,6 @@
 		5B5729613D12A6F4F2399D04 /* libboost_filesystem-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5722B747EC378FB36DCF3C /* libboost_filesystem-mt.a */; };
 		5B572B2DE3B74841E3FEDB43 /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572CB513337F4ECBC1F52A /* libboost_filesystem.dylib */; };
 		5B572C2E2BCA752B94118413 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5722474625BD24C7C0A54E /* libboost_filesystem.a */; };
-		5B572C8D8A0FD4301324824B /* SuffixIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B572852CE7C5C387F31FB2D /* SuffixIterator.cpp */; };
 		5B572D4EE3B596D247F0C438 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B572FB9455133DAAA8DEE8C /* libboost_system.dylib */; };
 		5B572D53C3A8F87CBAD2EF81 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57242E59885376F7A26E94 /* libboost_system.a */; };
 		5B572D82338F054F28787F3C /* libboost_program_options-mt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B57243F662DA41F41508057 /* libboost_program_options-mt.a */; };
@@ -62,7 +61,6 @@
 		5B5724C2A387FFB4CD201385 /* libboost_filesystem-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_filesystem-mt.dylib"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_filesystem-mt.dylib"; sourceTree = "<absolute>"; };
 		5B572540AAB124F1CBD3071D /* FileSystemWalker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemWalker.cpp; sourceTree = "<group>"; };
 		5B57258FB771567F0D320E7E /* DatabaseBuilder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DatabaseBuilder.hpp; sourceTree = "<group>"; };
-		5B572852CE7C5C387F31FB2D /* SuffixIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SuffixIterator.cpp; sourceTree = "<group>"; };
 		5B5728897E11350131BE1478 /* libboost_thread-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_thread-mt.a"; path = "/usr/local/Cellar/boost/1.55.0_1/lib/libboost_thread-mt.a"; sourceTree = "<absolute>"; };
 		5B5728EB9DE83B27AA0C2DF6 /* ThreadPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadPool.cpp; sourceTree = "<group>"; };
 		5B572B21D76470713CD56B58 /* ThreadPool.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ThreadPool.hpp; sourceTree = "<group>"; };
@@ -143,7 +141,6 @@
 				5B572B21D76470713CD56B58 /* ThreadPool.hpp */,
 				5B57225545A661897FC6F48D /* updatedb.cpp */,
 				5B5721B19AFD3DAD5C0668DB /* utilities.hpp */,
-				5B572852CE7C5C387F31FB2D /* SuffixIterator.cpp */,
 				5B5720676D0E1D6F3F694942 /* SuffixIterator.hpp */,
 				5B57249EA5172C55ED4EE6EB /* utilities.cpp */,
 			);
@@ -212,7 +209,6 @@
 				5B5724FAA1EF0E4D11CA1578 /* FileSystemWalker.cpp in Sources */,
 				5B57280F1C2DDBDDC279CC29 /* ThreadPool.cpp in Sources */,
 				5B5728ED6EFD43486E516125 /* updatedb.cpp in Sources */,
-				5B572C8D8A0FD4301324824B /* SuffixIterator.cpp in Sources */,
 				5B572235A751A3627E0BBACE /* utilities.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

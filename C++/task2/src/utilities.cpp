@@ -32,7 +32,7 @@ size_t utilities::read(ifstream &file)
 string utilities::read_string(ifstream &file)
 {
     size_t n = read(file);
-    char *buffer = new char[n+1]{};
+    char *buffer = new char[n + 1]{};
     file.read(buffer, n);
     return string(buffer);
 }
