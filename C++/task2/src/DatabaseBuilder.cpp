@@ -35,8 +35,7 @@ void DatabaseBuilder::write_suffixies()
         }
         current.second.push_back(s.position);
     }
-    if (current.second.size() > 0)
-        compressed_suffixes.push_back(current);
+    compressed_suffixes.push_back(current);
 
     for (suffix_refs const &s : compressed_suffixes) {
         utilities::write(outputFile_, s.first);

@@ -12,6 +12,8 @@
 
 using std::string;
 using std::ofstream;
+using std::cout;
+using std::endl;
 
 class DatabaseBuilder {
 private:
@@ -31,12 +33,15 @@ public:
     void build()
     {
         utilities::write(outputFile_, 0, 0);
+        cout << "scanning file system..." << endl;
         FileSystemWalker fileSystemWalker(root_, boost::bind(&DatabaseBuilder::callback, this, _1));
         fileSystemWalker.scan();
 
         // TODO parallel sort ???
-        sort(suffixies_.begin(), suffixies_.end());
-
+        cout << "sorting..." << endl;
+        sort(suffixies_.begin(), suffixies_.end());        
+        
+        cout << "writing database..." << endl;
         utilities::write(outputFile_, 0, outputFile_.tellp());
         write_suffixies();
         outputFile_.close();

@@ -2,7 +2,9 @@
 #include <string>
 #include <iostream>
 #include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
 #include "utilities.hpp"
+#include "DatabaseScanner.hpp"
 
 using std::string;
 using std::cout;
@@ -55,8 +57,12 @@ int main(int argc, const char *argv[])
 
     try
     {
-        // TODO add code here
-        cout << "Database: " << database << " | pattern = " << pattern << endl;
+        DatabaseScanner scanner(database);
+        for (boost::filesystem::path const &path : scanner.search(pattern)) {
+            if (boost::filesystem::exists(path)) {
+                cout << path.string() << endl;
+            }
+        }
     }
     catch (std::exception const &e)
     {

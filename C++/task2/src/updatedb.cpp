@@ -62,30 +62,9 @@ int main(int argc, const char *argv[])
     try
     {
         boost::timer::cpu_timer timer;
+
         DatabaseBuilder databaseBuilder(databaseRootPath, outputFile);
         databaseBuilder.build();
-
-        // TODO revove
-        // std::ifstream f(outputFile, std::ios::ate);
-        // size_t end = f.tellg();
-        // f.seekg(0);
-        //
-        // size_t suffixes_position = utilities::read(f);
-        //
-        // while (f.tellg() < suffixes_position) {
-        //     cout << utilities::read_string(f) << endl;
-        // }
-        //
-        // while (f.tellg() < end) {
-        //     cout << utilities::read_string(f);
-        //     size_t rc = utilities::read(f);
-        //     cout << " rc = " << rc;
-        //     for (size_t i = 0; i < rc; ++i) {
-        //         cout << " #" << utilities::read(f);
-        //     }
-        //     cout << endl;
-        // }
-        // END TODO
 
         boost::timer::cpu_times elapsed_times(timer.elapsed());
         cout << "Database building complete! It takes: " << format(elapsed_times, 9) << endl;
