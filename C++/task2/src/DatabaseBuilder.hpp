@@ -7,8 +7,9 @@
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 #include <boost/range/algorithm/copy.hpp>
+#include <tbb/parallel_sort.h>
 #include "FileSystemWalker.hpp"
-#include "utilities.hpp"
+#include "Utilities.hpp"
 
 using std::string;
 using std::ofstream;
@@ -21,32 +22,35 @@ private:
     ofstream outputFile_;
     boost::mutex mutex_;
     suffixies suffixies_;
+    string outputFileName_;
 
 public:
     DatabaseBuilder(string const &root, string const &outputFile)
-        : root_(root), outputFile_(outputFile)
+        : root_(root), outputFileName_(outputFile)
     {
+        outputFile_ = ofstream(outputFileName_, std::ios_base::binary);
         if (!outputFile_)
-            throw std::runtime_error("File " + outputFile + "can't be opened");
+            throw std::runtime_error("File " + outputFile + " can't be opened");
+        outputFile_.close();
     }
 
     void build()
     {
+        outputFile_.open(outputFileName_, std::ios_base::binary);
         utilities::write(outputFile_, 0, 0);
         cout << "scanning file system..." << endl;
         FileSystemWalker fileSystemWalker(root_, boost::bind(&DatabaseBuilder::callback, this, _1));
         fileSystemWalker.scan();
 
-        // TODO parallel sort ???
-        cout << "sorting..." << endl;
-        sort(suffixies_.begin(), suffixies_.end());        
-        
+        tbb::parallel_sort(suffixies_.begin(), suffixies_.end());
+
         cout << "writing database..." << endl;
         utilities::write(outputFile_, 0, outputFile_.tellp());
         write_suffixies();
         outputFile_.close();
     }
 
+private:
     void write_suffixies();
 
     // called when fs_scanner reach file or folder

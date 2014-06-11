@@ -28,22 +28,17 @@ void parse_parameters(int argc, char const *argv[], string &databaseRootPath, st
     boost::program_options::options_description desc("Program options");
     desc.add_options()("database-root",
                        boost::program_options::value<string>(&databaseRootPath)->required(),
-                       "Indexation root directory")(
-        "output",
-        boost::program_options::value<string>(&outputFile)->required(),
-        "Index file name");
-    boost::program_options::variables_map vm;    
-    try
-    {
-        store(boost::program_options::command_line_parser(argc, argv).options(desc).allow_unregistered().run(), vm);
-        notify(vm);
-    }
-    catch (std::exception const &e)
-    {
-        cerr << e.what() << endl;
-        cerr << desc << endl;
-        throw;
-    }
+                       "Indexation root directory");
+    desc.add_options()("output",
+                       boost::program_options::value<string>(&outputFile)->required(),
+                       "Index file name");
+    boost::program_options::variables_map vm;
+    store(boost::program_options::command_line_parser(argc, argv)
+              .options(desc)
+              .allow_unregistered()
+              .run(),
+          vm);
+    notify(vm);
 }
 
 int main(int argc, const char *argv[])
@@ -53,21 +48,13 @@ int main(int argc, const char *argv[])
     try
     {
         parse_parameters(argc, argv, databaseRootPath, outputFile);
-    }
-    catch (...)
-    {
-        return 1;
-    }
-
-    try
-    {
         boost::timer::cpu_timer timer;
 
         DatabaseBuilder databaseBuilder(databaseRootPath, outputFile);
         databaseBuilder.build();
 
         boost::timer::cpu_times elapsed_times(timer.elapsed());
-        cout << "Database building complete! It takes: " << format(elapsed_times, 9) << endl;
+        cout << "Database building complete! It took: " << format(elapsed_times, 9) << endl;
     }
     catch (std::exception const &e)
     {

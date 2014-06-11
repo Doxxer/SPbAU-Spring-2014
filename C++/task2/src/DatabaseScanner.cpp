@@ -23,19 +23,17 @@ void DatabaseScanner::read_suffixes()
 
 set<boost::filesystem::path> DatabaseScanner::search(string pattern)
 {
-    suffix suffix_pattern({pattern, 0});
     std::set<boost::filesystem::path> result;
 
-    for (auto iter = boost::lower_bound(suffixies_, suffix_pattern);
-         boost::starts_with(iter->suff, pattern);
-         ++iter) {
+    auto current_match = boost::lower_bound(suffixies_, suffix({pattern, 0}));
 
-        BOOST_FOREACH(boost::filesystem::path path, get_pathes(iter->position))
+    while (boost::starts_with(current_match->suff, pattern)) {
+        BOOST_FOREACH(boost::filesystem::path path, get_pathes(current_match->position))
         {
             result.insert(path);
         }
+        ++current_match;
     }
-
     return result;
 }
 
@@ -52,8 +50,8 @@ vector<boost::filesystem::path> DatabaseScanner::get_pathes(size_t position)
 
     for (size_t pos : files_positions) {
         index_database_.seekg(pos);
-        string q = utilities::read_string(index_database_);
-        result.push_back(boost::filesystem::path(q));
+        string path = utilities::read_string(index_database_);
+        result.push_back(boost::filesystem::path(path));
     }
     return result;
 }
