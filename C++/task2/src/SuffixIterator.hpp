@@ -33,6 +33,11 @@ public:
     {
     }
 
+    SuffixIterator(SuffixIterator const &other)
+        : current_suffix(new suffix{other.current_suffix->suff, other.current_suffix->position})
+    {
+    }
+
     boost::iterator_facade<SuffixIterator, suffix, boost::single_pass_traversal_tag>::reference
     dereference() const
     {

@@ -1,14 +1,12 @@
-CXX = clang++
+CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++11 -pedantic -O2 -Ofast
 APPNAME = updatedb locate
-OBJECTS = $(builddir)/FileSystemWalker.o $(builddir)/ThreadPool.o $(builddir)/DatabaseBuilder.o $(builddir)/DatabaseScanner.o $(builddir)/Utilities.o
+OBJECTS = $(builddir)/FileSystemWalker.o $(builddir)/DatabaseBuilder.o $(builddir)/DatabaseScanner.o $(builddir)/Utilities.o
 LIBS = -lboost_system -lboost_filesystem -lboost_program_options -lboost_timer -ltbb
 srcdir = src
 builddir = obj
 
-UNAME = $(shell uname -s)
-
-ifeq ($(UNAME), Darwin)
+ifeq ($(shell uname -s), Darwin)
 	LIBS += -lboost_thread-mt
 else
 	LIBS += -lboost_thread
@@ -28,9 +26,6 @@ $(builddir)/UpdateDB.o: $(srcdir)/UpdateDB.cpp $(srcdir)/DatabaseBuilder.hpp $(s
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 	
 $(builddir)/FileSystemWalker.o: $(srcdir)/FileSystemWalker.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-	
-$(builddir)/ThreadPool.o: $(srcdir)/ThreadPool.cpp $(srcdir)/ThreadPool.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 	
 $(builddir)/DatabaseBuilder.o: $(srcdir)/DatabaseBuilder.cpp $(srcdir)/DatabaseBuilder.hpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp $(srcdir)/SuffixIterator.hpp $(srcdir)/Utilities.hpp
@@ -55,7 +50,7 @@ clean:
 	rm -rf $(APPNAME)
 	
 run:
-	./updatedb --database-root /Users/doxer/Documents --output "index.db"
-	./locate --database "index.db" xls
+	./updatedb --database-root /Users/doxer --output "index.db"
+	# ./locate --database "index.db" xls
 
 .PHONY: clean

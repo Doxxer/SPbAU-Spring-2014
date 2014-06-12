@@ -1,25 +1,36 @@
 #include "DatabaseBuilder.hpp"
 #include "SuffixIterator.hpp"
+#include "Utilities.hpp"
 
-void DatabaseBuilder::callback(ofstream &outputFile, boost::filesystem::path path)
+using std::cout;
+using std::endl;
+
+void DatabaseBuilder::build()
 {
-    boost::lock_guard<boost::mutex> lock(mutex_);
+    ofstream outputFile(outputFileName_, std::ios_base::binary);
+    utilities::write(outputFile, 0, 0);
+    cout << "scanning file system..." << endl;
 
-    size_t path_position_in_db = utilities::write(outputFile, path.string());
+    FileSystemWalker fileSystemWalker(root_);
+    vector<fs::path> &&pathes = fileSystemWalker.scan();
 
-    // TODO ??? it doesn't work -- SEGFAULT
-    // boost::copy(boost::make_iterator_range(
-    //                 SuffixIterator(path.filename().string(), path_position_in_db), {}),
-    //             std::back_inserter(suffixies_));
-
-    // ugly workaround
-    for (SuffixIterator suffix = SuffixIterator(path.filename().string(), path_position_in_db);
-         suffix != SuffixIterator();
-         ++suffix)
-        suffixies_.push_back(*suffix);
+    suffixies suff_array;
+    
+    for (fs::path const &path : pathes) {
+        size_t path_position_in_db = utilities::write(outputFile, path.string());
+        boost::copy(boost::make_iterator_range(
+                        SuffixIterator(path.filename().string(), path_position_in_db), {}),
+                    std::back_inserter(suff_array));
+    }
+    
+    tbb::parallel_sort(suff_array.begin(), suff_array.end());
+    
+    cout << "writing database..." << endl;
+    utilities::write(outputFile, 0, outputFile.tellp());
+    write_suffixies(suff_array, outputFile);
 }
 
-void DatabaseBuilder::write_suffixies(ofstream &outputFile)
+void DatabaseBuilder::write_suffixies(suffixies const &suff_array, ofstream &outputFile)
 {
     typedef std::vector<size_t> refs;
     typedef std::pair<string, refs> suffix_refs;
@@ -27,7 +38,7 @@ void DatabaseBuilder::write_suffixies(ofstream &outputFile)
     suffix_refs current = std::make_pair("", refs());
     std::vector<suffix_refs> compressed_suffixes;
 
-    for (suffix const &s : suffixies_) {
+    for (suffix const &s : suff_array) {
         if (s.suff != current.first) {
             if (current.second.size() > 0)
                 compressed_suffixes.push_back(current);

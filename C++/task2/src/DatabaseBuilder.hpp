@@ -13,14 +13,10 @@
 
 using std::string;
 using std::ofstream;
-using std::cout;
-using std::endl;
 
 class DatabaseBuilder {
 private:
     string root_;
-    boost::mutex mutex_;
-    suffixies suffixies_;
     string outputFileName_;
 
 public:
@@ -32,26 +28,10 @@ public:
             throw std::runtime_error("File " + outputFileName_ + " can't be opened");
     }
 
-    void build()
-    {
-        ofstream outputFile(outputFileName_, std::ios_base::binary);
-        utilities::write(outputFile, 0, 0);
-        cout << "scanning file system..." << endl;
-        FileSystemWalker fileSystemWalker(root_, boost::bind(&DatabaseBuilder::callback, this, boost::ref(outputFile), _1));
-        fileSystemWalker.scan();
-
-        tbb::parallel_sort(suffixies_.begin(), suffixies_.end());
-
-        cout << "writing database..." << endl;
-        utilities::write(outputFile, 0, outputFile.tellp());
-        write_suffixies(outputFile);
-    }
+    void build();
 
 private:
-    void write_suffixies(ofstream& outputFile);
-
-    // called when fs_scanner reach file or folder
-    void callback(ofstream& outputFile, boost::filesystem::path path);
+    void write_suffixies(suffixies const &suff_array, ofstream &outputFile);
 };
 
 #endif /* end of include guard: DATABASEBUILDER_HPP */
