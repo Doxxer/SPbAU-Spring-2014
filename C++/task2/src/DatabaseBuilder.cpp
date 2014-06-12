@@ -1,11 +1,11 @@
 #include "DatabaseBuilder.hpp"
 #include "SuffixIterator.hpp"
 
-void DatabaseBuilder::callback(boost::filesystem::path path)
+void DatabaseBuilder::callback(ofstream &outputFile, boost::filesystem::path path)
 {
     boost::lock_guard<boost::mutex> lock(mutex_);
 
-    size_t path_position_in_db = utilities::write(outputFile_, path.string());
+    size_t path_position_in_db = utilities::write(outputFile, path.string());
 
     // TODO ??? it doesn't work -- SEGFAULT
     // boost::copy(boost::make_iterator_range(
@@ -19,7 +19,7 @@ void DatabaseBuilder::callback(boost::filesystem::path path)
         suffixies_.push_back(*suffix);
 }
 
-void DatabaseBuilder::write_suffixies()
+void DatabaseBuilder::write_suffixies(ofstream &outputFile)
 {
     typedef std::vector<size_t> refs;
     typedef std::pair<string, refs> suffix_refs;
@@ -38,10 +38,10 @@ void DatabaseBuilder::write_suffixies()
     compressed_suffixes.push_back(current);
 
     for (suffix_refs const &s : compressed_suffixes) {
-        utilities::write(outputFile_, s.first);
-        utilities::write(outputFile_, s.second.size());
+        utilities::write(outputFile, s.first);
+        utilities::write(outputFile, s.second.size());
         for (size_t i = 0; i < s.second.size(); ++i) {
-            utilities::write(outputFile_, s.second[i]);
+            utilities::write(outputFile, s.second[i]);
         }
     }
 }

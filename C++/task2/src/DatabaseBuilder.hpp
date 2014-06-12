@@ -19,42 +19,39 @@ using std::endl;
 class DatabaseBuilder {
 private:
     string root_;
-    ofstream outputFile_;
     boost::mutex mutex_;
     suffixies suffixies_;
     string outputFileName_;
 
 public:
-    DatabaseBuilder(string const &root, string const &outputFile)
-        : root_(root), outputFileName_(outputFile)
+    DatabaseBuilder(string const &root, string const &outputFileName)
+        : root_(root), outputFileName_(outputFileName)
     {
-        outputFile_ = ofstream(outputFileName_, std::ios_base::binary);
-        if (!outputFile_)
-            throw std::runtime_error("File " + outputFile + " can't be opened");
-        outputFile_.close();
+        ofstream outputFile(outputFileName_, std::ios_base::binary);
+        if (!outputFile)
+            throw std::runtime_error("File " + outputFileName_ + " can't be opened");
     }
 
     void build()
     {
-        outputFile_.open(outputFileName_, std::ios_base::binary);
-        utilities::write(outputFile_, 0, 0);
+        ofstream outputFile(outputFileName_, std::ios_base::binary);
+        utilities::write(outputFile, 0, 0);
         cout << "scanning file system..." << endl;
-        FileSystemWalker fileSystemWalker(root_, boost::bind(&DatabaseBuilder::callback, this, _1));
+        FileSystemWalker fileSystemWalker(root_, boost::bind(&DatabaseBuilder::callback, this, boost::ref(outputFile), _1));
         fileSystemWalker.scan();
 
         tbb::parallel_sort(suffixies_.begin(), suffixies_.end());
 
         cout << "writing database..." << endl;
-        utilities::write(outputFile_, 0, outputFile_.tellp());
-        write_suffixies();
-        outputFile_.close();
+        utilities::write(outputFile, 0, outputFile.tellp());
+        write_suffixies(outputFile);
     }
 
 private:
-    void write_suffixies();
+    void write_suffixies(ofstream& outputFile);
 
     // called when fs_scanner reach file or folder
-    void callback(boost::filesystem::path path);
+    void callback(ofstream& outputFile, boost::filesystem::path path);
 };
 
 #endif /* end of include guard: DATABASEBUILDER_HPP */

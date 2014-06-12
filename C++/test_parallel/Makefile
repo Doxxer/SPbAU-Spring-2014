@@ -1,11 +1,16 @@
 CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++11 -pedantic -O2 -Ofast
 APPNAME = main
-BOOST_INCLUDE_PATHS = -I/usr/local/include/
-BOOST_LIB_PATHS = -L/usr/local/lib/
 LIBS = -lboost_system -lboost_timer -ltbb
 srcdir = src
 builddir = obj
+
+UNAME := $(shell uname -s)
+
+ifeq ($(UNAME), Darwin)
+    INCLUDE_PATHS = -I/usr/local/include/
+    LIB_PATHS = -L/usr/local/lib/
+endif
 
 all: $(builddir) $(APPNAME)
 
@@ -15,12 +20,12 @@ $(builddir):
 ####################
 
 $(builddir)/main.o: $(srcdir)/main.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@ $(BOOST_INCLUDE_PATHS)
+	$(CXX) $(CXXFLAGS) -c $< -o $@ $(INCLUDE_PATHS)
 
 ####################
 
 main: $(OBJECTS) $(builddir)/main.o 
-	$(CXX) $(CXXFLAGS) $(builddir)/main.o -o $@ $(BOOST_LIB_PATHS) $(LIBS)
+	$(CXX) $(CXXFLAGS) $(builddir)/main.o -o $@ $(LIB_PATHS) $(LIBS)
 
 clean:
 	rm -rf $(builddir)
