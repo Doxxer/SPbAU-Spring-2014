@@ -4,7 +4,10 @@
 #include <string>
 #include <vector>
 #include <boost/filesystem.hpp>
-#include "ThreadPool.hpp"
+#include <boost/tuple/tuple.hpp>
+#include "ThreadedTaskQueue.hpp"
+#include "Utilities.hpp"
+#include "SuffixIterator.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -17,11 +20,11 @@ public:
     {
     }
 
-    vector<fs::path> scan();
+    boost::tuple<vector<fs::path>, suffixies> scan();
 
 private:
     string root_;
-    ThreadPool<vector<fs::path>> threadPool_;
+    ThreadedTaskQueue taskQueue_;
 
     void add_task(fs::path path);
 };

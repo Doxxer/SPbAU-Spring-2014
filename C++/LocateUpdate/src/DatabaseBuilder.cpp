@@ -1,38 +1,38 @@
+#include <boost/timer/timer.hpp>
+#include <boost/tuple/tuple.hpp>
 #include "DatabaseBuilder.hpp"
-#include "SuffixIterator.hpp"
 #include "Utilities.hpp"
 
 using std::cout;
 using std::endl;
+using std::vector;
 
 void DatabaseBuilder::build()
 {
     ofstream outputFile(outputFileName_, std::ios_base::binary);
     utilities::write(outputFile, 0, 0);
-    cout << "scanning file system..." << endl;
 
     FileSystemWalker fileSystemWalker(root_);
-    vector<fs::path> &&pathes = fileSystemWalker.scan();
-
     suffixies suff_array;
-    
-    for (fs::path const &path : pathes) {
-        size_t path_position_in_db = utilities::write(outputFile, path.string());
-        boost::copy(boost::make_iterator_range(
-                        SuffixIterator(path.filename().string(), path_position_in_db), {}),
-                    std::back_inserter(suff_array));
+    vector<fs::path> pathes;
+    boost::tie(pathes, suff_array) = fileSystemWalker.scan();
+
+    vector<size_t> pathPositions(pathes.size());
+    for (size_t i = 0; i < pathes.size(); ++i) {
+        pathPositions[i] = utilities::write(outputFile, pathes[i].string());
     }
-    
     tbb::parallel_sort(suff_array.begin(), suff_array.end());
-    
+
     cout << "writing database..." << endl;
     utilities::write(outputFile, 0, outputFile.tellp());
-    write_suffixies(suff_array, outputFile);
+    write_suffixies(suff_array, pathPositions, outputFile);
 }
 
-void DatabaseBuilder::write_suffixies(suffixies const &suff_array, ofstream &outputFile)
+void DatabaseBuilder::write_suffixies(suffixies const &suff_array,
+                                      vector<size_t> const &pathPositions,
+                                      ofstream &outputFile)
 {
-    typedef std::vector<size_t> refs;
+    typedef vector<size_t> refs;
     typedef std::pair<string, refs> suffix_refs;
 
     suffix_refs current = std::make_pair("", refs());
@@ -44,7 +44,7 @@ void DatabaseBuilder::write_suffixies(suffixies const &suff_array, ofstream &out
                 compressed_suffixes.push_back(current);
             current = std::make_pair(s.suff, refs());
         }
-        current.second.push_back(s.position);
+        current.second.push_back(pathPositions[s.position]);
     }
     compressed_suffixes.push_back(current);
 

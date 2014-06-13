@@ -18,6 +18,10 @@ struct suffix {
     {
         return suff < other.suff;
     }
+    
+    void increment_position(size_t n) {
+        position += n;
+    }
 };
 
 typedef std::vector<suffix> suffixies;

@@ -1,6 +1,7 @@
+#include <boost/range/algorithm/copy.hpp>
 #include "FileSystemWalker.hpp"
 
-vector<fs::path> FileSystemWalker::scan()
+boost::tuple<vector<fs::path>, suffixies> FileSystemWalker::scan()
 {
     fs::path rootPath(root_);
 
@@ -10,23 +11,26 @@ vector<fs::path> FileSystemWalker::scan()
         throw std::runtime_error(root_ + " is not a directory");
 
     add_task(rootPath);
-    threadPool_.start_and_wait();
-    threadPool_.stop();
+    taskQueue_.wait();
 
-    vector<fs::path> result;
-    for (vector<fs::path> const &v : threadPool_.get_result()) {
-        // for (fs::path const &q : v) {
-        //     std::cout << q << std::endl;
-        // }
-        result.insert(result.end(), v.begin(), v.end());
+    vector<fs::path> pathes;
+    suffixies suff_array;
+    for (size_t i = 0; i < taskQueue_.getThreadCount(); ++i) {
+        vector<fs::path> const &p = taskQueue_.getPathes(i);
+        suffixies &s = taskQueue_.getSuffixies(i);
+
+        std::for_each(
+            s.begin(), s.end(), boost::bind(&suffix::increment_position, _1, pathes.size()));
+
+        suff_array.insert(suff_array.end(), s.begin(), s.end());
+        pathes.insert(pathes.end(), p.begin(), p.end());
     }
-
-    return result;
+    return boost::make_tuple(pathes, suff_array);
 }
 
 void FileSystemWalker::add_task(fs::path path)
 {
-    threadPool_.add_task([=](vector<fs::path> & pathCollection) {
+    taskQueue_.add_task([=](vector<fs::path> & pathes, suffixies & suffs) {
         try
         {
             for (fs::directory_iterator entry = fs::directory_iterator(path);
@@ -34,9 +38,13 @@ void FileSystemWalker::add_task(fs::path path)
                  ++entry) {
                 if (is_symlink(entry->status()))
                     continue;
+                fs::path p = entry->path();
                 if (is_directory(entry->status()))
-                    add_task(entry->path());
-                pathCollection.push_back(entry->path());
+                    add_task(p);
+                boost::copy(boost::make_iterator_range(
+                                SuffixIterator(p.filename().string(), pathes.size()), {}),
+                            std::back_inserter(suffs));
+                pathes.push_back(p);
             }
         }
         catch (fs::filesystem_error const &e)

@@ -22,16 +22,16 @@ $(builddir):
 $(builddir)/Locate.o: $(srcdir)/Locate.cpp $(srcdir)/Utilities.hpp $(srcdir)/DatabaseScanner.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(builddir)/UpdateDB.o: $(srcdir)/UpdateDB.cpp $(srcdir)/DatabaseBuilder.hpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp $(srcdir)/Utilities.hpp
+$(builddir)/UpdateDB.o: $(srcdir)/UpdateDB.cpp $(srcdir)/DatabaseBuilder.hpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadedTaskQueue.hpp $(srcdir)/Utilities.hpp $(srcdir)/SuffixIterator.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 	
-$(builddir)/FileSystemWalker.o: $(srcdir)/FileSystemWalker.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp
+$(builddir)/FileSystemWalker.o: $(srcdir)/FileSystemWalker.cpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadedTaskQueue.hpp $(srcdir)/SuffixIterator.hpp $(srcdir)/Utilities.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 	
-$(builddir)/DatabaseBuilder.o: $(srcdir)/DatabaseBuilder.cpp $(srcdir)/DatabaseBuilder.hpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadPool.hpp $(srcdir)/SuffixIterator.hpp $(srcdir)/Utilities.hpp
+$(builddir)/DatabaseBuilder.o: $(srcdir)/DatabaseBuilder.cpp $(srcdir)/DatabaseBuilder.hpp $(srcdir)/FileSystemWalker.hpp $(srcdir)/ThreadedTaskQueue.hpp $(srcdir)/SuffixIterator.hpp $(srcdir)/Utilities.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 	
-$(builddir)/DatabaseScanner.o: $(srcdir)/DatabaseScanner.cpp $(srcdir)/Utilities.hpp
+$(builddir)/DatabaseScanner.o: $(srcdir)/DatabaseScanner.cpp $(srcdir)/Utilities.hpp $(srcdir)/Utilities.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(builddir)/Utilities.o: $(srcdir)/Utilities.cpp $(srcdir)/Utilities.hpp
@@ -50,7 +50,7 @@ clean:
 	rm -rf $(APPNAME)
 	
 run:
-	./updatedb --database-root /Users/doxer --output "index.db"
-	# ./locate --database "index.db" xls
+	./updatedb --database-root /Users/doxer/Documents --output "index.db"
+	./locate --database "index.db" xls
 
 .PHONY: clean

@@ -11,20 +11,20 @@ using std::endl;
 
 int main()
 {
+    boost::timer::cpu_timer timer;
     cout << "init... " << endl;
     double *a = new double[N];
     for (size_t i = 0; i < N; i++) {
         a[i] = sin(i);
     }
-    cout << "sorting... " << endl;
     
-    boost::timer::cpu_timer timer;
+    cout << "sorting take: " << format(boost::timer::cpu_times(timer.elapsed()), 9) << endl;
+    timer.start();
+    cout << "sorting... " << endl;    
+    //tbb::parallel_sort(a, a + N);
+    std::sort(a, a + N);
     
-    tbb::parallel_sort(a, a + N);
-    // std::sort(a, a + N);
-    
-    boost::timer::cpu_times elapsed_times(timer.elapsed());
-    cout << "sorting take: " << format(elapsed_times, 9) << endl;
+    cout << "sorting take: " << format(boost::timer::cpu_times(timer.elapsed()), 9) << endl;
     
     delete[] a;
 

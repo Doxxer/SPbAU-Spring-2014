@@ -6,7 +6,6 @@
 #include <exception>
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
-#include <boost/range/algorithm/copy.hpp>
 #include <tbb/parallel_sort.h>
 #include "FileSystemWalker.hpp"
 #include "Utilities.hpp"
@@ -31,7 +30,9 @@ public:
     void build();
 
 private:
-    void write_suffixies(suffixies const &suff_array, ofstream &outputFile);
+    void write_suffixies(suffixies const &suff_array,
+                         vector<size_t> const &pathPositions,
+                         ofstream &outputFile);
 };
 
 #endif /* end of include guard: DATABASEBUILDER_HPP */
